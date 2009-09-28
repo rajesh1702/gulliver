@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<messagebundle>
+  <msg name="search_trips" desc="Label for search text box in map area">Search Trip</msg>
+  <msg name="search_item">Search for items to add to your trip:</msg>
+  <msg name="show_all_trips">Show all trips</msg>
+  <msg name="try_again">Try again.</msg>
+  <msg name="loading">Loading...</msg>
+  <msg name="title">Google Itineraries (v0.1)</msg>
+  <msg name="where_visit">Where do you want to visit?</msg>
+  <msg name="egLocation">e.g. New York, Mountain View...</msg>
+  <msg name="addtotrip">Add to trip</msg>
+  <msg name="createTrip">Create a trip</msg>
+  <msg name="trips">Trips</msg>
+  <msg name="edit_title">edit title</msg>
+  <msg name="edit_trip">Edit trip name</msg>
+  <msg name="view_other">View other trips</msg>
+  <msg name="edit">Edit</msg>
+  <msg name="on">on</msg>
+  <msg name="from">from:</msg>
+  <msg name="to">To</msg>
+  <msg name="changelocation">Change location</msg>
+  <msg name="createitem">Create your own item</msg>
+  <msg name="itinerary">Itinerary</msg>
+  <msg name="search">Search</msg>
+  <msg name="eg">Categories</msg>
+  <msg name="hotels">hotels</msg>
+  <msg name="attractions">attractions</msg>
+  <msg name="parks">parks</msg>
+  <msg name="airports">airports</msg>
+  <msg name="theatres">theatres</msg>
+  <msg name="sights">sights</msg>
+  <msg name="shopping">shopping</msg>
+  <msg name="restaurants">restaurants</msg>
+  <msg name="entertainment">entertainment</msg>
+  <msg name="results">Results</msg>
+  <msg name="print_item">Print</msg>
+  <msg name="send">Send</msg>
+  <msg name="email">Email</msg>
+  <msg name="export">Export</msg>
+  <msg name="trip_actions">Trip actions</msg>
+  <msg name="export_item">Export to calendar</msg>
+  <msg name="share_item">Share</msg>
+  <msg name="unscheduled_items">Unscheduled Items</msg>
+  <msg name="scheduled_items">Scheduled Items</msg>
+  <msg name="prev_results">Previous 7 results</msg>
+  <msg name="delete">delete</msg>
+  <msg name="delete_trip">Delete Trip</msg>
+  <msg name="tip">Tip:</msg>
+  <msg name="day">Day</msg>
+  <msg name="days">days</msg>
+  <msg name="add">add</msg>
+  <msg name="add_days" desc="label for button in Days dialog">Add</msg>
+  <msg name="add_item">Add Item</msg>
+  <msg name="drag_tip">Drag any result directly over to your trip</msg>
+  <msg name="drag_tip1" desc="tip is shown whenever create a trip">You can search and drag any result directly over to your trip.</msg>
+  <msg name="cancel">Cancel</msg>
+  <msg name="ok">OK</msg>
+  <msg name="ok_s">Ok</msg>
+  <msg name="schedule">schedule</msg>
+  <msg name="unspecified">unspecified</msg>
+  <msg name="invalid_duration" desc="shows when changes trip dates">&lt;b&gt;Warning!&lt;b/&gt; some items may be moved to unscheduled section.</msg>
+  <msg name="invalid_duration1">&lt;b&gt;Warning!&lt;b/&gt; Duration is invalid</msg>
+  <msg name="duration_limit_exceeds">Duration limit is 60 days</msg>
+  <msg name="edit_item">Edit item</msg>
+  <msg name="save">Save</msg>
+  <msg name="as_unscheduled">as an unscheduled item</msg>
+  <msg name="as_scheduled">as scheduled item</msg>
+  <msg name="setthedates_msg">Set trip duration</msg>
+  <msg name="trip_name">Trip name</msg>
+  <msg name="date">Date</msg>
+  <msg name="location">Location</msg>
+  <msg name="view_all_trips">view all trips</msg>
+  <msg name="server_error">Server error occurred.</msg>
+  <msg name="feedback">Feedback &amp; Ideas</msg>
+  <msg name="create">Create</msg>
+  <msg name="saving">Saving...</msg>
+  <msg name="no_trips">No trip found.</msg>
+  <msg name="invalid_loc">Invalid location.</msg>
+  <msg name="numeric_err" desc="error message if numeric character found in trip name">Numbers not allowed.</msg>
+  <msg name="no_data_found" desc="Error message to display when no results are retrieved from lonely planet.">No data found</msg>
+  <msg name="not_authenticate" desc="Error message when user is not authenticated to use the service.">Not able to authenticate</msg>
+  <msg name="no_address_received" desc="Message to show when data is not received on click of popup">No address received</msg>
+  <msg name="delete_this_item" desc="label for button using to delete the item">Delete this item</msg>
+  <msg name="delete_item_confirm">Are you sure that you want to delete the item?</msg>
+  <msg name="delete_trip_confirm">Are you sure that you want to delete the trip?</msg>
+  <msg name="trip">trip</msg>
+  <msg name="close">Close</msg>
+  <msg name="item_deleted">Item (%NAME%) deleted successfully.</msg>
+  <msg name="trip_deleted">Trip (%NAME%) deleted successfully.</msg>
+  <msg name="trip_created">Trip (%NAME%) created successfully.</msg>
+  <msg name="item_delete_err">Server Problem: Item (%NAME%) is not deleted.</msg>
+  <msg name="trip_delete_err">Server Problem: Trip (%NAME%) is not deleted.</msg>
+  <msg name="trip_create_err">Server Problem: Trip (%NAME%) is not created.</msg>
+  <msg name="item_add_err">Item (%NAME%) is not added.</msg>
+  <msg name="item_added">Item (%NAME%) added successfully.</msg>
+  <msg name="tripname_update_err">Server Problem: Trip name is not updated.</msg>
+  <msg name="tripname_updated">Trip name is updated successfully.</msg>
+  <msg name="tripduration_update_err">Server Problem: Trip duration is not updated.</msg>
+  <msg name="tripduration_updated">Trip duration is updated successfully.</msg>
+  <msg name="tripdates_update_err">Server Problem: Trip dates are not updated.</msg>
+  <msg name="tripdates_updated">Trip dates are updated successfully.</msg>
+  <msg name="itemdates_update_err">Server Problem: Item (%NAME%) is not scheduled.</msg>
+  <msg name="itemdates_updated">Item (%NAME%) is updated successfully.</msg>
+  <msg name="triploc_update_err">Server Problem: Trip location is not updated.</msg>
+  <msg name="triploc_updated">Trip location is updated successfully.</msg>
+  <msg name="rating_update_err">Server Problem: Trip rating is not updated.</msg>
+  <msg name="rating_updated">Trip rating is updated successfully.</msg>
+  <msg name="create_item">Create new item</msg>
+  <msg name="item_name">Item name</msg>
+  <msg name="item_desc">Description</msg>
+  <msg name="unsch">Unscheduled</msg>
+  <msg name="start_date">Start date:</msg>
+  <msg name="end_date">End date:</msg>
+  <msg name="date_format">mm/dd/yy</msg>
+  <msg name="delete_item">Delete Item</msg>
+  <msg name="no">No</msg>
+  <msg name="name">Name</msg>
+  <msg name="yes">Yes</msg>
+  <msg name="mail_not">mail not sent.</msg>
+  <msg name="send_mail">Send Mail</msg>
+  <msg name="mail_success">Mail sent successfully.</msg>
+  <msg name="wrong_email">Wrong email address.</msg>
+  <msg name="not_more">Not more than</msg>
+  <msg name="email_allow">emails allowed.</msg>
+  <msg name="no_result">No result found</msg>
+  <msg name="print_dialog_title">Print Dialog</msg>
+  <msg name="date_range_err">Selected dates are out of range</msg>
+  <msg name="no_items_added" desc="msg to be displayed when there is no item in the trip">No item found for the current trip</msg>
+  <msg name="no_scheduled_items" desc="msg to be displayed when there is no scheduled item in the trip">No scheduled item found for the current trip</msg>
+  <msg name="no_unscheduled_items" desc="msg to be displayed when there is no unscheduled item in the trip">No unscheduled item found for the current trip</msg>
+  <msg name="create_trip" desc="label of create trip button in home view">Create Trip</msg>
+  <msg name="overview" desc="trip overrview link">Overview</msg>
+  <msg name="detail" desc="trip detail link">Details</msg>
+  <msg name="review" desc="trip review link">Reviews</msg>
+  <msg name="photo-video" desc="trip photo and video link">Photos &amp; Videos</msg>
+  <msg name="no_of_days" desc="number of days for trip">Number of days for this trip:</msg>
+  <msg name="clear_start_end_dates" desc="clear start and end date button">Clear the start and end dates</msg>
+  <msg name="next_results" desc="next results">Next 7 results</msg>
+  <msg name="change_trip_loc" desc="trip location change">Change trip location</msg>
+  <msg name="field_empty" desc="error message if field is empty">Either name or description field is empty.</msg>
+  <msg name="date_empty" desc="error message if date is empty">Please specify a date to schedule the item.</msg>
+  <msg name="rating" desc="lable for rating">Rating</msg>
+  <msg name="previous" desc="previous link">Previous</msg>
+  <msg name="next" desc="next link">Next</msg>
+  <msg name="select_date" desc="message if no date selected">Please select the date.</msg>
+  <msg name="date_outof_range" desc="error message if selected date goes out of range">Date out of range.</msg>
+  <msg name="loc_not_found" desc="error message if location not found">Location not found.</msg>
+  <msg name="enter_valid_loc" desc="error message if invalid location entered">Please enter valid location</msg>
+  <msg name="enter_loc" desc="label of entering location">Please enter location.</msg>
+  <msg name="include_large_map" desc="lable to check box">Include map</msg>
+  <msg name="print_title" desc="print dialog title">Print Itinerary</msg>
+  <msg name="edit_trip_name" desc="edit trip name dialog title">Edit Trip Name</msg>
+  <msg name="date_expired" desc="error message if dates are choosen before the current date">Trip dates can not be less than the current date</msg>
+  <msg name="dragme">Add me to your trip</msg>
+  <msg name="show_list" desc="Link used to display the list of search results.">Show listings</msg>
+  <msg name="hide_list" desc="Link used to hide the list of search results.">Hide listings</msg>
+  <msg name="your_vote" desc="Heading for add your vote section.">Add your vote</msg>
+  <msg name="comments" desc="Comments for add your vote section.">Comments</msg>
+  <msg name="vote" desc="Label for vote button.">Vote</msg>
+  <msg name="thumbs_up" desc="Text for thumbs up.">Thumbs up</msg>
+  <msg name="thumbs_down" desc="Text for thumbs down.">Thumbs down</msg>
+  <msg name="activity" desc="Message for activity.">Activity posted successfully.</msg>
+  <msg name="activity_error" desc="Error message for activity.">Error posting activity.</msg>
+  <msg name="limit_exceed_error" desc="Error message for exceeding daily activity limit.">Daily activity posting quota is exceeded.</msg>
+  <msg name="thumbs_title" desc="Thumbs titled message.">to the trip titled</msg>
+  <msg name="thumbs_item_titled" desc="Thumbs item titled message.">to the item titled</msg>
+  <msg name="thumbs_item_trip_titled" desc="Thumbs item titled message.">of trip titled</msg>
+  <msg name="owner" desc="Label of owner">Owner</msg>
+  <msg name="no_empty_dates" desc="Error message for empty date fields.">Trip dates cant be empty.Please enter valid date.</msg>
+  <msg name="desc_error_message" desc="Error message to show to user if description exceeds 200 characters">Description field  length can be of max 200 chars.</msg>
+  <msg name="eat">Eat</msg>
+  <msg name="sleep">Sleep</msg>
+  <msg name="see">See</msg>
+  <msg name="shop">Shop</msg>
+  <msg name="do">Do</msg>
+  <msg name="night">Night</msg>
+  <msg name="view_trip">View trip on map</msg>
+  <msg name="item_addr">Address</msg>
+  <msg name="opensocial_not_avail">OpenSocial feature is not supported</msg>
+  <msg name="sign_in_err" desc="Error displayed when user is not signed in.">This gadget lets you share and collaborate with friends on iGoogle. Sign in to use these features.</msg>
+  <msg name="social_access_err" desc="Error displayed when user has not enabled opensocial feature.">This gadget lets you share and collaborate with friends on iGoogle. Please adjust the gadget's   settings to use these features.</msg>
+  <msg name="no_sensitive" desc="To display to user message that on enabling opensocial feature no sensitive information will be shared.">TravelGadget uses a new feature provided by Google called Open Social which allows you to make and share travel plans online with friends. To start, you need to adjust this gadget’s settings to enable it to access some of your profile information (your name, etc). No sensitive information will be shared.</msg>
+  <msg name="opensocial_is_new" desc="To show information message to the user that opensocial is new and may have some bugs.">Open Social is new, and there may still be some bugs in it. If it’s not working for you after you followed these directions, please  </msg>
+  <msg name="click_to_change">Click it, and in the form that appears just check the boxes and save. You should be ready to go!</msg>
+  <msg name="user_not_signed_in">iGoogle TravelGadget uses a new feature provided by Google called Open Social which allows you to plan your travel, online with friends. To start planing, please sign in to enable access.</msg>
+  <msg name="already_signin">If you are already signed in, please refresh the page in your browser to restore your access.</msg>
+  <msg name="os_is_new">Open Social is new, and there may still be some bugs in it. If it’s not working for you after you followed these directions, please </msg>
+  <msg name="os_not_avail">iGoogle TravelGadget makes use of a new technology called Open Social which allows you to plan your travel online with your friends. Open Social features are being  released to the public as the technology comes online — but right now, it looks like this feature is not available in your locale at this time. Please check back at a later date.</msg>
+  <msg name="enable_os">Click it, and in the form that appears just check the boxes and save. You should be ready to go!</msg>
+  <msg name="up_button">Up top you should see a button like this:</msg>
+  <msg name="added">added</msg>
+  <msg name="change_dates">Change dates</msg>
+  <msg name="name_addr_empty" desc="error message if field is empty">Either name or Address field is empty.</msg>
+  <msg name="lp_recommended" desc="lonely planet recommended categories lable">Lonely Planet recommendations</msg>
+</messagebundle>
