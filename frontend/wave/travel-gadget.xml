@@ -1,0 +1,3984 @@
+<Module>
+  <ModulePrefs title="Travel Application">
+    <Require feature="wave"/>
+    <Require feature="dynamic-height"/>
+    <Require feature="minimessage"/>
+    <Require feature="drag" />
+    <Locale messages="http://gulliver.googlecode.com/svn/trunk/frontend/wave/content/en_All.xml"/>
+  </ModulePrefs>
+  <Content type="html">
+  <![CDATA[
+<script src="http://maps.google.com/maps?file=api&amp;v=2.155&amp;sensor=false&amp;key=ABQIAAAAdJJ71whPrja_yYgs8aDYoxT6ZIvuoW-OMIORrcKaWZZ1wY_9JRT1rKTLR4-M4QK4TAasY9gTfxuxiQ" type="text/javascript"></script>
+<script src="http://gulliver.googlecode.com/svn/trunk/frontend/wave/js/datepicker_calender.js"></script>
+<script src="http://gulliver.googlecode.com/svn/trunk/frontend/wave/js/util.js"></script>
+<script src="http://gulliver.googlecode.com/svn/trunk/frontend/wave/js/search.js"></script>
+<style type="text/css">
+
+/* Style for print. */
+
+.print_subTitle {
+  color: #000;
+  font-weight: bold;
+  font-family: arial, sans-serif;
+  font-size: 14px;
+}
+#print_content{display:none;}
+#unscheduleItem_dlg {
+  width: 270px;
+  height: 130px;
+  background-color: #fff;
+}
+@media print {
+  #messageContainer {
+    display: none;
+    height: 0;
+    width: 0;
+  }
+  .tablib_emptyTab_canvas {
+    display: none;
+    height: 0;
+    width: 0;
+  }
+  #msgContainer {
+    display: none;
+    height: 0;
+    width: 0;
+  }
+  .tablib_table{
+    display: none;
+    height: 0;
+    width: 0;
+  }
+  #canvasContent {
+    display: none;
+    height: 0;
+    width: 0;
+  }
+  #dialog {
+    display: none;
+    height: 0;
+    width: 0;
+  }
+  #dialog-mask {
+    display: none;
+    height: 0;
+    width: 0;
+  }
+  #dialog-content {
+    display: none;
+    height: 0;
+    width: 0;
+  }
+  #print_Trip_Items_Dialog {
+    display: none;
+    height: 0;
+    width: 0;
+  }
+  #print_content {
+    display: block;
+    height: 100%;
+    width: 100%;
+    overflow: visible;
+    position:absolute;
+  }
+  #messageContainer {
+    display: none;
+    height: 0;
+    width: 0;
+  }
+  #serverMsg {
+    display: none;
+    height: 0;
+    width: 0;
+  }
+  #main-container {
+    display: none;
+    height: 0;
+    width: 0;
+  }
+}
+#print_Trip_Items_Dialog {
+  height: 465px;
+  width: 726px;
+}
+#print_Dialog {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  background: #fff;
+  height: 414px;
+}
+#dialog {
+  position: absolute;
+  z-index: 200;
+  background: #fff;
+  border: 3px solid #468bcb;
+}
+.printTitle {
+  background: #058a9d;
+  text-align: left;
+  height: 30px;
+  color: #000;
+}
+.print_close_img{
+  margin-top: 4px;
+  margin-left: 16px;
+  cursor: pointer;
+  width: 15px;
+  margin-right: 8px;
+}
+
+/* Classes for logger*/
+.log-author {
+ font-size: 12px;
+ font-weight: bold;
+ color: #8b8682;
+}
+
+.log-message {
+ font-size: 12px;
+ color: #8b8682;
+}
+
+.log-message {
+  color: #787470;
+}
+
+.log-vote-up {
+  color: #6242c1;
+  font-weight: bold;
+}
+
+.log-vote-down {
+  color: #d52f7d;
+  font-weight: bold;
+}
+
+.log-act-added {
+  color: #20e33e;
+  font-weight: bold;
+}
+
+.log-act-deleted {
+  color: #ff040e;
+  font-weight: bold;
+}
+
+.log-act-changed {
+  color: #2378e0;
+  font-weight: bold;
+}
+
+.log-act-rescheduled {
+  color: #2378e0;
+  font-weight: bold;
+}
+
+.log-act-updated {
+  color: #ef9214;
+  font-weight: bold;
+}
+
+.log-act-created {
+  color: #43932f;
+  font-weight: bold;
+}
+
+.trip-items-container {
+  border-top: 1px solid #ccc;
+  border-bottom: 0;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  cursor: pointer;
+}
+.trip-items-day {
+  padding-left: 5px;
+  font-size: 12px;
+  font-weight: bold;
+}
+#trip-items, #trip-items-0, #trip-items-1 {
+  border: 1px solid #0a4f9c;
+  padding-right: 10px;
+  overflow-y: scroll;
+}
+#wrngmsg{
+  font-size: 11px;
+  color: #ff5857;
+  height: 8px;
+  text-align: center;
+}
+
+#trip-items {
+  height: 500px;
+}
+#trip-items-0 {
+  height: 160px;
+}
+#trip-items-1 {
+  height: 380px;
+}
+
+</style>
+<script type="text/javascript" id="main-js">
+/** @const */
+var UP_ARROW_IMG = '<img width="7" height="6" ' +
+    'src="http://gulliver.googlecode.com/svn/trunk/frontend/wave/images/up_arrow.gif" ' +
+    'style="margin-top:5px;"/>';
+
+/** @const */
+var DOWN_ARROW_IMG = '<img width="7" height="6" ' +
+    'src="http://gulliver.googlecode.com/svn/trunk/frontend/wave/images/down_arrow.gif" ' +
+    'style="margin-top:5px;"/>';
+
+/** @const */
+var MAX_DESC_LENGTH = 35;
+
+var searchFlag = true;
+
+function toggleDisplay(i) {
+  var id = 'trip-items-content-' + i;
+  var imgId = 'item-expand-' + i;
+  var countId = 'trip-items-num-' + i;
+  var console = _gel(id).style;
+  if (console.display == 'none') {
+    console.display = '';
+    _gel(imgId).src = MINUS_IMG_SRC;
+    _gel(countId).style.display = 'none';
+  } else {
+    console.display = 'none';
+    _gel(imgId).src = PLUS_IMG_SRC;
+    _gel(countId).style.display = '';
+  }
+}
+
+if (!Array.prototype.contains){
+  Array.prototype.contains = function(obj){
+    for (var i = 0, len = this.length; i < len; i++) {
+      if (this[i]===obj) {return true;}
+    }
+    return false;
+  };
+}
+/**
+ * Enum for column of trips for sorting.
+ * @enum {number}.
+ */
+var enTripCol = {
+  NAME: 0, DATE: 1, LOCATION: 2, OWNER: 3, RATING: 4
+};
+
+var sortCol = 1;
+var bAscending = -1;
+var searchedTrips = [];
+function toggleLogger() {
+  var element = _gel('logger').style;
+  if (element.display == 'none') {
+    element.display = '';
+    _gel('hide_link').innerHTML = 'Hide';
+    _gel('mapBox').style.height = '400px';
+  } else {
+    element.display = 'none';
+    _gel('hide_link').innerHTML = 'Show';
+    _gel('mapBox').style.height = '610px';
+  }
+  gadgets.window.adjustHeight();
+}
+
+var PLUS_IMG_SRC = 'http://gulliver.googlecode.com/svn/trunk/frontend/wave/images/zippy_plus.png';
+var MINUS_IMG_SRC = 'http://gulliver.googlecode.com/svn/trunk/frontend/wave/images/zippy_minus.png';
+
+var tabAccuracy = [2, 4, 6, 10, 12, 13, 16, 16, 16, 16];
+/**
+ * Class JTrip defines trip object.
+ * @param {string} id Id of a trip.
+ * @param {string} ownerid Owner id of a trip.
+ * @param {string} name Name of the trip location.
+ * @param {string} loc Location name.
+ * @param {number} lat Latitude of location.
+ * @param {number} lng Longitude of location.
+ * @param {number} accuracy Accuracy of location.
+ * @param {number} rating Rating of the trip.
+ * @param {number} zoomlevel Level of zoom on map for location.
+ * @param {string} duration Duration of trip.
+ * @param {string} sdate Start date.
+ * @param {string} edate End date.
+ * @Constructor.
+ */
+function JTrip() {
+  this.id = '';
+  this.ownerId = '';
+  this.ownerName = '';
+  this.name = '';
+  this.lat = '';
+  this.lng = '';
+  this.loc = '';
+  this.accuracy = 0;
+  this.zoomlevel = 12;
+  this.duration = 7;
+  this.rating = 3;
+  this.sdate = '';
+  this.edate = '';
+  this.thumbUp = 0;
+  this.thumbDown = 0;
+  this.arrItem = [];
+  this.lastModified = '';
+}
+
+function JTripItem() {
+  this.id = '';
+  this.name = '';
+  this.ownerId = '';
+  this.ownerName = '';
+  this.address = '';
+  this.lat = '';
+  this.lng = '';
+  this.review = 'No reviews available.';
+  this.sdate = '';
+  this.edate = '';
+  this.duration = 1;
+  this.category = '';
+  this.link = '';
+  this.day = 0;
+  this.weburl = '';
+  this.imgurl = '';
+  this.thumbUp = 0;
+  this.thumbDown = 0;
+  this.bCustom = 0;
+  this.lastModified = '';
+  this.dataSource = 'custom';
+  this.tripName = '';
+}
+
+function JLogItem(action, msg) {
+  var owner = wave.getViewer();
+  this.ownerId = owner.getId();
+  this.ownerName = owner.getDisplayName();
+  this.action = action;
+  this.msg = msg;
+}
+/**
+ * This method adds the new JLogItem object and returns the logs as array.
+ */
+function getLogObject(action, msg) {
+  var state = wave.getState();
+  var oldLogs = gadgets.json.parse(state.get('logs', '[]'));
+  oldLogs.unshift(new JLogItem(action, msg));
+  oldLogs.splice(20, 10);
+  return gadgets.json.stringify(oldLogs);
+}
+
+function getActivityClass (action) {
+  var actClass;
+  switch (action.toLowerCase()) {
+    case 'voted up' :
+      actClass = 'vote-up';
+      break;
+    case 'voted down' :
+      actClass = 'vote-down';
+      break;
+    case 'added' :
+      actClass = 'act-added';
+      break;
+    case 'deleted' :
+      actClass = 'act-deleted';
+      break;
+    case 'changed' :
+      actClass = 'act-changed';
+      break;
+    case 'updated' :
+      actClass = 'act-updated';
+      break;
+    case 'created' :
+      actClass = 'act-created';
+      break;
+    case 'rescheduled' :
+      actClass = 'act-rescheduled';
+      break;
+    default:
+      actClass = '';
+      break;
+  }
+  return actClass;
+}
+
+function showLogMessage() {
+  var html = [];
+  var logs = gadgets.json.parse(wave.getState().get('logs', '[]'));
+  var tplHtml = _gel('tpl-log-message').value;
+  var tplData, log, actionClass, action;
+  for (var i = 0; i < logs.length; i++) {
+    log = logs[i];
+    action = log.action;
+    actionClass = getActivityClass (action);
+    tplData = {
+      author: log.ownerName,
+      action: action,
+      actionClass: actionClass,
+      message: log.msg
+    };
+    html.push(tplHtml.supplant(tplData));
+  }
+  var logger = _gel('logger');
+  if (logger) {
+    logger.innerHTML = html.join('');
+  }
+}
+
+/**
+ *
+ */
+function showDialog(html) {
+  _gel('dialog-content').innerHTML = html;
+  _gel('dialog-mask').style.display = '';
+  var dialog = _gel('dialog');
+  var mainContent = _gel('main-container');
+  var mainHeight = mainContent.offsetHeight;
+  _gel('dialog-mask').style.height = mainHeight + 'px';
+  dialog.style.display = '';
+  dialog.style.left = leftPosition() + (pageWidth() / 2) -
+      (dialog.offsetWidth / 2) + 'px';
+  var dialogHeight = dialog.offsetHeight;
+  dialog.style.top = ((mainHeight/2) <= dialogHeight) ? '50px' : '220px';
+}
+function hideDialog() {
+  _gel('dialog-content').innerHTML = '';
+  _gel('dialog-mask').style.display = 'none';
+  _gel('dialog').style.display = 'none';
+}
+
+/**
+ * Executes when clicks on cancel while creating trip.
+ */
+function cancelCreateTrip() {
+  hideDialog();
+}
+
+/**
+ * Function to hide dialog.
+ */
+function hideDialogView() {
+  if (_gel(datePickerDivID1)) {
+    var pickerDiv = _gel(datePickerDivID1);
+    pickerDiv.style.visibility = 'hidden';
+    pickerDiv.style.display = 'none';
+  }
+  adjustiFrame();
+}
+
+/**
+ * Function to print items.
+ */
+function printTripItems() {
+  _gel('print_content').innerHTML = _gel('print_Dialog').innerHTML;
+  hideDialogView();
+  hideDialog();
+  window.print();
+}
+
+/**
+ * Function to display print items dialog.
+ */
+function showPrintDialog(isPrint) {
+  var enTripCol = {
+    NAME: 0, DATE: 1, LOCATION: 2, OWNER: 3, RATING: 4
+  };
+  var scheduledItems = 0;
+  var unScheduledItems = 0;
+
+  var trip = getTripById(gData.currentTripId);
+  var tripItemKeys = trip.items || [];
+
+  var currentDate = new Date();
+  var currentItemSdate;
+  var currentDay = currentDate.getDay();
+  currentDay = dayArrayLong[currentDay];
+  currentDate = formatDate(getDateString(currentDate), '%MM%d%Y');
+  var tripDateString = '';
+  if (!isEmpty(trip.sdate)) {
+    tripDateString = formatDate(trip.sdate, '%MM%d') + ' - ' +
+                     formatDate(trip.edate, '%MM%d%Y') +
+                     ' / ' + trip.duration + ' days';
+
+  } else {
+    tripDateString = trip.duration + ' days';
+  }
+  var unscheduledHtml = ['</ul></div><ul><div style="padding-right:2px;">',
+      '<br><div class="print_subTitle" style="color:#000"><u>',
+      prefs.getMsg('unscheduled_items'), '</u></div></ul>',
+      '<div id="unscheduled-item-details" ',
+      'style="font-family:arial,sans-serif;color:#000;">'];
+
+  var wrappedName = trip.name;
+  var header = ['<div id="print_Trip_Items_Dialog" width="100%">' +
+      '<div class="printTitle" width="100%">' +
+      '<div align="right" style="color:#fff">' +
+      '<span align="left" class="dialog-title" ' +
+      'style="float:left;padding-left:3px">',
+      prefs.getMsg('print_title'), '</span>' +
+      '<input type="checkbox" id="print_Map" ' +
+      'onclick="javascript:showStaticMap(', trip.lat, ',', trip.lng, ',',
+      trip.accuracy, ');">', prefs.getMsg('include_large_map'),
+      '&nbsp;<input type="button" style="width:70px;" ' +
+      'value="', prefs.getMsg('print_item'), '" onclick="printTripItems()" ' +
+      'id="printDetails"><img onclick="javascript:hideDialogView();hideDialog();" ' +
+      'class="print_close_img" ' +
+      'src="http://gulliver.googlecode.com/svn/trunk/frontend/wave/images/close_promo.gif"/></div>' +
+      '</div><div style="background: #f3f3f3;padding:10px;">'].join('');
+
+
+  var printHtml = [
+      (isPrint) ? header : '',
+      '<div id="print_Dialog"><table id="printDialogHeader" ' +
+      'style="padding-top:10px;' +
+      'font-size:15px;width:100%" cellspacing="0" cellpadding="2"><tr>' +
+      '<td width="5%"></td><td width="25%"><img src=' +
+      '"http://static.lonelyplanet.com/static-ui/images/lp-logo.gif"/>' +
+      '</td>' +
+      '<td width="40%" valign="center" style="color:#000">',
+      '<div style="font-weight:bold;font-size:15px;">', wrappedName, '</div>',
+      '<div style="font-size:13px;">', tripDateString, '</div></td>',
+      '<td style="color:#666;font-size:12px;" valign="top">',
+      currentDay, '\, ', currentDate, '</td></tr>',
+      '</table><div id="staticMap" style="margin:20px 5px 0;">',
+      '</div><div style="color:#000;font-size:15px;"><div id="itemDetails">',
+      '<ul><div class="print_subTitle"><u>', prefs.getMsg('scheduled_items'),
+      '</u></div></ul><div id="scheduled-item-details" ',
+      'style= font-size:12px;">'];
+
+  var itemSday, itemSdate, currentTripDay;
+  // Generate and sort the itemArray.
+  var tripItem = [];
+
+  for (var i = 0; i < tripItemKeys.length; i++) {
+     tripItem[i] = getItemById(tripItemKeys[i]);
+  }
+  sortCol = (!isEmpty(trip.sdate)) ? enTripCol.DATE : enTripCol.DAY;
+  bAscending = true;
+  sortByColumn(tripItem);
+
+  for (var i = 0; i < tripItem.length; i++) {
+    if (!isEmpty(trip.sdate)) { //main if
+      if (!isEmpty(tripItem[i].day)) {
+        itemSdate = addDaysToDate(trip.sdate, tripItem[i].day - 1, '%m/%d/%Y');
+        scheduledItems = 1;
+        if (currentItemSdate != itemSdate) {
+             printHtml.push('</ul>');
+         }
+        if (itemSdate != currentItemSdate) {
+          printHtml.push('<ul style="color:#000"><b>', itemSdate, '</b>');
+          currentItemSdate = itemSdate;
+        }
+        if (isEmpty(tripItem[i].address)) {
+          var printAddOrDesc = _unesc(tripItem[i].review);
+        } else {
+          var printAddOrDesc = tripItem[i].address;
+        }
+        printHtml.push('<div style="padding-left:15px;">',
+          '<div style="color:#000;font-size:14px;">',
+          _unesc(tripItem[i].name), '</div>',
+          '<div style="color:#000;font-size:12px;">', printAddOrDesc, '</div>',
+          '</div>');
+        if (tripItem[i].sdate == currentItemSdate) {
+          printHtml.push('<br>');
+        }
+      } else {
+        unScheduledItems = 1;
+        unscheduledHtml.push('<ul style="font-size:14px">', _unesc(tripItem[i].name),
+            '<div style="color:#000;font-size:12px;padding-left:15px;">');
+        if (isEmpty(tripItem[i].address)) {
+          unscheduledHtml.push(_unesc(tripItem[i].review));
+        } else {
+          unscheduledHtml.push(tripItem[i].address);
+        }
+        unscheduledHtml.push('</div></ul>');
+      }
+    } else { // main else
+        if (tripItem[i].day > 0) {
+          if (currentTripDay != tripItem[i].day) {
+             printHtml.push('</ul>');
+         }
+          if (currentTripDay != tripItem[i].day) {
+            printHtml.push('<ul><b>Day ', tripItem[i].day, '</b>');
+            currentTripDay = tripItem[i].day;
+          }
+         scheduledItems = 1;
+         printHtml.push('<div style="padding-left:15px;">',
+           '<div style="color:#000;font-size:14px;">',
+           _unesc(tripItem[i].name), '</div>',
+           '<div style="color:#000;font-size:12px;">', tripItem[i].address,
+           '</div></div>');
+         if (tripItem[i].day == currentTripDay) {
+           printHtml.push('<br>');
+         }
+      }
+      else {
+        unScheduledItems = 1;
+        unscheduledHtml.push('<ul><b>', _unesc(tripItem[i].name), '</b>',
+          '<div style="color:#000;padding-left:15px;">');
+        if (isEmpty(tripItem[i].address)) {
+          unscheduledHtml.push(_unesc(tripItem[i].review));
+        } else {
+          unscheduledHtml.push(tripItem[i].address);
+        }
+        unscheduledHtml.push('</div></ul>');
+      }
+    }
+  }
+  unscheduledHtml.push('</div></div><br><br>');
+  printHtml.push(unscheduledHtml.join(''),
+      isPrint ? '</div></div>' : '','</div>');
+  if(isPrint) {
+    showDialog(printHtml.join(''));
+  }
+  var noItemsHtml = '<div style="font-weight:bold;padding-top:40px;" ' +
+                  'align="center">%MESSAGE%</div>';
+  if (tripItemKeys.length == 0) {
+    noItemsHtml =
+        noItemsHtml.replace(/%MESSAGE%/, '__MSG_no_items_added__');
+     _gel('itemDetails').innerHTML = noItemsHtml;
+  } else if (scheduledItems == 0) {
+    noItemsHtml =
+        noItemsHtml.replace(/%MESSAGE%/, '__MSG_no_scheduled_items__');
+    _gel('scheduled-item-details').innerHTML = noItemsHtml;
+  } else if (unScheduledItems == 0) {
+    noItemsHtml =
+        noItemsHtml.replace(/%MESSAGE%/, '__MSG_no_unscheduled_items__');
+    _gel('unscheduled-item-details').innerHTML = noItemsHtml;
+  }
+  if (isPrint) {
+    _gel('printDetails').focus();
+  } else {
+    return printHtml.join('');
+  }
+}
+
+/**
+ * It returns the html string for popup of an item.
+ * @param {number} index Index of item.
+ */
+function getPopupHtmlItem(objItem) {
+  var tplHtml =  _gel('tpl-item-info').value;
+  var tplData = {
+    ownerName: objItem.ownerName,
+    overviewUrl: objItem.link + '&dtab=0&oi=',
+    detailUrl: objItem.link + '&dtab=1&oi=md_structdata',
+    reviews: objItem.review,
+    reviewsLabel: 'Reviews',
+    height: '84px',
+    closeImage: '',
+    dragMessage: '',
+    dragImage: '<img border="0" src="http://gulliver.googlecode.com/svn/trunk/frontend/wave/images/curve_arrow.png"/>',
+    photosUrl: objItem.link + '&dtab=5&oi=md_photos&sa=X',
+    image: '',
+    display: 'none',
+    title: _unesc(objItem.name),
+    marker: '',
+    webUrl: objItem.weburl || '',
+    thumbUp: objItem.thumbUp,
+    thumbDown: objItem.thumbDown,
+    reviewsUrl: objItem.link + '%3Dmd_reviews&dtab=2&oi=md_reviews&sa=X'
+  };
+
+
+  trace('values appending to tpldata' + gadgets.json.stringify(tplData));
+
+  // Reviews url.
+  var review = '';
+  review = objItem.review || '';
+  var pattern = '&#160;&#160;';
+
+  // Check for empty review.
+  if (!review || pattern == review) {
+    tplData.reviews = '';
+    tplData.reviewsLabel = '';
+    tplData.height = '0';
+  }
+
+  var image = objItem.imgurl;
+  if (!isEmpty(image)) {
+    tplData.image = '<img align="left" width="70" height="70" ' +
+        'style="margin-right:10px;cursor:pointer;" src="' + image + '" />';
+    tplData.display = 'block';
+  }
+
+  var address1 = '';
+  var newLineIndex = objItem.address.search(/<br\/>/);
+  var zip = '';
+  if (newLineIndex != -1) {
+    zip = objItem.address.substr(newLineIndex);
+    address1 = objItem.address.substr(0, newLineIndex);
+  } else {
+    address1 = objItem.address;
+  }
+
+  if (address1 != null && address1 != undefined) {
+    var address;
+    if (address1.length > 50) {
+      var sIndex = address1.indexOf(' ', 49);
+      if (sIndex != -1) {
+        address = address1.substr(0, sIndex) + '<br>';
+        address += address1.substr(sIndex + 1);
+      } else {
+        address = address1;
+      }
+    } else {
+      address = address1;
+    }
+    if (zip != '')
+      address += zip;
+    tplData.contactInfo = address;
+  } else {
+    if (zip != '')
+      address += zip;
+    tplData.contactInfo = '';
+  }
+  return tplHtml.supplant(tplData);
+}
+
+/**
+ * Function to Clear start date and end date.
+ */
+function clearDate() {
+  hideCalender();
+  _gel('endDate').value = '';
+  _gel('startDate').value = '';
+}
+
+function addBlueMarker(objItem) {
+  var blueIcon = new GIcon(G_DEFAULT_ICON);
+  blueIcon.shadow = "http://www.google.com/mapfiles/shadow50.png";
+  blueIcon.shadowSize = new GSize(37, 34);
+  blueIcon.iconAnchor = new GPoint(9, 34);
+  blueIcon.infoWindowAnchor = new GPoint(9, 2);
+  blueIcon.image = 'http://gulliver.googlecode.com/svn/trunk/frontend/wave/images/blue-pushpin.png';
+  blueIcon.size = new GSize(18, 20);
+
+  var point = new GLatLng(objItem.lat, objItem.lng);
+  var marker = new GMarker(point, {icon: blueIcon, autoPan: false});
+
+  if (gData.itemMarkers[objItem.id]) {
+    gMap.removeOverlay(gData.itemMarkers[objItem.id]);
+  }
+
+  gMap.addOverlay(marker);
+  gData.itemMarkers[objItem.id] = marker;
+  GEvent.addListener(marker, 'mouseover', function(latlng) {
+    showToolTip(latlng, objItem.name);
+  });
+
+  GEvent.addListener(marker, 'click', function(latlng) {
+    var html = getPopupHtmlItem(objItem);
+    marker.openInfoWindowHtml(html);
+  });
+}
+
+function showItemMarker(id) {
+  trace('showItemMarker is called for ' + id);
+  var marker = gData.itemMarkers[id];
+  trace('marker is ' + marker);
+  if (marker) {
+    marker.openInfoWindowHtml(getPopupHtmlItem(getItemById(id)));
+  }
+}
+
+
+function createTrip() {
+  trace('createTrip is called...');
+  var location = _trim(_gel('create-location').value);
+  var owner = wave.getViewer();
+  var state = wave.getState();
+  var jTrip = new JTrip();
+  jTrip.ownerId = owner.getId();
+  jTrip.ownerName = owner.getDisplayName();
+  if (geocoder) {
+    geocoder.getLocations(location, function(result) {
+      if (result.Status.code == 200) {
+        trace('Found the location successfully...');
+        if (result.Placemark.length > 0) {
+          var place = result.Placemark[0];
+          jTrip.accuracy = place.AddressDetails.Accuracy;
+          var p = result.Placemark[0].Point.coordinates;
+          jTrip.name = location + ' trip';
+          jTrip.loc = location;
+          jTrip.lat = p[1];
+          jTrip.lng = p[0];
+          var tripItems = getTrips().items || [];
+          var lastModified = (new Date()).getTime();
+          var tripId = 'trip-' + lastModified + '-' + parseInt(Math.random() * 100000);
+          jTrip.lastModified = lastModified;
+          jTrip.id = tripId;
+          tripItems.push(tripId);
+          var obj = {};
+          obj['trips'] = gadgets.json.stringify({
+            'items': tripItems,
+            'lastModified': (new Date()).getTime()
+          });
+          obj['logs'] = getLogObject('created', 'a new trip for "' + location + '"');
+          obj[tripId] = gadgets.json.stringify(jTrip);
+          gData.newTripId = tripId;
+          state.submitDelta(obj);
+          hideDialog();
+        }
+      } else {
+        trace('Unable to find the location...');
+        _gel('server_msg').innerHTML = '__MSG_loc_not_found__';
+        trace('__MSG_loc_not_found__');
+      }
+    });
+  } else {
+    trace('Maps did not load properly. Please reload.');
+    _gel('server_msg').innerHTML = 'Maps did not load properly. Please reload.';
+  }
+}
+
+/**
+ * To display the required icon while sorting.
+ * @param {string} element element id sent.
+ * @param {number} val column number.
+ */
+function changeSign(val) {
+  var NUM_COL = 4;
+  var imgdivsrc = _gel('img_' + val).innerHTML;
+  if (val == 0) sortCol = enTripCol.NAME;
+  if (val == 1) sortCol = enTripCol.DATE;
+  if (val == 2) sortCol = enTripCol.LOCATION;
+  if (val == 3) sortCol = enTripCol.OWNER;
+  if (imgdivsrc.match('down') == null) {
+    _gel('img_' + val).innerHTML = DOWN_ARROW_IMG;
+    bAscending = -1;
+  } else if (imgdivsrc.match('up') == null) {
+    _gel('img_' + val).innerHTML = UP_ARROW_IMG;
+    bAscending = 1;
+  }
+  sortByColumn(searchFlag ? gData.sortedTrips : searchedTrips);
+  showListings(searchFlag);
+  showLogMessage();
+  for(var i = 0; i < NUM_COL; i++) {
+    if (sortCol == i) {
+      if (bAscending == 1) {
+        _gel('img_' + i).innerHTML = UP_ARROW_IMG;
+      } else {
+        _gel('img_' + i).innerHTML = DOWN_ARROW_IMG;
+      }
+    } else {
+      _gel('img_' + i).innerHTML = '';
+    }
+  }
+}
+
+function fetchTrips() {
+  gData.allTrips = {};
+  gData.sortedTrips = [];
+  var trips = getTrips();
+  var keys = trips.items || [];
+  for (var i = 0; i < keys.length; i++) {
+    var tripId = keys[i];
+    var trip = getTripById(tripId);
+    gData.allTrips[tripId] = trip;
+    gData.sortedTrips.push(trip);
+  }
+}
+
+function sortByColumn(unsortedData) {
+  unsortedData.sort(function(Obj1, Obj2) {
+    var retVal;
+    switch (sortCol) {
+      case enTripCol.NAME:
+        if (Obj1.name.toLowerCase() > Obj2.name.toLowerCase()) {
+          retVal = 1;
+        } else if (Obj1.name.toLowerCase() < Obj2.name.toLowerCase()) {
+          retVal = -1;
+        }
+        break;
+      case enTripCol.LOCATION:
+        if (Obj1.loc.toLowerCase() > Obj2.loc.toLowerCase()) {
+          retVal = 1;
+        } else if (Obj1.loc.toLowerCase() < Obj2.loc.toLowerCase()) {
+          retVal = -1;
+        }
+        break;
+      case enTripCol.DATE:
+        if (Obj1.sdate > Obj2.sdate) {
+          retVal = 1;
+        } else if (Obj1.sdate < Obj2.sdate) {
+          retVal = -1;
+        }
+        break;
+      case enTripCol.OWNER:
+        if (Obj1.ownerName.toLowerCase() > Obj2.ownerName.toLowerCase()) {
+          retVal = 1;
+        } else if (Obj1.ownerName.toLowerCase() < Obj2.ownerName.toLowerCase()) {
+          retVal = -1;
+        }
+        break;
+      case enTripCol.RATING:
+        if (Obj1.rating > Obj2.rating) {
+          retVal = 1;
+        } else if (Obj1.rating < Obj2.rating) {
+          retVal = -1;
+        }
+        break;
+      case enTripCol.DAY:
+        if (Obj1.day > Obj2.day) {
+          retVal = 1;
+        } else if (Obj1.day < Obj2.day) {
+          retVal = -1;
+        }
+        break;
+    }
+    return bAscending * retVal;
+  });
+}
+
+function searchTrips() {
+  searchedTrips = [];
+  var searchTxt = '';
+  searchFlag = false;
+  searchTxt = _gel('searchTripText').value.strip().toLowerCase();
+  if (searchTxt.strip() == '')
+    return;
+
+  var j = 0;
+  for (var i = 0; i < gData.sortedTrips.length; i++) {
+    if (gData.sortedTrips[i].name.toLowerCase().indexOf(searchTxt) == -1)
+      continue;
+    searchedTrips[j++] = gData.sortedTrips[i];
+  }
+  showListings(false);
+  showLogMessage();
+}
+
+function showListings(flag) {
+  var oneRecordTpl = _gel('tpl-trip-listing-one-record').value;
+  var tplHtml = _gel('tpl-trip-listing').value, tplData;
+  var tripListings = [];
+  var state = wave.getState();
+  var trips = flag ? gData.sortedTrips : searchedTrips;
+  var trip, tripkey, oneRecordTplData;
+  for (var i = 0; i < trips.length; i++) {
+    tripkey = trips[i].id;
+    trip = gadgets.json.parse(state.get(tripkey));
+    var period = trip.sdate ? (trip.sdate + ' - ' + trip.edate) : 'Unscheduled';
+    oneRecordTplData = {
+      index: i,
+      tripId: trip.id,
+      tripName: trip.name,
+      period: period,
+      location: trip.loc,
+      ownerName: trip.ownerName
+    };
+    tripListings.push(oneRecordTpl.supplant(oneRecordTplData));
+  }
+  tplData = {
+    tripListings: tripListings.join(''),
+    showPagination: '',
+    prevPageNumber: '',
+    nextPageNumber: '',
+    showPrevious: '',
+    showNext: '',
+    bShowAll: 1
+  };
+  _gel('main-container').innerHTML = tplHtml.supplant(tplData);
+  if (!flag) {
+    _gel('showAllTrips').style.display = '';
+    _gel('showAllTrips').innerHTML = '__MSG_show_all_trips__';
+  } else {
+    _gel('showAllTrips').style.display = 'none';
+    _gel('searchTripText').value = '';
+  }
+}
+
+function callbackTrips() {
+  gData.currentWindow = 'listings';
+  showListings(true);
+  showLogMessage();
+}
+
+function updateTripDateDisplay(strStartDate, strEndDate, nDays) {
+  if (isEmpty(strStartDate) && isEmpty(strEndDate)) {
+    _gel('duration').innerHTML = '(' + nDays + '&nbsp;' +
+                                 prefs.getMsg('days') + ')';
+  } else {
+    _gel('duration').innerHTML = formatDate(strStartDate, '%M%d') + ' - ' +
+        formatDate(strEndDate, '%M%d%Y') + ' (' + nDays + ' ' +
+        prefs.getMsg('days') + ')';
+  }
+}
+
+/**
+ * Navigate to details page.
+ * @param {string} tripId The trip id.
+ */
+function exploreTrip(tripId) {
+  gData.currentWindow = 'details';
+  var trip = getTripById(tripId);
+  gData.currentTripId = tripId;
+  var tplHtml = _gel('tpl-canvas').value;
+  var tplData = {
+    tripOwnerName: trip.ownerName,
+    tripThumbUp: trip.thumbUp,
+    tripThumbDown: trip.thumbDown,
+    tripNameTitle: trip.name
+  };
+  _gel('main-container').innerHTML = tplHtml.supplant(tplData);
+  trace('Canvas is now visible...');
+  var start = new GLatLng(trip.lat, trip.lng);
+  window.gMap = new GMap2(_gel('mapBox'));
+  gMap.setCenter(start, tabAccuracy[trip.accuracy]);
+  gMap.addControl(new GSmallMapControl());
+
+  gMap.panTo(start);
+  trace('Map is now visible...');
+
+
+  trace('Displaying trip duration...');
+  updateTripDateDisplay(trip.sdate, trip.edate, trip.duration);
+
+  trace('Displayed trip duration...');
+  fillAllItems();
+  trace('Now all existing items are filled...');
+
+  initDrag();
+  trace('Drag is now enabled...');
+
+  showLogMessage();
+
+  gadgets.window.adjustHeight();
+  trace('Now height is proper...');
+}
+
+function createCustomItemDialog() {
+  var trip = getTripById(gData.currentTripId);
+  // Prepare html to display dates or days, based on trip date.
+  var html = [];
+  var duration = parseInt(trip.duration);
+  var tempDate;
+  if (!trip.sdate) {
+    html.push('__MSG_day__: <select style="width:25%;" id="days_id" disabled>');
+    trace('This trip does not have start date...');
+    for (var i = 1; i <= duration; i++) {
+      html.push('<option value="', i, '">__MSG_day__&nbsp;', i, '</option>');
+    }
+  } else {
+    html.push('__MSG_day__: <select style="width:35%;" id="days_id" disabled>');
+    for (var i = 1; i <= duration; i++) {
+      tempDate = addDaysToDate(trip.sdate, i, '%m/%d/%Y');
+      if (addDaysToDate(trip.sdate, 0, '%m/%d/%Y') ==
+          tempDate) {
+         html.push('<option value="', tempDate, '" selected>',
+            tempDate, '</option>');
+      } else {
+        html.push('<option value="', tempDate, '">',
+                        tempDate, '</option>');
+      }
+    }
+  }
+  html.push('</select>');
+  html = html.join('');
+  var tplHtml = _gel('tpl-item-creation').value;
+  var tplData = {dateHtml: html};
+  showDialog(tplHtml.supplant(tplData));
+  _gel('itemName').focus();
+}
+
+/**
+ * Function to show map on print preview dialog.
+ * @param {number} lat The latitude for trip.
+ * @param {number} lng The longitude for trip.
+ * @param {number} accuracy Accuracy on map.
+ */
+function showStaticMap(lat, lng, accuracy) {
+  _gel('print_content').innerHTML = '';
+  var printMap;
+  var mapContent = _gel('staticMap');
+  if (_gel('print_Map').checked) {
+    mapContent.style.display = 'block';
+    mapContent.style.height = '400px';
+    mapContent.style.width = '500px';
+    printMap = new GMap2(mapContent);
+      printMap.setCenter(new GLatLng(lat, lng), tabAccuracy[accuracy]);
+      var bounds = printMap.getBounds();
+      printMap.panTo(bounds.getCenter());
+  } else {
+    _gel('print_Dialog').scrollTop = 0;
+    mapContent.style.display = 'none';
+  }
+}
+
+
+/**
+ * Function to hide opened calender.
+ */
+function hideCalender() {
+  if (_gel(datePickerDivID) != null) {
+    var pickerDiv = _gel(datePickerDivID);
+    pickerDiv.style.visibility = 'hidden';
+    pickerDiv.style.display = 'none';
+  }
+}
+
+/**
+ * Function to hide dialog.
+ */
+function hideViewDateDialogBox() {
+  trace('hideViewDateDialogBox is called...');
+  hideCalender();
+  hideDialog();
+}
+
+function createNewItem() {
+  var address = _gel('itemDescription').value;
+  var itemName = _gel('itemName').value;
+  var wrngMsg = _gel('wrngmsg');
+  // To check whether mandatory field are filled or not.
+  if (!address || !itemName) {
+    wrngMsg.style.visibility = 'visible';
+    wrngMsg.innerHTML = prefs.getMsg('name_addr_empty');
+    return;
+  }
+  var trip = getTripById(gData.currentTripId);
+  if (geocoder) {
+    geocoder.getLocations(address, function(result) {
+      gadgets.json.stringify(result);
+      if (result.Status.code == 200 && result.Placemark.length > 0) {
+        var place = result.Placemark[0];
+        var accuracy = place.AddressDetails.Accuracy;
+        var point = place.Point.coordinates;
+        trace('Found the location...');
+        var aNewItem = new JTripItem();
+        trace('Created empty aNewItem...');
+        var owner = wave.getViewer();
+        aNewItem.ownerId = owner.getId();
+        aNewItem.ownerName = owner.getDisplayName();
+        aNewItem.name = itemName;
+        aNewItem.address = stripHtml(address);
+        aNewItem.lat = point[1];
+        aNewItem.lng = point[0];
+        aNewItem.bCustom = 1;
+        aNewItem.dataSource = 'custom';
+        aNewItem.review = '';
+        aNewItem.weburl = '';
+        aNewItem.imgurl = '';
+        aNewItem.link = '';
+        aNewItem.sdate = '';
+        aNewItem.edate = '';
+        aNewItem.tripName = trip.name;
+        var bSchedule = _gel('dateradio') ? _gel('dateradio').checked : false;
+        if (!bSchedule) {
+          aNewItem.day = 0;
+        } else {
+          if (!isEmpty(trip.sdate)) {
+              aNewItem.sdate = aNewItem.edate =
+                  _gel('days_id')[_gel('days_id').selectedIndex].value;
+              aNewItem.day = getDateDiffForSlash(trip.sdate,itemSDate) + 1;
+            } else {
+              aNewItem.day = _gel('days_id')[_gel('days_id').selectedIndex].value;
+            }
+
+        }
+        saveNewItem(aNewItem, aNewItem.day);
+        hideViewDateDialogBox();
+      } else {
+        trace('Unable to find the location...');
+        wrngMsg.style.visibility = 'visible';
+        wrngMsg.innerHTML = prefs.getMsg('loc_not_found');
+        trace('__MSG_loc_not_found__');
+      }
+    });
+  } else {
+    trace('Maps did not load properly. Please reload.');
+  }
+}
+
+function getNewItemObjectByIndex(index, opt_day) {
+  // Id and lastModified will be updated while saving.
+  var aNewItem = new JTripItem();
+  var owner = wave.getViewer();
+  var state = wave.getState();
+  var trip = getTripById(gData.currentTripId);
+
+trace(' gData.arrSearchResults' + gadgets.json.stringify( gData.arrSearchResults[index]));
+
+  aNewItem.ownerId = owner.getId();
+  aNewItem.ownerName = owner.getDisplayName();
+  var searchData = gData.arrSearchResults[index];
+  aNewItem.name = searchData.name;
+  aNewItem.address = stripHtml(searchData.address || '');
+  aNewItem.review = stripHtml(searchData.review || '');
+  aNewItem.lat = searchData.lat;
+  aNewItem.lng = searchData.lng;
+  aNewItem.category = searchData.category || '';
+  aNewItem.bCustom = 0;
+  aNewItem.weburl = searchData.weburl || '';
+  aNewItem.imgurl = searchData.imgurl || '';
+  aNewItem.link = searchData.link || '';
+  aNewItem.day = opt_day || 0;
+  aNewItem.dataSource = searchData.dataSource || 'custom';
+  aNewItem.tripName = trip.name;
+  if (trip.sdate && opt_day) {
+    var date = new Date(trip.sdate)
+    var formatDate = addDaysToDate(trip.sdate, aNewItem.day - 1, '%m/%d/%Y');
+    aNewItem.sdate = formatDate;
+    aNewItem.edate = formatDate;
+  }
+  return aNewItem;
+}
+
+function addToIternary(index, day) {
+  trace('addToIternary is called...' + index + ' : '  +day);
+  var tripItem = getNewItemObjectByIndex(index, day);
+  saveNewItem(tripItem, day);// UI changes could be considered from waveStateChanged.
+}
+
+function addItem(index) {
+  trace('addItem is called...');
+  var title = gData.arrSearchResults[index].name;
+  title = (title.length > 21) ? title.substr(0, 21) + ' ...' : title;
+  showAddItemDialog(title, index);
+}
+
+/**
+ * Function to add selected date to trip dates.
+ */
+function addItemDate(index) {
+  var trip = getTripById(gData.currentTripId);
+  var bSchedule = _gel('dateradio') ? _gel('dateradio').checked : false;
+  var daySelected = 0;
+  var currentdate;
+  if (bSchedule) {
+    if (_gel('selecteddate')) {
+      var date2 = new Date(_gel('selecteddate').innerHTML);
+      days = date2.getDate() ;
+      month = date2.getMonth() + 1;
+      var finalDate = month + '-' + days + '-' + date2.getFullYear() ;
+      currentdate = finalDate;
+      var date1 = new Date(trip.sdate);
+      var oneDay = 24 * 60 * 60 * 1000;
+      var nDays = getDateDiff(trip.sdate, currentdate);
+      var nDays1 = getDateDiff(currentdate, trip.edate);
+      if (nDays < 0 || nDays1 < 0) {
+        _gel('wrngmsg').style.visibility = 'visible';
+        _gel('wrngmsg').innerHTML = '__MSG_date_outof_range__';
+        return;
+      }
+      daySelected = Math.ceil((date2.getTime() - date1.getTime()) / oneDay) + 1;
+    } else if (_gel('days_id')) {
+      daySelected = _gel('days_id').selectedIndex + 1;
+    } else if (_gel('startdate')) {
+       var date2 = new Date(_gel('startdate').value);
+       days = date2.getDate();
+       month = date2.getMonth() + 1;
+       var finalDate = month + '-' + days + '-' + date2.getFullYear() ;
+       currentdate = finalDate;
+       var date1 = new Date(trip.sdate);
+       var oneDay = 24 * 60 * 60 * 1000;
+       var nDays = getDateDiff(trip.sdate, currentdate);
+       var nDays1 = getDateDiff(currentdate, trip.edate);
+       if (nDays < 0 || nDays1 < 0) {
+         _gel('wrngmsg').style.visibility = 'visible';
+         _gel('wrngmsg').innerHTML = '__MSG_date_outof_range__';
+         return;
+       }
+       daySelected = Math.ceil((date2.getTime() - date1.getTime()) / oneDay) + 1;
+    } else if (currentdate == undefined) {
+        _gel('wrngmsg').style.visibility = 'visible';
+        _gel('wrngmsg').innerHTML = '__MSG_select_date__';
+        return;
+    }
+  } else{
+    daySelected = 0;
+  }
+  addToIternary(index, daySelected);
+  hideDialog();
+  // To hide info window, if there are opened.
+  gMap.closeInfoWindow();
+}
+
+/**
+ * Calcuates the difference between two dates.
+ * @param {string} strDate1 first date as string.
+ * @param {string} strDate2 second date as string.
+ * @return {number} number of days.
+ */
+function getDateDiff(strDate1, strDate2) {
+  strDate1 = strDate1.replace(/-/g, '/');
+  strDate2 = strDate2.replace(/-/g, '/');
+  var date1 = new Date(strDate1);
+  var date2 = new Date(strDate2);
+  var oneDay = 24 * 60 * 60 * 1000;
+  var noOfDays = Math.ceil((date2.getTime() - date1.getTime()) / oneDay);
+  return noOfDays;
+}
+
+/**
+ * Calcuates the difference between two dates.
+ * @param {string} strDate1 first date as string.
+ * @param {string} strDate2 second date as string.
+ * @return {number} number of days.
+ */
+function getDateDiffForSlash(strDate1, strDate2) {
+  var date1 = new Date(strDate1);
+  var date2 = new Date(strDate2);
+  var oneDay = 24 * 60 * 60 * 1000;
+  var noOfDays = Math.ceil((date2.getTime() - date1.getTime()) / oneDay);
+  return noOfDays;
+}
+
+/**
+ * Disable the days box in add trip days dialog.
+ */
+function disableDays() {
+  var id = _gel('days_id');
+  if (id) {
+    id.disabled = true;
+  }
+  if (!isEmpty(_gel('startdate'))) {
+    _gel('startdate').value = '__MSG_unspecified__';
+  }
+  hideCalender();
+}
+
+/**
+ * Enable the days box in add trip days dialog.
+ */
+function enableDays() {
+  var id = _gel('days_id');
+  if (id) {
+    id.disabled = false;
+  }
+}
+
+function selectAsScheduled() {
+  // Below mentioned identifiers are defined in datepicker_calender.js file
+  var date = _gel('selecteddate').innerHTML;
+  date = date.replace(/&nbsp;/g, '').replace(/ /g, '');
+  var strSelectedTd = 'date' + date;
+  var tdElement = _gel(strSelectedTd);
+  if (tdElement) {
+    var onclickAttribs = tdElement.attributes.getNamedItem('onclick').value;
+    onclickAttribs = onclickAttribs.replace(/updateDateField\(/, '');
+    var index = onclickAttribs.indexOf(');');
+    var clsName = '';
+    if (index != -1) {
+      clsName = onclickAttribs.substr(index + 18);
+      clsName = clsName.substr(0, clsName.length - 2);
+      onclickAttribs = onclickAttribs.substr(0, index);
+    }
+    var params = onclickAttribs.replace(/'/g,'').split(',');
+    updateDateField(params[0], params[1], params[2], params[3], params[4]);
+    tdElement.className = clsName;
+  }
+}
+
+/**
+ * Executes while select unscheduled check box in calendar.
+ */
+function selectAsUnscheduled() {
+  // Below mentioned identifiers are defined in datepicker_calender.js file
+  var highlightedTd = _gel(selectedDate);
+  if (highlightedTd) {
+    if (highlightedTd.className == 'dpDayHighlightTDSelected') {
+      highlightedTd.className = 'dpDayHighlightTD';
+    } else if (highlightedTd.className == 'dpselectedTD') {
+      highlightedTd.className = 'dpTD';
+    }
+  }
+}
+
+/**
+ * Shows Add Items dialog box.
+ * @param {string} itemName The name of item.
+ */
+function showAddItemDialog(itemName, index) {
+  var state = wave.getState();
+  var trip = getTripById(gData.currentTripId);
+  if (isEmpty(trip.sdate)) {
+    var daysHtml = TRIP_DAYS_DIALOG_TPL;
+    daysHtml = daysHtml.replace(/%ITEM_NAME%/, itemName);
+    daysHtml = daysHtml.replace(/%INDEX%/, index);
+    showDialog(daysHtml);
+    _gel('cancelButton').focus();
+    var html = ['<select style="width:32%;" id="days_id" disabled>'];
+    for (var i = 1; i <= trip.duration; i++) {
+      html.push('<option value="', i, '">__MSG_day__&nbsp;', i, '</option>');
+    }
+    html.push('</select>');
+    _gel('daysoption').innerHTML = html.join('');
+  } else {
+    var calHtml = CALENDAR_TPL;
+    calHtml = calHtml.replace(/%ITEM_NAME%/, itemName);
+    calHtml = calHtml.replace(/%INDEX%/, index);
+
+    showDialog(calHtml);
+    _gel('cancelButton').focus();
+    fillcalendar();
+  }
+}
+
+/**
+ * Save edited Item info.
+ * @param {number} index Index of item.
+ */
+function saveEditItem(index) {
+  if (_gel('itemDesp').value.length > 200) {
+    var message = _gel('wrngmsg');
+    message.style.visibility = 'visible';
+    message.innerHTML = '__MSG_desc_error_message__';
+    return;
+  }
+  var trip = getTripById(gData.currentTripId);
+  var itemName, itemDesp, itemDay, itemSDate, itemFDate;
+  var tripItem = getItemById(index);
+  if (_gel('itemName').value != '')
+    itemName = _gel('itemName').value;
+  else {
+    _gel('wrngmsg').innerHTML = '__MSG_field_empty__';
+    _gel('wrngmsg').style.display = 'block';
+    _gel('itemName').focus();
+    return;
+  }
+
+  if (_gel('itemDesp').value != '' || tripItem.dataSource != 'custom') {
+    itemDesp = _gel('itemDesp').value;
+  } else {
+    _gel('wrngmsg').innerHTML = '__MSG_field_empty__';
+    _gel('wrngmsg').style.display = 'block';
+    _gel('itemDesp').focus();
+    return;
+  }
+
+  if (_gel('unscheduleCheck').checked) {
+    itemSDate = '';
+    itemFDate = '';
+    itemDay = 0;
+  } else {
+    if (!isEmpty(trip.sdate)) {
+      itemFDate = itemSDate =
+          _gel('daysSelect')[_gel('daysSelect').selectedIndex].value;
+      itemDay = getDateDiffForSlash(trip.sdate,itemSDate) + 1;
+    } else {
+      itemDay = _gel('daysSelect')[_gel('daysSelect').selectedIndex].value;
+      trace('ItemDay is   ' +itemDay);
+      itemFDate = itemSDate = '';
+    }
+  }
+  if (geocoder) {
+    geocoder.getLocations(itemDesp, function(result) {
+      gadgets.json.stringify(result);
+      if ((result.Status.code == 200 && result.Placemark.length > 0) || tripItem.dataSource != 'custom') {
+        tripItem.name = itemName;
+        tripItem.address = itemDesp;
+        tripItem.sdate = itemSDate ? formatDate(itemSDate, '%M%d%Y') : '';
+        tripItem.edate = itemFDate ? formatDate(itemFDate, '%M%d%Y') : '';
+        tripItem.day = itemDay;
+        if (tripItem.dataSource == 'custom') {
+          var place = result.Placemark[0];
+          var accuracy = place.AddressDetails.Accuracy;
+          var point = place.Point.coordinates;
+          tripItem.lat = point[1];
+          tripItem.lng = point[0];
+        }
+        tripItem.lastModified = (new Date()).getTime();
+        var obj = {};
+        obj[index] = gadgets.json.stringify(tripItem);
+        obj['logs'] = getLogObject('rescheduled', 'the item "' +
+          tripItem.name + '" of "' + getTripById(gData.currentTripId).name + '"');
+        wave.getState().submitDelta(obj);
+        hideDialog();
+      } else {
+        _gel('wrngmsg').style.visibility = 'visible';
+        _gel('wrngmsg').innerHTML = '__MSG_loc_not_found__';
+        return;
+      }
+    });
+  } else {
+    message.style.visibility = 'visible';
+    message.innerHTML = 'Maps did not load properly. Please reload.';
+    return;
+  }
+}
+
+/**
+ * To display Edit Item Dialog.
+ * @param  {number} index Index of item.
+ * @param {boolean} bScheduled Flag to determine whether its a scheduled item.
+ */
+function editItemDialog(index, bScheduled) {
+  var daysOption = [];
+  var tempDate = '';
+  var objTrip = getTripById(gData.currentTripId);
+  var tripItem = getItemById(index);
+  if (!isEmpty(objTrip.sdate)) {
+    for (var i = 0;i < objTrip.duration; i++) {
+      tempDate = addDaysToDate(objTrip.sdate, i, '%m/%d/%Y');
+
+      if (addDaysToDate(tripItem.sdate, 0, '%m/%d/%Y') ==
+          tempDate) {
+         daysOption.push('<option value="', tempDate, '" selected>',
+            tempDate, '</option>');
+      } else {
+        daysOption.push('<option value="', tempDate, '">',
+                        tempDate, '</option>');
+      }
+    }
+  } else {
+    for (var i = 1; i <= objTrip.duration; i++) {
+      if (tripItem.day == i)
+        daysOption.push('<option value="', i, '" selected>__MSG_day__ ' , i,
+                        '</option>');
+      else
+        daysOption.push('<option value="', i, '">__MSG_day__ ' , i,
+                        '</option>');
+    }
+  }
+
+  var description;
+  description = tripItem.address;
+  description = description.replace('<br/>', '');
+  if (isEmpty(description))
+    description = '';
+
+  var html = EDIT_ITEM_DIALOG_TPL;
+  html = html.replace(/%INDEX%/g, '\'' + index + '\'')
+      .replace(/%ITEM_NAME%/g, _hesc(_unesc(tripItem.name)))
+      .replace(/%DESCRIPTION%/, _unesc(description))
+      .replace(/%DAYSOPTION%/, daysOption.join(''));
+  if (!tripItem.bCustom) {
+    html = html.replace(/%READONLY%/, 'disabled');
+  } else {
+    html = html.replace(/%READONLY%/, '');
+  }
+  showDialog(html);
+  _gel('cancelButton').focus();
+  if (!bScheduled) {
+    unscheduleRadioButton();
+  } else {
+    daysRadioButton();
+  }
+}
+
+/** @const */
+var EDIT_ITEM_DIALOG_TPL = '<div id="viewedititemdialogbox" style="width:270px;">' +
+    '<div id="editItemDialogBox" class="title_viewDatesDialog" ' +
+    'valign="middle" style="width:270;"><table class="dialog-title" ' +
+    'width="100%" style="padding:2px 3px 2px 0;">' +
+    '<tr><td align="left">__MSG_edit_item__</td><td align="right">' +
+    '<span class="link" onclick="javascript:hideViewDateDialogBox();">' +
+    '<img border="0" style="width:15px;padding-left:1px;"' +
+    'src="http://gulliver.googlecode.com/svn/trunk/frontend/wave/images/close_promo.gif"/></span>' +
+    '</td></tr></table></div><table class="tabledata" ' +
+    'cellspacing="1" cellpadding="1" style="width:270px"><tr><td style="' +
+    'color:#666;font-size:13px;">__MSG_item_name__' +
+    '<span style="color:#ff0000">*</span> : </td><td>' +
+    '<textarea style="height:22px; width:180px;font-size:12px;' +
+    'font-family:arial,san-serif;" rows="1" cols="35"' +
+    ' id="itemName" maxlength="45">%ITEM_NAME%</textarea></td></tr>' +
+    '<tr><td style="color:#666;font-size:13px;" valign="top">' +
+    '__MSG_item_addr__ : </td><td>' +
+    '<textarea %READONLY% ; style="width:180px;font-size:12px;' +
+    'font-family:arial,san-serif" ' +
+    'rows="3" cols="35" id="itemDesp">%DESCRIPTION%</textarea></td></tr>' +
+    '<tr><td></td><td align="left" ><table cellpadding="0"' +
+    'style="font-size:12px;font-family: arial,sans-serif;"><tr>' +
+    '<td style="vertical-align:top;"><input type="radio" name="unscheduleCheck" ' +
+    'onclick="unscheduleRadioButton();" id="unscheduleCheck">' +
+    '__MSG_unsch__' +
+    '</td><td><input type="radio" name="daysCheck" id="daysCheck" ' +
+    'onclick="daysRadioButton();">__MSG_day__:&nbsp;<SELECT NAME="daysSelect"' +
+    'id="daysSelect">%DAYSOPTION%</SELECT></td></tr><tr><td><button onclick="' +
+    'createDeleteItemBox(%INDEX%,true)" style="padding-left:0;">' +
+    '<img src="http://gulliver.googlecode.com/svn/trunk/frontend/wave/images/trash.gif" ' +
+    'width="13" height="13"/>&nbsp;__MSG_delete__</button>' +
+    '</td></tr><tr><td colspan="2">' +
+    '<div id="wrngmsg" style="display:hidden;"></div></td></tr></table>' +
+    '</td></tr><tr><td align="left"><input type="button" name="" ' +
+    'onclick="javascript:hideViewDateDialogBox();" id="cancelButton" ' +
+    'value="__MSG_cancel__"></td><td align="right">' +
+    '<input type="button" value="__MSG_save__" ' +
+    'onClick="saveEditItem(%INDEX%);"></td></tr></table></div>';
+
+/**
+ * Enable unschedule radio button
+ * Disable days radio button and list box
+ */
+function unscheduleRadioButton() {
+  _gel('daysSelect').disabled = true;
+  _gel('unscheduleCheck').checked = true;
+  _gel('daysCheck').checked = false;
+}
+
+/**
+ * Disable unschedule radio button
+ * Enable days radio button and list box
+ */
+function daysRadioButton() {
+  _gel('daysSelect').disabled = false;
+  _gel('unscheduleCheck').checked = false;
+  _gel('daysCheck').checked = true;
+}
+
+/**
+ * Function to fill calendar on dialog.
+ */
+function fillcalendar() {
+  fillTripDates();
+  var strStartDate = tripdates[0];
+  var firstdate = strStartDate.split('/');
+  var month = firstdate[0] - 1;
+  var wholedate = firstdate[1] + '&nbsp;' +
+      monthArrayLong[month] + '&nbsp;' + firstdate[2];
+  _gel('selecteddate').innerHTML = wholedate;
+  strStartDate = firstdate[0] + '/' + firstdate[1] + '/' + firstdate[2];
+  displayDatePicker('ADate', '', 0, strStartDate);
+}
+
+function fillTripDates() {
+  tripdates = [];
+  var trip = getTripById(gData.currentTripId);
+  for (var i = 0; i < trip.duration; i++) {
+    tripdates.push(addDaysToDate(trip.sdate, i, '%m/%d/%Y'));
+  }
+}
+
+/**
+ * It adds the number of days in to a date.
+ * @param {string} strDate date as string.
+ * @param {number} days number of days.
+ * @param {string} format Date format.
+ * @return {string} new date as string.
+ */
+function addDaysToDate(strDate, days, format) {
+  strDate = strDate.replace(/-/g, '/');
+  var date = new Date(strDate);
+  date.setDate(date.getDate() + days);
+  if (format == '%m/%d/%Y') {
+    var month;
+    var tdate;
+    if (date.getMonth() < 9) {
+      month = '0' + (date.getMonth() + 1);
+    } else {
+      month = (date.getMonth() + 1).toString();
+    }
+    if (date.getDate() < 10) {
+      tdate = '0' + date.getDate();
+    } else {
+      tdate = date.getDate().toString();
+    }
+    var dateInFormat = month + '/' + tdate + '/' + date.getFullYear();
+    return dateInFormat;
+  } else if ('%MM%d%W') {
+    return (monthArrayLong[date.getMonth()] + ' ' +
+            date.getDate() + ' (' + dayArrayLong[date.getDay()] + ')');
+  } else {
+    return date.toDateString();
+  }
+}
+
+/** @const */
+var TRIP_DAYS_DIALOG_TPL =
+    '<div id="unscheduleItem_dlg"><div class="title-addItem" valign="middle" ' +
+    '><div style="float:left;">' +
+    '__MSG_add_item__</div><div style="float:right;"><img ' +
+    'style="width:15px;cursor:pointer;padding-left:1px;" ' +
+    'src="http://gulliver.googlecode.com/svn/trunk/frontend/wave/images/close_promo.gif" ' +
+    'onclick="javascript:hideDialogView();hideDialog();"></div></div><div ' +
+    'style="color:#666;padding-left:5px;" class="hint">' +
+    '<span style="color:#f00;">__MSG_tip__</span> __MSG_drag_tip__</div>' +
+    '<div style="padding-left:5px;color:#000;' +
+    'padding-top: 4px;padding-bottom:4px;"><b>%ITEM_NAME%</b></div>' +
+    '<div><table border="0" cellpadding="0" cellspacing="0" ' +
+    'style="font-size:11px;color:#000;"><tr><td colspan="2">' +
+    '<span style="float:left;margin-top:2px;">' +
+    '<input type="radio" id="dateradio" name="group" ' +
+    'onclick="enableDays();"></span>' +
+    '&nbsp;<span>__MSG_as_scheduled__</span><span align="center" style="' +
+    'padding-left:20px;color:#000;font-size:13px;">' +
+    '<span id="daysoption"></span></span></td></tr><tr><td width="1px">' +
+    '<span style="float:left;' +
+    'margin-top:2px;"><input type="radio" name="group" id="unsched" ' +
+    'onclick="disableDays();" checked></span></td>' +
+    '<td style="padding-top:4px;padding-left:3px"><span>' +
+    '__MSG_as_unscheduled__</span></td></tr></table>' +
+    '</div><div style="padding:8px 2px 0 1px;"><span style="' +
+    'float:left;"><input type="button" style="width:60px;" ' +
+    'onclick="javascript:hideDialogView();hideDialog();" id="cancelButton" ' +
+    'value="__MSG_cancel__"></span><span style="float:right;"><input ' +
+    'onclick="javascript:addItemDate(%INDEX%);" style="width:60px;" ' +
+    'type="button" value="__MSG_add_days__"></span></div></div>';
+
+/** @const */
+var CALENDAR_TPL =
+    '<div id="maindialog"><div class="title" valign="middle">' +
+    '__MSG_add_item__</div><div style="padding:2px 0pt 0pt 4px;' +
+    'visibility:visible;display:block;z-index:10000;"></div>' +
+    '<div id="datepicker1" class="dpDiv" ' +
+    'style="visibility:hidden;"></div><input name="ADate" style="' +
+    'visibility:hidden;width:1px;height:1px;">' +
+    '<div id="wrngmsg" style="visibility:hidden;"></div>' +
+    '<div style="padding-left:5px;color:#000;font-size:12px;' +
+    'position:absolute;top:210px;"><b>%ITEM_NAME%</b></div>' +
+    '<div style="top:225px;font-size:11px;position:absolute;' +
+    'color:#000;"><input type="radio" id="dateradio" ' +
+    'name="group1" onclick="selectAsScheduled();">__MSG_on__&nbsp;' +
+    '<span id="selecteddate"></span><br><input ' +
+    'type="radio" name="group1" onclick="selectAsUnscheduled();" checked>' +
+    '__MSG_as_unscheduled__<br><div style="padding-top:3px;"><span ' +
+    'align="right" float="left" style="padding-left:2px;"><input' +
+    ' type="button" style="width:60px;" onclick="javascript:' +
+    'hideDialogView();hideDialog();" id="cancelButton" value="__MSG_cancel__"></span>' +
+    '<span align="right" style="padding-left:28px;">' +
+    '<input onclick="javascript:addItemDate(%INDEX%);" ' +
+    'style="width:60px;" type="button" value="Add"></span></div></div></div>';
+
+
+function saveNewItem(aNewItem, day) {
+  trace('saveNewItem is called...');
+  var state = wave.getState();
+  var trip = getTripById(gData.currentTripId);
+
+  var lastModified = (new Date()).getTime();
+  var itemId = 'item-' + lastModified + '-' + parseInt(Math.random() * 100000);
+  aNewItem.lastModified = lastModified;
+  aNewItem.id = itemId;
+  aNewItem.day = day || 0;
+
+  trace('aNewItem is ready...');
+  trip.items = trip.items || [];
+  trip.items.push(itemId);
+
+  var obj = {};
+  obj[gData.currentTripId] = gadgets.json.stringify(trip);
+  obj[itemId] = gadgets.json.stringify(aNewItem);
+  obj['logs'] = getLogObject('added', 'a new item "' + aNewItem.name + '" in Trip "' + trip.name + '"');
+  state.submitDelta(obj);
+  trace('Sent the item to save.');
+}
+
+
+/**
+ * Creates the dialog box to create the trip.
+ * @param {boolean} isNotDismissable optional.
+ */
+function createTripBox(isNotDismissable) {
+  var html = _gel('tpl-create-trip').value;
+  showDialog(html);
+  _gel('create-location').focus();
+  if (isNotDismissable) {
+    _gel('create-cancel-trip').style.display = 'none';
+    _gel('create-trip-btn').style.display = '';
+  }
+}
+
+
+function updateTripState() {
+  trace('updateTripState is called...');
+  var state = wave.getState();
+  var keys = state.getKeys(), key, data;
+  for (var i = 0; i < keys.length; i++) {
+    key = keys[i];
+    if (key.indexOf('${') === 0) {continue;}
+    if (key == 'logs') {continue;}
+    data = gadgets.json.parse(state.get(key));
+    gTripLastUpdate[key] = data.lastModified;
+    gTripState[key] = data;
+  }
+}
+
+/**
+* Shows the popup window on click of thumb image.
+* @param {number} index Position of div.
+* @param {string} itemName Name of iteam.
+*/
+function addVotePopUP(id) {
+  // To hide the infow window, if opened.
+  closeInfoWindow(false);
+  var itemInfo;
+  var html = [];
+  var tplHtml = _gel('tpl-item-vote').value;
+  tplData = {id:id}
+  tplHtml = tplHtml.supplant(tplData);
+  html = ['<div style="font-size:12px;">',
+           tplHtml, '</div>'];
+
+  showDialog(html.join(''));
+}
+
+/**
+ * Dialog for add your vote.
+ * @param {string} itemName Name of item.
+ */
+function addYourVote() {
+  var addVoteInfo = _gel('tpl-trip-vote').value;
+  showDialog(addVoteInfo);
+}
+
+/**
+ * Posting activity.
+ * @param {string} itemName Name of item.
+ * @param {number} index Html div id number.
+ */
+function postActivity(index) {
+  var thumbsMesssage, obj = {};
+  var voted, message;
+  var comments = stripHtml(_gel('addVote').value);
+  var trip = getTripById(gData.currentTripId);
+  if (index == -1) {
+    if (_gel('thumbUp').checked) {
+      trip.thumbUp = parseInt(trip.thumbUp || '0') + 1;
+      voted = 'voted up';
+    } else {
+      trip.thumbDown = parseInt(trip.thumbDown || '0') + 1;
+      voted = 'voted down';
+    }
+    message = ' for trip "' + trip.name + '"';
+    trip.lastModified = (new Date()).getTime();
+    obj[gData.currentTripId] = gadgets.json.stringify(trip);
+    thumbsMesssage = _gel('thumbUp').checked ? '__MSG_thumbs_up__' :
+                                         '__MSG_thumbs_down__';
+  } else {
+    var tripItem = getItemById(index);
+    if (_gel('item_thumb_up').checked) {
+      tripItem.thumbUp = parseInt(tripItem.thumbUp || '0') + 1;
+      voted = 'voted up';
+    } else {
+      tripItem.thumbDown = parseInt(tripItem.thumbDown || '0') + 1;
+      voted = 'voted down';
+    }
+    message = ' for item "' + tripItem.name + '" in trip "' + trip.name + '" ';
+    tripItem.lastModified = (new Date()).getTime();
+    obj[index] = gadgets.json.stringify(tripItem);
+    thumbsMesssage = _gel('item_thumb_up').checked ? '__MSG_thumbs_up__' :
+                                         '__MSG_thumbs_down__';
+  }
+  if (comments) {
+    message += ' and commented as "' + comments + '"';
+  }
+  obj['logs'] = getLogObject(voted, message);
+  wave.getState().submitDelta(obj);
+  hideViewDateDialogBox();
+}
+
+function fillItem(tripItem) {
+  var day = tripItem.day || 0;
+  _gel('trip-items-content-' + day).innerHTML += getHtmlForOneItem(tripItem);
+  addBlueMarker(tripItem);
+
+}
+
+function unfillItem(tripItem) {
+  var element = _gel('drag-' + tripItem.id);
+  if (element && element.parentNode) {
+    element.parentNode.removeChild(element);
+  }
+}
+
+function getHtmlForOneItem(tripItem) {
+  var tplHtml = (tripItem.day == 0) ? _gel('tpl-unschedule-item').value :
+      _gel('tpl-unschedule-item').value;
+  var tplData = {
+    dragItemCounter: tripItem.id,
+    index: tripItem.id,
+    name: tripItem.name,
+    title: tripItem.name,
+    contactInfo: tripItem.address,
+    thumbUp: tripItem.thumbUp,
+    likeDisplay: tripItem.thumbUp ? '' : 'none'
+  };
+  return tplHtml.supplant(tplData);
+}
+
+function fillAllItems() {
+  var trip = getTripById(gData.currentTripId);
+  var htmlContent = [];
+  var tplData = [];
+  var toggleStatus = [];
+  var content;
+  var tplHtml = _gel('tpl-trip-items-container').value;
+  var NO_DATA = '<div style="font-size: 12px;padding:5px 30px">No item added.</div>';
+  var allItemHtml = [], day;
+  for (var i = 0; i <= trip.duration; i++) {
+    day = (i == 0) ? 'Unscheduled' : trip.sdate ? addDaysToDate(trip.sdate, (i - 1)) : ('Day ' + i);
+    htmlContent[i] = [];
+    tplData[i]  = {
+      index: i,
+      day: day,
+      content: '',
+      itemNumber: 0
+    };
+  }
+  var tripItemKeys = trip.items || [];
+  var tripItem;
+  for (var i = 0; i < tripItemKeys.length; i++ ) {
+    tripItem = getItemById(tripItemKeys[i]);
+    htmlContent[tripItem.day].push(getHtmlForOneItem(tripItem));
+    tplData[tripItem.day]['itemNumber'] += 1;
+    addBlueMarker(tripItem);
+  }
+
+  for (var i = 0; i <= trip.duration; i++) {
+    content = htmlContent[i].join('') || NO_DATA;
+    tplData[i].content = content;
+    tplData[i].itemNumber = tplData[i].itemNumber || '';
+    allItemHtml[i] = tplHtml.supplant(tplData[i]);
+    toggleStatus[i] = (content == NO_DATA) ? 1 : 0;
+    trace('toggleStatus[i]' + i + ' : ' + toggleStatus[i]);
+  }
+
+  _gel('trip-items-0').innerHTML = allItemHtml[0];
+  allItemHtml[0] = '';
+  _gel('trip-items-1').innerHTML = allItemHtml.join('');
+
+  // Minimize when "No data found" for the day.
+  for (var i = 0; i <= trip.duration; i++) {
+    if (toggleStatus[i]) {
+      toggleDisplay(i);
+    }
+  }
+  initInterDrag();
+}
+
+</script>
+<script type="text/javascript">
+/**
+ * User prefs.
+ * @type {_IG_Prefs}
+ */
+var prefs = new _IG_Prefs();
+
+/** @const */
+var MAX_TRIP_DURATION = 60;
+
+/**
+ * Calcuates the difference between two dates.
+ * @param {string} strDate1 first date as string.
+ * @param {string} strDate2 second date as string.
+ * @return {number} number of days.
+ */
+function getDateDiff(strDate1, strDate2) {
+  strDate1 = strDate1.replace(/-/g, '/');
+  strDate2 = strDate2.replace(/-/g, '/');
+  var date1 = new Date(strDate1);
+  var date2 = new Date(strDate2);
+  var oneDay = 24 * 60 * 60 * 1000;
+  var noOfDays = Math.ceil((date2.getTime() - date1.getTime()) / oneDay);
+  return noOfDays;
+}
+
+/**
+ * It formats the date in required format.
+ * @param {string} strDate The date to be converted.
+ * @param {string} format Date format.
+ * @return {string} New date as string.
+ */
+function formatDate(strDate, format) {
+  var strRetVal = '';
+  var day, month, year;
+  strDate = strDate.replace(/-/g, '/');
+  var date = new Date(strDate);
+  month = date.getMonth() + 1;
+  if (month <= 9) {
+    month = '0' + month;
+  }
+  day = date.getDate();
+  year = date.getFullYear();
+  if (day <= 9) {
+    day = '0' + day;
+  }
+  if (format == '%m/%d/%Y') {
+    strRetVal = month + '/' + day + '/' + date.getFullYear();
+  } else if (format == '%m-%d-%Y') {
+    strRetVal = month + '-' + day + '-' + date.getFullYear();
+  } else if (format == '%M%d%Y') {
+    strRetVal = monthArrayMed[parseInt(month, 10) - 1] +
+                ' ' + day + ', ' + year;
+  } else if (format == '%M%d') {
+    strRetVal = monthArrayMed[parseInt(month, 10) - 1] +
+                ' ' + day;
+  } else if (format == '%MM%d') {
+    strRetVal = monthArrayLong[parseInt(month, 10) - 1] +
+                ' ' + day;
+  } else if (format == '%MM%d%Y') {
+    strRetVal = monthArrayLong[parseInt(month, 10) - 1] +
+                ' ' + day + ', ' + year;
+  }
+  return strRetVal;
+}
+
+/**
+ * Dialog for edit dates.
+ */
+function showDateDialog() {
+  var objTrip = getTripById(gData.currentTripId)
+  var strStartDate = isEmpty(objTrip.sdate) ?
+                     '__MSG_unspecified__' : objTrip.sdate;
+  var strEndDate = isEmpty(objTrip.edate) ?
+                   '__MSG_unspecified__' : objTrip.edate;
+  var days = isEmpty(objTrip.duration) ? DEFAULT_DURATION : objTrip.duration;
+
+  var tplHtml = _gel('tpl-date-dialog').value;
+  var tplData = {
+    duration: days,
+    startDate: strStartDate,
+    endDate: strEndDate
+  };
+  showDialog(tplHtml.supplant(tplData));
+  _gel('cancelButton').focus();
+}
+
+/**
+ * Executes when save date values for a trip.
+ */
+function saveTripDates() {
+  var idWarningMsg = _gel('wrngmsg');
+  var strDays = _gel('editDaysBox').value;
+  if (_trim(strDays) == '') {
+    return;
+  }
+  var days = parseInt(strDays, 10);
+  if (days <= 0 || days == Number.NaN) {
+    if (idWarningMsg) {
+      idWarningMsg.innerHTML = prefs.getMsg('invalid_duration1');
+      idWarningMsg.style.visibility = 'visible';
+    }
+    return;
+  }
+  if (days > MAX_TRIP_DURATION) {
+    if (idWarningMsg) {
+      idWarningMsg.innerHTML = prefs.getMsg('duration_limit_exceeds');
+      idWarningMsg.style.visibility = 'visible';
+    }
+    return;
+  }
+  var sdate = _gel('startDate').value;
+  var edate = _gel('endDate').value;
+  var objTrip = getTripById(gData.currentTripId);
+  var oldDuration = objTrip.duration;
+  var state = wave.getState();
+  if (objTrip.sdate || objTrip.edate) {
+    if (!sdate || !edate) {
+      idWarningMsg.innerHTML = prefs.getMsg('no_empty_dates');
+      idWarningMsg.style.visibility = 'visible';
+      return;
+    }
+  }
+  var obj = {};
+  if (!isEmpty(sdate) && !isEmpty(edate)) {
+    var curdate = new Date();
+    curdate = getDateString(curdate);
+    var dateDiff = getDateDiff(curdate, sdate);
+    if (dateDiff >= 0) {
+      idWarningMsg.style.visibility = 'hidden';
+    } else {
+      idWarningMsg.innerHTML = prefs.getMsg('date_expired');
+      idWarningMsg.style.visibility = 'visible';
+      return;
+    }
+    if ((sdate != objTrip.sdate) ||
+        (edate != objTrip.edate) || (days != objTrip.duration))
+      objTrip.sdate = sdate;
+      objTrip.edate = edate;
+      objTrip.duration = days;
+      trace('Trip dates and days saved.');
+      hideViewDateDialogBox();
+  } else if (!isEmpty(objTrip.sdate) && !isEmpty(objTrip.edate)) {
+    edate = addDaysToDate(objTrip.sdate, days - 1, '%m/%d/%Y');
+    objTrip.edate = edate;
+    objTrip.duration = days;
+  } else if (days != objTrip.duration) {
+    objTrip.duration = days;
+  }
+   var itemList = objTrip.items || [], item;
+  // To move later dates scheduled items to unschduled.
+  if (oldDuration > days) {
+    for (var i = 0; i < itemList.length; i++) {
+      item = getItemById(itemList[i]);
+      if (item.day > days) {//Unschedule this item.
+        item.day = 0;
+        obj[item.id] = gadgets.json.stringify(item);
+      }
+    }
+  }
+  objTrip.lastModified = (new Date()).getTime();
+  obj[gData.currentTripId] = gadgets.json.stringify(objTrip);
+  obj['logs'] = getLogObject('changed', ' the trip duration of "' + objTrip.name + '"');
+  state.submitDelta(obj);
+  hideViewDateDialogBox();
+}
+
+/** @const */
+var BASE_URL = 'http://1.latest.trippywave.appspot.com';
+var exportTripId;
+
+function saveToExport() {
+  var trip = getTripById(gData.currentTripId);
+  var keys = trip.items || [];
+  var tripId = gData.currentTripId + parseInt(Math.random() * 100000);
+  exportTripId = tripId;
+  var allItems = [];
+  var currentItem;
+  for (i = 0; i < keys.length; i++) {
+     currentItem = getItemById(keys[i]);
+     allItems.push(currentItem);
+  }
+  var post_data = gadgets.io.encodeValues({
+    'items': gadgets.json.stringify({'items': allItems}),
+    'id': tripId
+  });
+  var params = {};
+  params[gadgets.io.RequestParameters.METHOD] = gadgets.io.MethodType.POST;
+  params[gadgets.io.RequestParameters.POST_DATA] = post_data;
+  var url = BASE_URL + '/exportAndSave';
+  gadgets.io.makeRequest(url, checkResponseTrip, params);
+}
+
+/**
+ * Check for the response and handles the error.
+ * @param {object} response Server response.
+ */
+function checkResponseTrip(response) {
+  _gel('export-map-q').value = BASE_URL + '/exportAllTripItems?trip_id=' + exportTripId;
+  _gel('export-map-form').submit();
+}
+
+/**
+ * Opens mail sending dialog box.
+ */
+function openMailDialog() {
+  // Close if any popup window is there.
+  closeInfoWindow();
+  var html = SEND_MAIL_DIALOG_TPL;
+  showDialog(html);
+  _gel('emailId').focus();
+}
+
+/** @const */
+var SEND_MAIL_DIALOG_TPL = '<div id="viewedititemdialogbox">' +
+    '<div id="sendMailBox" class="title_viewDatesDialog" valign="middle">' +
+    '<table class="dialog-title-send" width="100%"><tr><td align="left">' +
+    '__MSG_send_mail__</td><td align="right">' +
+    '<span class="link" onclick="javascript:hideViewDateDialogBox();">' +
+    '<img border="0" style="width:15px;padding-left:1px;"' +
+    'src="http://gulliver.googlecode.com/svn/trunk/frontend/wave/images/close_promo.gif"/></span>' +
+    '</td></tr></table></div><table style="width:300px;" class="tabledata" ' +
+    'cellspacing="4" cellpadding="0" height="85%"><tr><td align="left" ' +
+    'width="25%" style="font-family:arial;color:#666;padding-left:1px;">' +
+    '__MSG_to__<span style="color:#ff0000">*</span> : </td>' +
+    '<td colspan="2"><input value="" name="emailId" id="emailId" type="text" ' +
+    'style="width:99%;font-family:arial,sans-serif;font-size:12px;"></td>' +
+    '</tr><tr><td align="left" width="25%" ' +
+    'valign="top" style="font-family:arial;color:#666;' +
+    'padding-left:1px;">__MSG_item_desc__ : ' +
+    '</td><td colspan="2"><textarea id="mailDescp"' +
+    'style="width:99%;font-family:arial,sans-serif;font-size:12px;" ' +
+    'rows="5" cols="38"></textarea></td></tr>' +
+    '<tr><td align="left" style="padding-left:1px;">' +
+    '<input type="button" id="cancelButton" ' +
+    'onclick="javascript:hideViewDateDialogBox();"' +
+    'value="__MSG_cancel__"></td><td align="center"><div id="mailErr" ' +
+    'class="err" style="display:none;"></div></td><td align="right">' +
+    '<input type="button" style="width:36px;" value="__MSG_ok__" ' +
+    'onclick="sendMail();">' +
+    '</td></tr></table></div>';
+
+/**
+ * Validates email ids.
+ * @return {boolean} True if email id list is valid.
+ */
+function validateEmailid() {
+  var reg =
+      /^(\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+(\ )*(\,)?(\;)?(\ )*)+$/;
+  return reg.test(_gel('emailId').value);
+}
+
+/** @const */
+var MAX_EMAILS = 5;
+
+/**
+ * Send mail request to server.
+ */
+function sendMail() {
+  var bValidate = validateEmailid();
+  // To be extracted using open-social.
+  var ownerMailId = '';
+
+  if (bValidate) {
+    var objTrip = getTripById(gData.currentTripId);
+    var toList = _gel('emailId').value;
+    var tempArr = toList.split(',');
+    if (tempArr.length > MAX_EMAILS) {
+      _gel('mailErr').style.display = 'block';
+      _gel('mailErr').innerHTML = '__MSG_not_more__ ' + MAX_EMAILS +
+                                  ' __MSG_email_allow__'
+    } else {
+      var description = _gel('mailDescp').value;
+      description = '<pre style="font-family:arial;' +
+                    'font-weight:bold;font-size:15px;color:#000;">' + description +
+                    '</pre>';
+      var params = {};
+      var mailData = showPrintDialog(false);
+      post_data = gadgets.io.encodeValues({
+        'toList': toList,
+        'items': gadgets.json.stringify({'mailData': mailData}),
+        'description': description,
+        'ownerMailId': ownerMailId,
+        'tripSdate': objTrip.sdate,
+        'tripFdate': objTrip.edate,
+        'tripDuration': objTrip.duration,
+        'ownerName': wave.getViewer().getDisplayName(),
+        'tripName': objTrip.name
+      });
+      params[gadgets.io.RequestParameters.METHOD] = gadgets.io.MethodType.POST;
+      params[gadgets.io.RequestParameters.POST_DATA] = post_data;
+      var url = BASE_URL + '/mailTrip?rand=' + Math.random();
+      gadgets.io.makeRequest(url, mailSent, params);
+      hideDialog();
+    }
+  } else {
+    _gel('mailErr').style.display = 'block';
+    _gel('mailErr').innerHTML = "__MSG_wrong_email__"
+    _gel('emailId').focus();
+  }
+}
+
+function mailSent() {
+}
+
+</script>
+<script type="text/javascript">
+/**
+ * Contains id of current selected item.
+ */
+var strSelectedItemId;
+
+/**
+ * Executes whenever onclick event occurs .
+ */
+document.onclick = closeActionMenu;
+
+/**
+ * Close action menu if already open.
+ * @param {object} event the click event.
+ */
+function closeActionMenu(event) {
+  event = event || window.event;
+  var id = event['target'] ? event['target']['id'] : event['srcElement']['id'];
+  if (id == 'menuAction' || id == 'menuImg')
+    return;
+
+  var tableBox = _gel('table-box');
+  if (tableBox && tableBox.style.display == 'block') {
+    tableBox.style.display = 'none';
+  }
+}
+
+/**
+ * Prepares html code of table on dropdown image click.
+ */
+function dropDown() {
+  var tableBox = _gel('table-box');
+  if (tableBox) {
+    if (tableBox.style.display == 'block') {
+      tableBox.style.display = 'none';
+      return;
+    }
+    tableBox.style.display = 'block';
+  }
+  var element = _gel('table-data');
+  element.style.display = 'block';
+}
+
+/**
+ * Checks whether any trip is available or not
+ */
+function getTrips() {
+  return gadgets.json.parse(wave.getState().get('trips' ,'{}'));
+}
+
+function getTripById(id) {
+  return gadgets.json.parse(wave.getState().get(id ,'{}'));
+}
+
+function getItemById(id) {
+  return gadgets.json.parse(wave.getState().get(id ,'{}'));
+}
+
+function paricipantUpdated() {
+  trace('paricipantUpdated is called...');
+}
+
+function getUpdationList() {
+  // gTripLastUpdate contains old LastModified data.
+  var modifiedKeys = [];
+  var newKeys = [];
+  var removedKeys = [];
+  var state = wave.getState();
+
+  var keys = state.getKeys(), key, data;
+  for (var i = 0; i < keys.length; i++) {
+    key = keys[i];
+    if (key.indexOf('${') === 0) {continue;}
+    if (key == 'logs') {continue;}
+    data = gadgets.json.parse(state.get(key));
+    var newLastModified = data.lastModified;
+    var oldLastModified = gTripLastUpdate[key];
+    if (!oldLastModified) {
+      newKeys.push(key);
+    } else if (newLastModified != oldLastModified) {
+      modifiedKeys.push(key);
+    }
+  }
+  for (key in gTripLastUpdate) {
+    if (key.indexOf('${') === 0) {continue;}
+    if (key == 'logs') {continue;}
+    data = gadgets.json.parse(state.get(key, '{}'));
+    if (!data.lastModified) {
+      removedKeys.push(key);
+    }
+  }
+  return {
+    modifiedKeys: modifiedKeys,
+    newKeys: newKeys,
+    removedKeys: removedKeys
+  };
+}
+
+// If I am in details page this method will be called.
+function updateRemoval(keys) {
+  if(keys.contains(gData.currentTripId)) {
+    trace('<b>The current trip is deleted...</b>');
+    showListings(true);
+    showLogMessage();
+  } else {
+    trace('<b>Some items are changed...</b>');
+    fillAllItems();
+  }
+}
+// If I am in details page this method will be called.
+function updateModification(keys) {
+  if(keys.contains(gData.currentTripId)) {
+    trace('<b>The current trip has been modified...</b>');
+    for (var i = 0; i < keys.length; i++) {
+      var item = getItemById(keys[i]);
+      trace('Item thums:' + item.name + ': '+ item.thumbUp + ': ' + item.thumbDown);
+      trace('gData.currentTripId' + gData.currentTripId);
+      exploreTrip(gData.currentTripId);
+    }
+  } else {
+    trace('<b>Some items has been modified...</b>');
+    for (var i = 0; i < keys.length; i++) {
+      var item = getItemById(keys[i]);
+      trace('Item thums:' + item.name + ': '+ item.thumbUp + ': ' + item.thumbDown);
+      trace('Item thums:' + item.name + ': '+ item.sdate + ': ' + item.edate);
+      trace('Item thums:' + item.name + ': '+ item.day);
+    }
+    fillAllItems();
+  }
+}
+// Update new records.
+function updateFresh(keys) {
+  if(keys.contains(gData.currentTripId)) {
+    // Right now, this section will not be executed.
+    trace('<b>A new trip has been created...</b>');
+  } else {
+    trace('<b>Some items has been created...</b>');
+    fillAllItems();
+  }
+}
+
+function waveStateChanged() {
+  trace('waveStateChanged is called...');
+  try {
+    fetchTrips();
+    var trips = getTrips().items || [];
+    trace('Available trips: ' + trips.join(' '));
+    if (trips.length > 0) {
+      trace('Trip found :' + gData.currentWindow);
+      _gel('main-container').style.backgroundColor = '#fff';//#E5E3DF';
+      var updates = getUpdationList();
+      trace(gadgets.json.stringify(updates));
+      switch (gData.currentWindow) {
+        case 'initial':
+          // A trip is newly created. We can show listings page.
+          gData.currentWindow = 'listings';
+          // If window is opened, but another trip was created by someone,
+          // then make cancel button visible.
+          var createDialogCanelButton = _gel('create-cancel-trip');
+          if (createDialogCanelButton) {
+            createDialogCanelButton.style.display = '';
+            _gel('create-trip-btn').style.display = 'none';
+
+          }
+        case 'listings':
+          // I am in listings page. Either me or someone changed some state. We can re render the listings.
+          if (updates.newKeys.length > 0 && gData.newTripId && updates.newKeys.contains(gData.newTripId)) {
+            exploreTrip(gData.newTripId);
+          } else {
+            sortByColumn(gData.sortedTrips);
+            showListings(true);
+          }
+          break;
+        case 'details':
+          // I am in details page. Either me or someone changed some state. Need to identify the section and to be updated.
+          if (updates.newKeys.length > 0 && gData.newTripId && updates.newKeys.contains(gData.newTripId)) {
+            exploreTrip(gData.newTripId);
+          } else {
+            if (updates.removedKeys.length > 0) {
+              trace('<b>Something is removed by you or your friends.. </b>');
+              updateRemoval(updates.removedKeys);
+            }
+            if (updates.newKeys.length > 0) {
+              trace('<b>Something is added by you or your friends.. </b>');
+              updateFresh(updates.newKeys);
+            }
+            if (updates.modifiedKeys.length > 0) {
+              trace('<b>Something is modified by you or your friends.. </b>');
+              updateModification(updates.modifiedKeys);
+            }
+          }
+          break;
+      }
+
+    } else {
+      // Add dummy map.
+      var start = new GLatLng(37.775, -122.444);
+      window.gMap = new GMap2(_gel('main-container'));
+      gMap.setCenter(start, 14);
+      gMap.addControl(new GSmallMapControl());
+      gMap.panTo(start);
+      trace('Map is now visible...');
+      gData.currentWindow = 'initial';
+      createTripBox(1);
+    }
+    // Update local trip state object.
+    updateTripState();
+    showLogMessage();
+    gadgets.window.adjustHeight(_gel('main-container').offsetHeight + 20);
+  } catch(e) {
+    trace(e.description || e);
+  }
+}
+
+/**
+ * It returns the html string for popup of an item.
+ * @param {string} id item id.
+ */
+function getItemHtml(id, flag) {
+  var tplHtml =  _gel('tpl-popup-info').value;
+  var tripItem = getItemById(id);
+  var tplData = {
+    title: _unesc(tripItem.name),
+    webUrl: tripItem.weburl || '',
+    ownerName: tripItem.ownerName,
+    display: 'none',
+    index: tripItem.id,
+    thumbUp: tripItem.thumbUp || 0,
+    thumbDown: tripItem.thumbDown || 0
+  };
+
+  var address1 = '';
+  var newLineIndex = tripItem.address.search(/<br\/>/);
+  var zip = '';
+  if (newLineIndex != -1) {
+    zip = tripItem.address.substr(newLineIndex);
+    address1 = tripItem.address.substr(0, newLineIndex);
+  } else {
+    address1 = tripItem.address;
+  }
+
+  if (address1 != null && address1 != undefined) {
+    var address;
+    if (address1.length > 50) {
+      var sIndex = address1.indexOf(' ', 49);
+      if (sIndex != -1) {
+        address = address1.substr(0, sIndex) + '<br>';
+        address += address1.substr(sIndex + 1);
+      } else {
+        address = address1;
+      }
+    } else {
+      address = address1;
+    }
+    if (zip != '')
+      address += zip;
+    tplData.contactInfo = address;
+  } else {
+    if (zip != '')
+      address += zip;
+    tplData.contactInfo = '';
+  }
+  return tplHtml.supplant(tplData);
+}
+
+
+/**
+ * Gives the x and y co-ordinates of the element.
+ * @param {object} element The element.
+ * @return {object} The position of element.
+ */
+function getPosition(element) {
+  var left = 0;
+  var top = 0;
+  while (element.offsetParent) {
+    left += element.offsetLeft;
+    top += element.offsetTop;
+    element = element.offsetParent;
+  }
+  left += element.offsetLeft;
+  top += element.offsetTop;
+  return {x:left, y:top};
+}
+
+
+function init() {
+  // Initialize all global variables.
+  window.geocoder = new GClientGeocoder();
+  window.gTripLastUpdate = {};
+  window.gTripState = {};
+  window.gData = {currentWindow: 'initial', allTrips: {}, sortedTrips: [], itemMarkers: {}};
+  if (wave && wave.isInWaveContainer()) {
+    trace('Loading...');
+    wave.setParticipantCallback(function() {
+      paricipantUpdated();
+      wave.setStateCallback(waveStateChanged);
+    });
+  }
+}
+  gadgets.util.registerOnLoadHandler(init);
+</script>
+<link href="http://gulliver.googlecode.com/svn/trunk/frontend/wave/css/dialogBox.css" rel="stylesheet" type="text/css">
+<link href="http://gulliver.googlecode.com/svn/trunk/frontend/wave/css/travel-gadget.css" rel="stylesheet" type="text/css">
+
+
+
+
+
+<div id="main-container" style="border:1px solid #a3a3a3;margin:0;min-height:500px;">
+</div>
+
+<div id="dialog-mask" style="display:none;position:absolute;left:0;top:0; width:100%; background-color:#777; opacity:0.15; filter:alpha(opacity=15)" onclick="return false;"></div>
+<div id="dialog" style="display:none;left:0;top:0;position:absolute">
+  <div id="dialog-content">Some content</div>
+</div>
+
+<!-- Templates start -->
+<textarea style="display:none;" id="tpl-create-trip">
+  <div id="error" style="display:none;"></div>
+  <div id="create-trip">
+    <div class="dialog-title">__MSG_createTrip__</div>
+    <form action="#" onsubmit="createTrip();return false;" onreset="cancelCreateTrip();">
+      <table style="border:0;" cellpadding="1" cellspacing="1">
+        <tr>
+          <td class="heading">__MSG_where_visit__</td>
+        </tr>
+        <tr>
+          <td class="heading">
+            <input type="text" id="create-location" name="create-location" class="txtBox"/>
+            <span class="hint" style="color:#666;">__MSG_egLocation__</span>
+          </td>
+        </tr>
+        <tr>
+          <td><div id="server_msg" class="server_msg" style="text-align:center;"></div></td>
+        </tr>
+        <tr>
+          <td style="text-align:center;" id="create-cancel-trip">
+            <span style="float:left;"><input type="submit" value="__MSG_create__"/></span>
+            <span style="float:right;"><input type="reset" value="__MSG_cancel__" style="width:60px;"/></span>
+          </td>
+        </tr>
+        <tr><td style="text-align:center;display:none;" id="create-trip-btn"><input type="submit" value="__MSG_create__"/></td>
+        </tr>
+      </table>
+    </form>
+  </div>
+</textarea>
+<textarea style="display:none;" id="tpl-loading">
+  <div id="loadingSection" class="loading">
+    <img src="http://www.google.com/ig/images/spinner.gif"/>&nbsp;__MSG_loading__
+  </div>
+</textarea>
+
+
+<textarea  style="display:none;" id="tpl-trip-listing">
+  <div style="padding:7px 0;background:#0a4f9c">
+    <form onsubmit="searchTrips();return false;" action="#">
+      <table width="100%" cellpadding="0" cellspacing="0" style="height:60px;background:#0a4f9c;">
+        <tr>
+          <td align="left" style="padding-left:7px;">
+
+            <nobr>
+              <input type="text" id="searchTripText" class="txtBox" style="width:200px;"/>
+              <span id="showAllTrips" style="display:none;color:#fff;" onclick="showListings(true);searchFlag=true;showLogMessage();"></span>
+            </nobr>
+ <wbr/>
+            <nobr><input type="submit" value="__MSG_search_trips__" />
+              <input type="button" value="__MSG_create_trip__" onclick="createTripBox();"></nobr>
+
+
+          </td>
+          <td width="100px">
+            <a href="http://lonelyplanet.com" target="_blank" style="text-decoration:none;">
+              <img src="http://gulliver.googlecode.com/svn/trunk/frontend/wave/images/lp-logo.gif" style="border:0;"/>
+            </a>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+
+  <div style="margin:0 3px 5px;">
+    <table width="100%" style="backgroundColor:#0080ff;">
+      <tr>
+        <td width="25%" align="right" class="tripcols" onclick="changeSign(0);">
+          <div id="col_1" style="float:left;font-weight:bold;">
+            __MSG_name__&nbsp;
+          </div>
+          <div style="float:left;" id="img_0"></div>
+        </td>
+        <td width="24%" align="left" class="tripcols" onclick="changeSign(1);">
+          <div id="col_2" style="float:left;font-weight:bold;">
+            __MSG_date__&nbsp;
+          </div>
+          <div style="float:left;" id="img_1">
+            <img width="7" height="6" src="http://gulliver.googlecode.com/svn/trunk/frontend/wave/images/down_arrow.gif" style="margin-top:5px;"/>
+          </div>
+        </td>
+        <td width="24%" align="left" class="tripcols" onclick="changeSign(2);">
+          <div id="col_3" style="float:left;font-weight:bold;">
+            __MSG_location__&nbsp;
+          </div>
+          <div style="float:left;" id="img_2"></div>
+        </td>
+        <td align="left" class="tripcols" onclick="changeSign(3);">
+          <div id="col_4" style="float:left;font-weight:bold;">
+            __MSG_owner__&nbsp;
+          </div>
+          <div style="float:left;" id="img_3"></div>
+        </td>
+      </tr>
+    </table>
+    <div id="displayRec" style="border:1px solid #ccc;height:250px;overflow-y:auto;margin:-2px 2px 0px 2px;border-top:0">{tripListings}</div>
+  </div>
+  <div id="logger-wrapper" style="background-color:#fff;margin:5px;">
+    <div style="background-color:#468bcb;font-size:12px;color:#fff;padding:5px;">
+      <span id="hide_link" style="text-decoration:underline; float:right; line-height:15px;margin: 0 5px;cursor:pointer" onclick="toggleLogger();">Hide</span>
+      <span style="font-weight:bold;">&nbsp; Recent activity</span>
+    </div>
+    <div id="logger" style="border:1px solid #ccc;font-size:12px;padding:5px 10px; height:200px; overflow:auto;"></div>
+  </div>
+</textarea>
+<textarea style="display:none;" id="tpl-trip-listing-one-record">
+  <div id="row-{index}" style="width:100%;">
+    <table width="100%">
+      <tr>
+        <td width="27%" onclick="exploreTrip('{tripId}');" class="trip-listing-name">
+          {tripName}&nbsp;
+        </td>
+        <td width="24%" class="trip-listing-data">{period}&nbsp;</td>
+        <td width="24%" class="trip-listing-data">{location}&nbsp;</td>
+        <td class="trip-listing-data">{ownerName}&nbsp;</td>
+      </tr>
+    </table>
+  </div>
+</textarea>
+
+
+<textarea style="display:none;" id="tpl-canvas">
+<form action="http://maps.google.com/" target="_blank" id="export-map-form" method="get">
+  <input type="hidden" name="q" value="" id="export-map-q"/>
+</form>
+<form action="#" onsubmit="localSearch(1, null, false);return false;">
+
+  <div id="messageContainer" class="tablib_emptyTab_canvas" style="text-align:left;background-color:#0a4f9c;color: #d8e1de;">
+    <div style="width:100%; position:relative; min-height:50px;">
+      <div style="float:right;padding-right:5px;">
+        <a href="http://lonelyplanet.com" target="_blank" style="text-decoration:none;">
+          <img src="http://gulliver.googlecode.com/svn/trunk/frontend/wave/images/lp-logo.gif" />
+        </a>
+      </div>
+      <span style="float:left;">__MSG_search_item__&nbsp;</span>
+      <span style="float:left">
+        <input onblur="if(this.value=='') this.className='google-search'"
+                  onfocus="this.className=''" type="text" class="google-search" value=""
+                  id="search-box" style="width:200px;border: 1px solid #7e9db9;"/>&nbsp;
+        <wbr/>
+        <input type="submit" onclick="localSearch(1,null,false)" value="__MSG_search__" style="width:65px;">&nbsp;
+        <input type="button" value="Create trip" onclick="createTripBox();"/><br/>
+        <b>__MSG_lp_recommended__</b>
+                    <b>:</b> <a href="javascript:searchPoi('see');">  __MSG_sights__</a>,
+                    <a href="javascript:searchPoi('shop');">__MSG_shopping__</a>,
+                    <a href="javascript:searchPoi('sleep');"> __MSG_restaurants__</a>,
+                    <a href="javascript:searchPoi('do');">__MSG_entertainment__</a>,
+                    <a href="javascript:searchPoi('night');">__MSG_hotels__</a>
+
+      </span>
+      <div style="clear:both;"></div>
+    </div>
+  </div>
+
+</form>
+  <div id="loading-container" style="background:#f4f4f6"></div>
+
+  <table cellpadding="0" cellspacing="0" border="0" width="100%" class="page-meta">
+    <tr>
+      <td valign="top" style="padding:3px 7px 5px 0;" width="40%">
+        <div style="padding-left:5px;" width="100%">
+          <span id="tripName"> {tripNameTitle} </span > - <span class="link"
+            id="editTrip" onclick="showEditDialog();">
+            <nobr>__MSG_edit__</nobr></span>
+          </span>
+        </div>
+        <div id="editdialog" style="padding-left:120px;"></div>
+      </td>
+      <td align="right" style="font-size:12px; padding: 3px 7px 0 0;" valign="top" rowspan="2" >
+        <div>
+          <a class="link" href="javascript:callbackTrips()" style="padding-top:4px;line-height:20px;color:#0473cf;"><nobr>__MSG_view_other__</nobr></a>&nbsp;&nbsp;
+          <span id="menuAction" class="trip-action" onclick="javascript:dropDown();" style="padding-left:5px;">
+          <nobr>&nbsp;&nbsp;__MSG_trip_actions__&nbsp;&nbsp;<img id="menuImg" style="cursor:pointer;" src="http://www.google.com/base/s2/images/down_arrow.gif">&nbsp;&nbsp;</nobr>
+          </span>
+        </div>
+          <div id="table-data" class="drop-down-table" style="display:none;">
+            <div id="table-box" style="display:none;">
+              <table class="select-option" cellspacing="3" cellpadding="0" style="position:absolute;left:-99px;top:12px;border:1px solid #999;width:99px;">
+                <tr>
+                  <td id="option1" align="left" style="vertical-align:top;"
+                      onmouseover="this.style.backgroundColor='#d4e6fc'" onmouseout="this.style.backgroundColor='#fff'">
+                    <div style="width: 100%;" onclick="showLocationDialog();"><nobr>__MSG_changelocation__</nobr></div>
+                  </td>
+                </tr>
+                <tr>
+                  <td id="option2" align="left" style="vertical-align:top;"
+                      onmouseover="this.style.backgroundColor='#d4e6fc'" onmouseout="this.style.backgroundColor='#fff'">
+                    <div style="width: 100%;" onclick="createDeleteItemBox();"><nobr>__MSG_delete_trip__</nobr></div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td id="option3" align="left" style="vertical-align:top;"
+                      onmouseover="this.style.backgroundColor='#d4e6fc'" onmouseout="this.style.backgroundColor='#fff'">
+                    <div style="width: 100%;" onclick="showPrintDialog(true);"><nobr>__MSG_print_item__</nobr></div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td id="option4" align="left" style="vertical-align:top;"
+                      onmouseover="this.style.backgroundColor='#d4e6fc'" onmouseout="this.style.backgroundColor='#fff'">
+                    <div style="width: 100%;" onclick="openMailDialog();"><nobr>__MSG_email__</nobr></div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td id="option5" align="left" style="vertical-align:top;"
+                      onmouseover="this.style.backgroundColor='#d4e6fc'" onmouseout="this.style.backgroundColor='#fff'">
+                    <div style="width: 100%;" onclick="saveToExport();"><nobr>__MSG_export__</nobr></div>
+                  </td>
+                </tr>
+
+             </table>
+            </div>
+          </div>
+
+      </td>
+    <tr>
+      <td colspan="3" valign="center">
+        <span style="font-size:12px;padding-left:5px;color:#666668;">
+          <nobr>Trip owner: </nobr>
+          <span style="padding-left:4px;font-weight:bold;"> {tripOwnerName} &nbsp;&nbsp;</span>
+        </span>
+        <span id="thumb" style="position:relative;top:0;color:#666668;">
+          <span style="padding-left:5px;font-size:12px;"><nobr><b>
+            <span id="thum_up">
+              <img src="http://gulliver.googlecode.com/svn/trunk/frontend/wave/images/thumb_up_icon.png" />  {tripThumbUp}
+            </span></b> &nbsp; <img src="http://gulliver.googlecode.com/svn/trunk/frontend/wave/images/thumb_down_icon.png" /> <b>
+            <span id="thum_down">
+              {tripThumbDown}
+            </span></b>
+              </nobr>
+          </span>
+        </span>
+        <a id ="banInWave" style="padding-left:8px;position:relative;top:0;color:#077bc6;"
+          class="link" href="javascript:addYourVote()"><nobr>Vote Now</nobr>
+        </a>
+      </td>
+    </tr>
+  </table>
+  <table cellpadding="0" cellspacing="0" border="0" width="100%">
+    <tr>
+      <td width="55%" style="height:100%;padding-left:5px;background:#f4f4f6;" valign="top">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td valign="top" rowspan="2" id="map-container" style="padding:5px 5px 0 0;">
+              <div id="mapBox" style="height:400px;"></div>
+            </td>
+            <td style="height:22px;background:#eef9f9; vertical-align:top;border:1px solid #058a9d;border-bottom:0;display:none;" id="result-section">
+              <span id="resultText"></span>
+              <br>
+              <div style="font-size:12px;font-size: 12px;padding:0 0 4px 6px; display:none;" id="tip-container">
+                <span style="color:#f00;">__MSG_tip__</span>&nbsp;__MSG_drag_tip__
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td id="result-container" valign="top" style="background:#eef9f9;border:1px solid #058a9d;border-top:0; display:none;padding-bottom:3px;">
+              <div id="resultBox"></div>
+              <div id="navBox" style="display:none;padding:4px 0;"></div>
+            </td>
+          </tr>
+          <tr>
+            <td height="5px;" colspan="2" style="padding:5px 5px 0 0;">
+              <div id="logger-wrapper" style="background-color:#fff;">
+                <div style="background-color:#468bcb;font-size:12px;color:#fff;padding:5px;">
+                  <span id="hide_link" style="text-decoration:underline; float:right; line-height:15px;margin: 0 5px;cursor:pointer" onclick="toggleLogger();">Hide</span>
+                  <span style="font-weight:bold;">&nbsp; Recent activity</span>
+                </div>
+                <div id="logger" style="border:1px solid #ccc;font-size:12px;padding:5px 10px; height:200px; overflow:auto;"></div>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td width="30%" valign="top" style="background:#f4f4f6;">
+        <div id="durationSection" style="background:#f4f4f6;">
+          <table border="0" width="100%">
+            <tr>
+              <td width="80%" style="padding-top:6px;">
+                <span style="float:right;padding-right:5px;">
+                  <img src="http://gulliver.googlecode.com/svn/trunk/frontend/wave/images/datepicker_icon.png" onclick="javascript:showDateDialog();" style="cursor:pointer;"/>
+                  <span id="editDays" class="link" style="vertical-align:top;color:#00c;" onclick="javascript:showDateDialog();">
+                    __MSG_edit__
+                  </span>
+                </span>
+                <div id="duration" style="font-size:12px;color:#666;font-weight:bold"></div>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <span style="float:right;padding:5px;">
+          <input type="button" value="__MSG_createitem__" style="font-size:11px;" onclick="javascript:createCustomItemDialog();">
+        </span>
+        <span style="font-size:13px;font-weight:bold; background:#f4f4f6;float:left;padding:10px 0 0 5px;">
+          __MSG_unscheduled_items__
+        </span>
+        <br style="clear:both"/>
+
+        <div style="padding:5px;background:#f4f4f6">
+          <div style="background:#fff;">
+            <div id="trip-items-0" style="text-align:left;"></div>
+          </div>
+        </div>
+
+        <span style="font-size:13px;font-weight:bold; background:#f4f4f6;float:left;padding:10px 0 0 5px;">
+          __MSG_scheduled_items__
+        </span><br style="clear:both"/>
+        <div style="padding:5px;background:#f4f4f6">
+          <div style="background:#fff;">
+            <div id="trip-items-1" style="text-align:left;"></div>
+          </div>
+        </div>
+        <!--
+        <div style="padding:5px;background:#f4f4f6">
+          <div style="background:#fff;">
+            <div id="unscheduleItemBox" style="text-align:left;"></div>
+          </div>
+        </div>
+        <div style="background:#f4f4f6;padding:5px;">
+          <div id="scheduleItemBox" style="height:333px;background:#fff;"></div>
+          <div style="height:5px;background:#f4f4f6;"></div>
+        </div>
+        -->
+      </td>
+    </tr>
+  </table>
+</textarea>
+
+<textarea id="tpl-trip-vote" style="display:none;">
+<div style="color:#000;width:250px;">
+    <div>
+      <table cellpadding="1" cellspacing="1" style="font-size:12px;font-weight:bold;height:25px;" width="100%" class="dialog-title-send">
+        <tr>
+          <td align="left">__MSG_your_vote__</td>
+          <td align="right">
+            <span class="link" onclick="javascript:hideViewDateDialogBox();">
+              <img border="0" style="width:15px;padding-left:1px;" src="http://gulliver.googlecode.com/svn/trunk/frontend/wave/images/close_promo.gif"/>
+            </span>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <table cellpadding="1" cellspacing="1" style="font-size:12px;">
+    <tr><td>
+    <span>__MSG_comments__</span>
+    <span>&lt;textarea cols="26" name="comment"rows="3" id="addVote">&lt;/textarea></span>
+    </tr></td>
+    <tr><td>
+      <input type="radio" id="thumbUp" name="thumb_up" checked />__MSG_thumbs_up__
+    </tr></td>
+    <tr><td><input type="radio" name="thumb_up" />__MSG_thumbs_down__</div></td></tr>
+
+    <tr><td>
+
+      <span style="float:left;">
+        <input type="button" value="__MSG_cancel__" onclick="hideViewDateDialogBox()">
+      </span>
+      <span style="float:right;">
+        <input type="button" value="__MSG_vote__" onclick="postActivity(-1)">
+      </span>
+    </td></tr></table>
+
+  </div>
+</textarea>
+<textarea id="tpl-item-vote" style="display:none;">
+  <div style="color:#000;width:250px;">
+    <div>
+      <table cellpadding="1" cellspacing="1" style="font-size:12px;font-weight:bold;height:25px;" width="100%" class="dialog-title-send">
+        <tr>
+          <td align="left">__MSG_your_vote__</td>
+          <td align="right">
+            <span class="link" onclick="javascript:hideViewDateDialogBox();">
+              <img border="0" style="width:15px;padding-left:1px;" src="http://gulliver.googlecode.com/svn/trunk/frontend/wave/images/close_promo.gif"/>
+            </span>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <table cellpadding="1" cellspacing="1" style="font-size:12px;">
+    <tr><td>
+    <span>__MSG_comments__</span>
+    <span>&lt;textarea cols="26" name="comment"rows="3" id="addVote">&lt;/textarea></span>
+    </tr></td>
+    <tr><td>
+      <input type="radio" id="item_thumb_up" name="thumb_up" value="1" checked />__MSG_thumbs_up__
+    </tr></td>
+    <tr><td>   <input type="radio" name="thumb_up" value="0"/>__MSG_thumbs_down__  </td></tr>
+
+    <tr><td>
+
+      <span style="float:left;">
+        <input type="button" value="__MSG_cancel__" onclick="hideViewDateDialogBox()">
+      </span>
+      <span style="float:right;">
+        <input type="button" value="__MSG_vote__" onclick="postActivity('{id}')">
+      </span>
+    </td></tr></table>
+
+  </div>
+</textarea>
+
+<textarea style="display:none;" id="tpl-item-creation">
+  <div id="create-new-item" >
+    <div class="dialog-title">
+      <div style="float:left;">
+      __MSG_create_item__
+      </div>
+      <div style="float:right;">
+        <img border="0" src="http://gulliver.googlecode.com/svn/trunk/frontend/wave/images/close_promo.gif" style="width:15px;cursor:pointer;padding-left:1px;" onclick="javascript:hideViewDateDialogBox();"/>
+      </div>
+    </div>
+    <div>
+      <table class="tableCreateItemDialog" width="100%" cellspacing="1" cellpadding="1">
+        <tr>
+          <td width="25%" valign="top" style="color:#666;"> __MSG_item_name__ <span style="color:#ff0000">*</span> : </td>
+          <td valign="top"><input type="text" name="itemName" style="width:99%;" id="itemName" maxlength="64"></td>
+        </tr>
+        <tr>
+          <td width="25%" valign="top" style="color:#666;"> __MSG_item_addr__ <span style="color:#ff0000">*</span> : </td>
+          <td valign="top">&lt;textarea name="description" style="width:99%;" rows="3" id="itemDescription">&lt;/textarea></td>
+        </tr>
+        <tr>
+          <td width="20%"/>
+          <td>
+            <div id="wrngmsg" style="visibility:hidden;" align="center"></div>
+          </td>
+        </tr>
+        <tr>
+          <td width="20%"></td>
+          <td valign="top"><input type="radio" name="group1" onclick="disableDays();" checked> __MSG_unsch__ </td>
+        </tr>
+        <tr>
+          <td width="20%"></td>
+          <td valign="top"><input type="radio" name="group1" onclick="enableDays();" id="dateradio">{dateHtml}</td>
+        </tr>
+        <tr>
+          <td colspan="2"></td>
+        </tr>
+        <tr>
+          <td align="left"><input type="button" value="__MSG_cancel__" onclick="javascript:hideViewDateDialogBox();"></td>
+          <td align="right"><input type="button" value=" __MSG_save__ " onclick="javascript:createNewItem();"></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</textarea>
+
+<textarea style="display:none;" id="tpl-item-sch-datehtml">
+  __MSG_date__&nbsp;
+  <input type="text" id="startdate" name="startdateview" value="__MSG_unspecified__" style="width:80px;" readonly>&nbsp;
+  <img name="calender2view" src="http://gulliver.googlecode.com/svn/trunk/frontend/wave/images/datepicker_icon.png" width="19" height="19" align="top"
+      onclick="_gel('dateradio').checked=true; displayDatePicker('startdateview','calender2view',2,'{startDate}');" />
+</textarea>
+
+<textarea id="tpl-unschedule-item" style="display:none">
+  <div id="drag-{dragItemCounter}">
+    <div style="width:100%;padding-bottom:5px;">
+      <table cellspacing="0" cellpadding="0" border="0" style="width:100%;">
+        <tr>
+          <td style="width:30px;padding-top:3px;" rowspan="2" align="middle" valign="top">
+            <img src="http://gulliver.googlecode.com/svn/trunk/frontend/wave/images/blue-pushpin.png" width="14px" onmousedown="showItemMarker('{index}')"/>
+          </td>
+          <td style="width:70%;padding-left:3px;">
+            <span class="itemTitle" style="float:left;" title="{title}" onmousedown="showItemMarker('{index}')">{name}</span>
+            <span style="color:#f3529a;font-size:12px;font-weight:bold;display:{likeDisplay};">&nbsp;&nbsp;({thumbUp} likes)</span>
+          </td>
+          <td align="right" valign="top">
+            <nobr>
+            <img src="http://gulliver.googlecode.com/svn/trunk/frontend/wave/images/thumbsup.png" onmousedown="addVotePopUP('{index}')"
+                style="cursor:pointer;padding-right:5px;" title=" __MSG_your_vote__ "/>
+            <img title="__MSG_edit_item__" style="cursor:pointer;" src="http://gulliver.googlecode.com/svn/trunk/frontend/wave/images/edit_icon.png"
+                onmousedown="editItemDialog('{index}',false);">
+            </nobr>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3" style="font-size:11px;padding-left:3px;">{contactInfo}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</textarea>
+
+<textarea id="tpl-trip-items-container" style="display:none">
+  <div id="trip-items-container-{index}" class="trip-items-container">
+    <div class="trip-items-day trip-items-day-{index}">
+      <span id="trip-items-num-{index}" style="float:right;padding:0 5px;background:#8d8d8d;color:#fff;font:weight:bold;display:none;">{itemNumber}</span>
+
+      <span onclick="toggleDisplay({index});" style="cursor:pointer" id="exp-item-{index}">
+      <img id="item-expand-{index}" src='http://gulliver.googlecode.com/svn/trunk/frontend/wave/images/zippy_minus.png'/>
+      </span>
+      <span id="trip-items-day-{index}" onclick="toggleDisplay({index});" style="color:#5b5b5b;padding-left:5px;" onmouseover="style.color='#148cba';style.textDecoration='underline';" onmouseout="style.color='#5b5b5b';style.textDecoration='none';">{day}</span>
+    </div>
+    <div id="trip-items-content-{index}" class="trip-items-content">{content}</div>
+  </div>
+</textarea>
+
+<textarea style="display:none;" id="tpl-date-dialog">
+  <div id="viewdatedialogbox">
+    <div class="dialog-title" style="padding-left:1px;">
+      <div style="float:left;">
+        __MSG_setthedates_msg__
+      </div>
+      <div style="float:right;">
+        <img style="width:15px;cursor:pointer;padding-left:1px;" src="http://gulliver-app.googlecode.com/svn/trunk/frontend/images/close_promo.gif" onclick="hideViewDateDialogBox();"/>
+      </div>
+    </div>
+    <div>
+    <table class="tabledata" width="100%" cellspacing="1" cellpadding="1">
+      <tr>
+        <td colspan="2" width="100%">
+          __MSG_no_of_days__&nbsp;
+          <input maxlength="3" onkeyup="onUpdateDuration(this);" id="editDaysBox" type="text" size="3" value="{duration}" style="width:35px;height:19px;">
+        </td>
+      </tr>
+      <tr>
+        <td width="50%">
+          Start Date: <input type="text" id="startDate" name="startdate" value="{startDate}" style="width:75px;height:20px;" readonly>
+          <img name="calenderimg1" src="http://gulliver.googlecode.com/svn/trunk/frontend/wave/images/datepicker_icon.png" onclick="displayDatePicker('startdate','calenderimg1',1);" width="19" height="19" align="top"></img>
+        </td>
+        <td width="50%">
+          __MSG_end_date__<input type="text" id="endDate" name="enddate" value="{endDate}" style="width:75px;height:20px;" readonly>
+          <img name="calenderimg1" src="http://gulliver.googlecode.com/svn/trunk/frontend/wave/images/datepicker_icon.png" align="top" width="19" height="19" onclick="displayDatePicker('enddate','calenderimg2',1);"></img>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" align="center"><input type="button" value="__MSG_clear_start_end_dates__" onclick="javascript:clearDate();" style="width:186px;"></td>
+      </tr>
+      <tr>
+        <td colspan="2"><div id="wrngmsg" style="visibility:hidden;" align="center"> __MSG__invalid_duration__</div></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <span style="float:left;"><input type="button" id="cancelButton" onclick="javascript:hideViewDateDialogBox();" value="__MSG_cancel__"></span>
+          <span style="float:right;"><input type="button" value="__MSG_ok__" onclick="saveTripDates();"></span>
+        </td>
+      </tr>
+    </table>
+    </div>
+  </div>
+</textarea>
+
+<!-- Templates end -->
+<div id="debug-console-wrapper" style="position:absolute; top:0; left: 10px; width: 90%;background-color:#fff;">
+  <div style="background-color:#0cc; color:#fff; font-weight:bold;">
+    <span style="float:right; line-height:15px;margin: 0 5px;cursor:pointer" onclick="toggleConsole();"> _ </span>
+  &nbsp; Console Window
+  </div>
+  <div id="debug-console" style="border:1px solid #ccc; height:200px; overflow:auto;display:none;"></div>
+</div>
+
+<textarea id="tpl-item-info-drag" style="display:none">
+  <table cellspacing="0" cellpadding="0" border="0" style="font-size:12px;padding-bottom:4px;width:200px;margin-top:-10px;">
+    <tr>
+      <td width="20%" class="link" align="left" id="link-info" style="padding-left: 4px;display:{display}">
+        {image}
+      </td>
+      <td width="80%">
+        <div>
+          <table width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td width="1%" style="cursor:pointer;" align="left" onclick="addItem({index});">
+                {dragImage}
+              </td>
+              <td align="left">
+                <table>
+                  <tr>
+                    <td align="right">
+                      {closeImage}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="egText" style="color:#00f;margin-left:0;" valign="bottom" align="left">
+                      <a href="#" onclick="addItem({index});return false;">
+                        <nobr>
+                          {dragMessage}
+                        </nobr>
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <span class="itemTitle" onclick="javascript:closeInfoWindow();" style="text-decoration:none;color:#000; font-weight:bold;">{title}</span>
+        <br/>
+        {contactInfo}&nbsp;&nbsp;<div id="web-link" style="text-decoration:none;">{webUrl}</div>
+      </td>
+    </tr>
+  </table>
+  <div id="reviews-container" style="overflow-y:auto;border-top:1px solid #d3e6d2;overflow-x:hidden;height:{height};padding-top:1px; width:200px;">
+    <table cellpadding="2" cellspacing="1" border="0" style="font-size:12px;">
+      <tr>
+        <td style="font-size:13px;font-weight:bold;color:#000;">
+          {reviewsLabel}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div>
+            {reviews}
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</textarea>
+
+<textarea id="tpl-item-info" style="display:none">
+  <table cellspacing="1" cellpadding="2" border="0" style="font-size:12px;margin-top:-10px;width:200px;">
+    <tr>
+      <td rowspan="3" valign="top" width="5%">
+        <span style="padding-left:2px;padding-top:2px;"><img src="http://www.google.com/mapfiles/marker{marker}.png"/></span>
+      </td>
+      <td width="*">
+        <div class="itemTitle" onclick="closeInfoWindow(true);" style="text-decoration:none;color:#00f;">
+          {title}
+        </div>
+        <table cellpadding="0" cellspacing="0">
+          <tr>
+            <td>
+            <span style="font-size:12px;">
+              <nobr>Item created by :</nobr>
+              <span style="font-weight:bold;">{ownerName}</span></span>
+            </span>
+          </td>
+          </tr>
+          <tr>
+            <td>
+              <span id="thumbItem"><span style="font-size:12px;">
+                  <nobr>
+                    <span id="sitem_thum_up" style="color:#6242c1;">{thumbUp} thumbs up,</span> <span id="sitem_thum_down" style="color:#d52f7d;">{thumbDown} thumbs down</span>
+                  </nobr>
+                </span></span>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" style="font-size:11px;">
+        {contactInfo}<div id="weblink">{webUrl}</div>
+      </td>
+      <td>
+      </td>
+    </tr>
+    <tr>
+      <td class="link" align="left" colspan="2" id="linkInfo" style="display:{display}" >
+        {image}<a href="{overviewUrl}" target="_blank">__MSG_overview__</a>
+        <br>
+        <a href="{detailUrl}" target="_blank">__MSG_detail__</a>
+        <br>
+        <a href="{reviewsUrl}" target="_blank">__MSG_review__</a>
+        <br>
+        <a href="{photosUrl}" target="_blank">__MSG_photo-video__</a>
+      </td>
+      <td>
+      </td>
+    </tr>
+  </table>
+</textarea>
+
+<textarea id="tpl-location-dialog" style="display:none;">
+  <div class="change-loc-dlg">
+    <div class="dialog-title">
+      <div style="padding-left:2px;float:left;">
+        __MSG_changelocation__
+      </div>
+      <div style="float:right;">
+        <img src="http://gulliver.googlecode.com/svn/trunk/frontend/wave/images/close_promo.gif" onclick="javascript:hideDialog();" border="0" style="width:15px;cursor:pointer;margin-left:3px;padding-left:1px;"/>
+      </div>
+    </div>
+    <table cellspacing="1" border="0" cellpadding="1" width="100%">
+      <tr>
+        <td colspan="2" style="padding-left:5px;">
+          <font class="heading">
+            __MSG_where_visit__
+          </font>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left:5px;">
+          <input type="text" id="txtLocation" width="70%" class="txtBox" value="{location}" />
+          <font class="hint" style="color:#666;">
+            __MSG_egLocation__
+          </font>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div id="wrngmsg" style="visibility:hidden;" align="center">
+            __MSG_invalid_location__
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td align="left">
+          <input type="button" name="" onclick="javascript:hideViewDateDialogBox();" id="cancelButton" value="__MSG_cancel__">
+        </td>
+        <td align="right">
+          <input type="button" style="align:right;" name="" value="__MSG_ok__" onclick="changeTripLocation();">
+        </td>
+      </tr>
+    </table>
+  </div>
+</textarea>
+
+
+<textarea id="tpl-delete-item-dialog"  style="display:none;">
+  <div id="delete_item" class="delete_item" style="height:100%;">
+  <div class="dialog-title" align="left">
+    <span style="float:left;">__MSG_delete_trip__&nbsp;-&nbsp;{itemName}</span>
+    <span style="float:right;">
+      <img border="0" src="http://gulliver.googlecode.com/svn/trunk/frontend/wave/images/close_promo.gif" style="width:15px;cursor:pointer;padding-left:1px;" onclick="javascript:hideViewDateDialogBox();"/>
+    </span>
+  </div>
+    <table width="100%" cellpadding="1" cellspacing="1" border="0">
+      <tr>
+        <td valign="middle" height="60px" class="tableCreateItemDialog" align="center">
+          __MSG_delete_item_confirm__
+        </td>
+      </tr>
+      <tr>
+        <td width="100%">
+          <span style="float:left;"><input type="button" value="__MSG_no__" id="cancelButton" onclick="hideDialog();" style="width:40px;float:right;"></span>
+          <span style="float:right;"><input type="button" style="float:left;" onclick="deleteSelectedItem('{itemId}');" value="__MSG_yes__"></span>
+        </td>
+      </tr>
+    </table>
+  </div>
+</textarea>
+
+<textarea id="tpl-popup-info" style="display:none">
+  <table cellspacing="1" cellpadding="2" border="0" style="font-size:12px;padding-bottom:2px;">
+    <tr>
+      <td rowspan="3" valign="top" width="5%">
+        <span style="padding-left:2px;padding-top:2px;">
+          <img src="http://www.google.com/mapfiles/marker.png"/>
+        </span>
+      </td>
+      <td width="*">
+        <div class="itemTitle" onmousedown="closeInfoWindow(true);" style="text-decoration:none;color:#00f;">
+          {title}
+        </div>
+      </td>
+      <td width="5%" valign="top" align="right">
+        <span class="link" onmousedown="closeInfoWindow(false);">
+          <img src="http://gulliver.googlecode.com/svn/trunk/frontend/wave/images/close_promo.gif" border="0">
+        </span>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3">
+        {contactInfo}
+        <span id="weblink" style="text-align:right;padding-left:10px;">
+          {webUrl}
+        </span>
+      </td>
+    </tr>
+  </table>
+  <table width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #f4f4f6;">
+    <tr>
+      <td>
+        <span style="font-size:11px;padding-left:10px;font-weight:bold">
+          <nobr>Item added by</nobr>
+          <span style="padding-left:4px;color:#993300;">{ownerName}</span>
+        </span>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left:10px;"><span id="thumbItem">
+        <span style="font-size:10px;">
+          <nobr><b><span id="sitem_thum_up">{thumbUp}</span></b> thumbs up, <b><span id="sitem_thum_down">{thumbDown}</span></b> thumbs down</nobr>
+          <span id="itemVoteNow" style="padding-left:5px;">
+            <a href="#" onmousedown="javascript:addVotePopUP('{index}');" style="text-decoration:none;color:#0077cf;font-weight:bold;">Vote Now</a>
+          </span>
+        </span>
+      </td>
+    </tr>
+  </table>
+</textarea>
+
+<textarea id="tpl-edit-trip-name-dialog" style="display:none">
+  <div style="width:250px;" class="dialog-title">
+    <span style="float:left;">__MSG_edit_trip_name__</span>
+    <span style="float:right;">
+      <img border="0" style="width:15px;cursor:pointer;padding-left:1px;" src="http://gulliver.googlecode.com/svn/trunk/frontend/wave/images/close_promo.gif" onclick="javascript:hideDialog();">
+    </span>
+  </div>
+  <div  style="width:254px;">
+  <table width="100%;" cellpadding="1" cellspacing="1" border="0">
+      <tr>
+        <td valign="middle" height="60px" class="tableCreateItemDialog" align="center" colspan="2">
+          __MSG_trip_name__:&nbsp;<input type="text" maxlength="64" value="{tripName}" id="tripNameEdit">
+        </td>
+      </tr>
+      <tr>
+        <td align="left" style="padding:0 2px 0 2px;">
+          <input id="cancelButton" type="button" value="__MSG_cancel__" onclick="hideDialog();">
+        </td>
+        <td align="right">
+          <input type="button" onclick="javascript:updateTripName();" value="__MSG_ok__">
+        </td>
+      </tr>
+    </table>
+  </div>
+</textarea>
+
+<textarea id="tpl-log-message" style="display:none">
+  <p style="padding:2px 0;border-bottom: 1px solid #eee;"><span class="log-author">{author}</span> <span class="log-action log-{actionClass}">{action}</span> <span class="log-message">{message}</span></p>
+</textarea>
+
+
+<div id="msgContainer" style="display:none">
+<center><div id="serverMsg" ></div></center>
+</div>
+<div id="toolTip" onmouseout="this.style.display='none'"></div>
+<div id="mask" style="width:20px;height:34px;position:absolute;cursor:move;z-index:10000;display:none;" onclick="showMarkerInfo();" onmouseout="_gel('toolTip').style.display='none'" unselectable="on">
+  <img style="border:0;margin:0;padding:0;width:20px;height:34px;cursor:move;" src="http://www.google.com/c.gif" unselectable="on"/>
+</div>
+
+ <div id="print_content"></div>
+
+<script type="text/javascript">
+function toggleConsole() {
+  var element = _gel('debug-console').style;
+  element.display = (element.display == 'none') ? '' : 'none';
+}
+
+
+
+/**
+ * This function overrides the function inside 'drag' library, to fix
+ * the problem when the drag target element is inside a 'scrollable' container.
+ * @param {HTMLElement} element The HTML element.
+ * @return {number} Returns the top position of the passed element in pixels.
+ */
+function _IG_DragPosition_top(element) {
+  var top = 0;
+  if (element.offsetParent) {
+    var ele = element;
+    for (; element.offsetParent; element = element.offsetParent) {
+      top += element.offsetTop;
+    }
+    for(; ele.parentNode; ele = ele.parentNode) {
+      if (ele.parentNode.scrollTop) {
+        top -= ele.parentNode.scrollTop;
+      }
+    }
+  }
+  else {
+    if (element.y) {
+      top = element.y;
+    }
+  }
+  return top;
+}
+
+/**
+ * This function overrides the function inside 'drag' library, to fix
+ * the problem when the drag target element is re-created after
+ * creating _IG_Drag instance.
+ */
+
+_IG_Drag.prototype.cacheTargets = function(){
+  this.l = {};
+  this.m = {};
+  this.n = {};
+  this.k = {};
+  for (var a in this.a) {
+    this.a[a] = _gel(this.a[a].id);
+    this.l[a] = _IG_DragPosition_left(this.a[a]) - this.leftMargin;
+    this.m[a] = _IG_DragPosition_right(this.a[a]) + this.rightMargin;
+    this.n[a] = _IG_DragPosition_top(this.a[a]) - this.topMargin;
+    this.k[a] = _IG_DragPosition_bottom(this.a[a]) + this.bottomMargin;
+  }
+};
+
+function readyforDrag() {
+  trace('I am preparing for drag...');
+}
+
+function initDrag() {
+  var duration = getTripById(gData.currentTripId).duration;
+  trace('Duration: ' + duration + typeof duration);
+  window.dragRef = new _IG_Drag();
+  dragRef.addSource('overlayDrag', _gel('mask'),
+      '<img style="border:0 none;margin:0;padding:0;width:20px;height:34px;' +
+      'z-index:10000;cursor:move;" ' +
+      'src="http://www.google.com/mapfiles/marker.png"/>');
+  for (var i = duration; i >= 0; i--) {
+    var targetId = i ? 'trip-items-container-' + i : 'trip-items-0';
+    dragRef.addTarget(targetId);
+  }
+  dragRef.onDragStart = markerDragStart;
+  dragRef.onDragTargetHit = commonDragTargetHit;
+  dragRef.onDragTargetLost = commonDragTargetLost;
+  dragRef.onDragEnd = markerDragEnd;
+}
+
+function initInterDrag() {
+  window.itemDragRef = new _IG_Drag();
+  var trip = getTripById(gData.currentTripId);
+  var tripItemKeys = trip.items || [];
+  var tripItemKey;
+  var duration = getTripById(gData.currentTripId).duration;
+  for (var i = 0; i < tripItemKeys.length; i++ ) {
+    tripItemKey = tripItemKeys[i];
+    var sourceElement = _gel('drag-' + tripItemKey);
+    itemDragRef.addSource(tripItemKey, sourceElement, sourceElement.innerHTML);
+  }
+  for (var i = duration; i >= 0; i--) {
+    var targetId = i ? 'trip-items-container-' + i : 'trip-items-0';
+    itemDragRef.addTarget(targetId);
+  }
+  itemDragRef.onDragStart = itemDragStart;
+  itemDragRef.onDragTargetHit = commonDragTargetHit;
+  itemDragRef.onDragTargetLost = commonDragTargetLost;
+  itemDragRef.onDragEnd = itemDragEnd;
+}
+
+function markerDragStart(newSource) {
+  trace('Hey... Where are you dragging me?');
+    if(gData.arrSearchResults[markerIndex].err) {
+      var id = gData.arrSearchResults[markerIndex].id;
+      doPoiByIdLookup(id);
+    }
+}
+
+function itemDragStart(newSource) {
+  trace('Hey... Where are you dragging me?');
+}
+function commonDragTargetLost(lastTarget) {
+  if (!lastTarget) return;
+  lastTarget.className = 'trip-items-container';
+}
+function commonDragTargetHit(newTarget, lastTarget) {
+  trace('Please leave me here atleast..');
+  if (newTarget) {//  && (newTarget.id != srcElement.parentNode.id)
+    trace('I reached ' + newTarget.id);
+    newTarget.className = 'trip-items-container drop-highlight';
+  }
+  if (lastTarget) {
+    trace('I crossed ' + lastTarget.id);
+    lastTarget.className = 'trip-items-container';
+  }
+}
+
+function markerDragEnd(source, target) {
+  trace('Oh God! You left me atleast now.');
+  if (!target) {
+    return;
+  }
+  target.className = 'trip-items-container';
+  var targetId = target.id;
+  trace('You dropped me at ' + targetId);
+  var day = parseInt(targetId.split('-')[3] || '0');
+  trace('Thanks yaar. You want to meet me on day ' + day + ' of your trip');
+  addToIternary(markerIndex, day);
+  trace('Item added');
+}
+
+function itemDragEnd(source, target) {
+  trace('Oh God! You left me atleast now.');
+  if (!target) {
+    return;
+  }
+  target.className = 'trip-items-container';
+  var targetId = target.id;
+  trace('You dropped me at ' + targetId);
+  var day = parseInt(targetId.split('-')[3] || '0');
+  var itemId = source.id.substring(5);
+  trace('itemId: ' + itemId);
+  trace('Thanks yaar. You want to meet me on day ' + day + ' of your trip');
+  var tripItem = getItemById(itemId);
+  saveItemModifiedDay(tripItem, day);
+}
+
+function saveItemModifiedDay(tripItem, day) {
+  var trip = getTripById(gData.currentTripId);
+  if (tripItem.day != day) {
+    tripItem.day = day;
+    tripItem.sdate = tripItem.edate = (trip.sdate && day) ?
+        addDaysToDate(trip.sdate, day - 1, '%m/%d/%Y') : '';
+    tripItem.lastModified = (new Date()).getTime();
+    var tripItemStr = gadgets.json.stringify(tripItem);
+    trace( 'Moved trip item: ' + tripItemStr);
+    var obj = {};
+    obj[tripItem.id] = tripItemStr;
+    obj['logs'] = getLogObject('rescheduled', 'the item "' +
+      tripItem.name + '" of "' + trip.name + '"');
+    wave.getState().submitDelta(obj);
+    trace('Item added');
+  }
+}
+
+
+// For lonely planet data
+
+
+/** @const */
+var LOADING_TPL = '<div id="loadingSection" class="loading"><img src="' +
+    'http://www.google.com/ig/images/spinner.gif"/>&nbsp;__MSG_loading__</div>';
+
+/**
+ * Search the points of interests according to lonely planet api.
+ * @param {string} target Search parameter.
+ */
+function searchPoi(target) {
+  _gel('loading-container').innerHTML = LOADING_TPL;
+  itemsContainer = [];
+  _gel('search-box').value = target;
+  _gel('search-box').className = '';
+  var trip = getTripById(gData.currentTripId);
+  var mapLocation = trip.loc;
+  var url = 'http://apigateway.lonelyplanet.com/api/places?name=' + _esc(mapLocation);
+  var params = {};
+
+  params[gadgets.io.RequestParameters.AUTHORIZATION] = gadgets.io.AuthorizationType.NONE;
+  params[gadgets.io.RequestParameters.REFRESH_INTERVAL] = 1;
+  params[gadgets.io.RequestParameters.HEADERS] = {"Authorization" : "key"};
+  params[gadgets.io.RequestParameters.CONTENT_TYPE] = gadgets.io.ContentType.DOM;
+  gadgets.io.makeRequest(url, callbackSearchPOI, params);
+  timerLonelyCallback = window.setTimeout(showLPAuthorizationError, 15000);
+}
+
+function showLPAuthorizationError() {
+  var message  = 'Authentication Error. <a href="javascript:window.location.reload();">Try Again</a>';
+  _gel('loading-container').innerHTML = '';
+  _gel('serverMsg').innerHTML = '';
+  _gel('msgContainer').style.display = 'block';
+  var html = ACTION_MSG_TPL;
+  html = html.replace(/%MESSAGE%/, message);
+  //timerMsg.createTimerMessage(html, 20);
+}
+
+var arrSearchResults = [];
+
+/**
+ * Converts the string response into DOM object.
+ * @param {Object} data Response as string.
+ * @return {Object} DOM object.
+ */
+function domParser(data) {
+  var xmlDoc;
+  if (window.ActiveXObject) {
+    xmlDoc = new ActiveXObject('Microsoft.XMLDOM');
+    xmlDoc.loadXML(data.text);
+  } else {
+    xmlDoc = new DOMParser().parseFromString(data.text, 'text/xml');
+  }
+  return xmlDoc;
+}
+
+/**
+ * Callback for searching the latitude and longitude.
+ * @param {Object} data Response object.
+ */
+function callbackSearchPOI(data) {
+  //alert("ehy" + data);
+  clearTimeout(timerLonelyCallback);
+
+  var north, south, east, west;
+  var trip = getTripById(gData.currentTripId);
+  var mapLocation = trip.loc;
+  if (data.text) {
+    trace(data.text);
+    var track = false;
+    var xmlDoc = domParser(data);
+    if (xmlDoc) {
+      var nodeData = '';
+      var items = xmlDoc.getElementsByTagName('place');
+      if (items && items.length) {
+        for (var i = 0, j = items.length; i < j; i++) {
+          var shortName = xmlDoc.getElementsByTagName('short-name')[i];
+          if (shortName) {
+            shortName = shortName.childNodes[0].nodeValue.toLowerCase();
+
+            if (shortName == mapLocation.toLowerCase()) {
+              // Used to check whether the results matches the map location
+              // otherwise it will pick the first result.
+              track = true;
+
+              var nodeData = xmlDoc.getElementsByTagName('north-latitude')[i];
+              if (nodeData && nodeData.childNodes[0]) {
+                north = nodeData.childNodes[0].nodeValue;
+              }
+
+              nodeData = xmlDoc.getElementsByTagName('south-latitude')[i];
+              if (nodeData && nodeData.childNodes[0]) {
+                south = nodeData.childNodes[0].nodeValue;
+              }
+
+              nodeData = xmlDoc.getElementsByTagName('east-longitude')[i];
+              if (nodeData && nodeData.childNodes[0]) {
+                east = nodeData.childNodes[0].nodeValue;
+              }
+
+              nodeData = xmlDoc.getElementsByTagName('west-longitude')[i];
+              if (nodeData && nodeData.childNodes[0]) {
+                west = nodeData.childNodes[0].nodeValue;
+              }
+            }
+            break;
+          }
+        }
+        if (!track) {
+          var nodeData = xmlDoc.getElementsByTagName('north-latitude')[0];
+          if (nodeData && nodeData.childNodes[0]) {
+            north = nodeData.childNodes[0].nodeValue;
+          }
+
+          nodeData = xmlDoc.getElementsByTagName('south-latitude')[0];
+          if (nodeData && nodeData.childNodes[0]) {
+            south = nodeData.childNodes[0].nodeValue;
+          }
+
+          nodeData = xmlDoc.getElementsByTagName('east-longitude')[0];
+          if (nodeData && nodeData.childNodes[0]) {
+            east = nodeData.childNodes[0].nodeValue;
+          }
+
+          nodeData = xmlDoc.getElementsByTagName('west-longitude')[0];
+          if (nodeData && nodeData.childNodes[0]) {
+            west = nodeData.childNodes[0].nodeValue;
+          }
+        }
+      }
+    }
+    trace(north + ':' + east + ':' + west + ':' + south);
+    // Search for the POI id according to latitudes and longitudes.
+    if (north && east && west && south) {
+      //alert("Caling doLatLangLookup");
+      doLatLangLookup(north, east, west, south);
+    } else {
+      //alert("no data");
+      showDataError('No Data found');
+    }
+  } else {
+    showDataError('Not able to authenticate');
+  }
+}
+
+/** @const */
+var ACTION_MSG_TPL = '<span style="font-weight:bold;position:' +
+    'relative;top:3px"> %MESSAGE%&nbsp;<a href="javascript:void(0);" ' +
+    'style="text-decoration:none;"</span>';
+
+function showDataError(message) {
+  _gel('loading-container').innerHTML = '';
+  _gel('serverMsg').innerHTML = '';
+  _gel('msgContainer').style.display = 'block';
+  var html = ACTION_MSG_TPL;
+  html = html.replace(/%MESSAGE%/, message);
+//  timerMsg.createTimerMessage(html, 5);
+}
+
+/**
+ * Searches the POI id by sending the latitude and langitude values.
+ * @param {string} north North coordinates.
+ * @param {string} east East coordinates.
+ * @param {string} west West coordinates.
+ * @param {string} south South coordinates.
+ */
+function doLatLangLookup(north, east, west, south) {
+//alert("lat laong lookup");
+  //console.log([north, east, west, south].join('--'));
+  var poiType = _gel('search-box').value;
+  var bounds = gMap.getBounds();
+  var southWest = bounds.getSouthWest();
+  var northEast = bounds.getNorthEast();
+  var south1 = southWest.lat();
+  var west1 = southWest.lng();
+  var north1 = northEast.lat();
+  var east1 = northEast.lng();
+  //console.log([north, east, west, south].join('--'));
+  var url = 'http://apigateway.lonelyplanet.com/api/bounding_boxes/' +
+            north1 + ',' + south1 + ',' + east1 + ',' + west1 + '/pois?poi_type=' +
+            poiType;
+  //console.log('----------  '+url);
+  var params = {};
+  params[gadgets.io.RequestParameters.AUTHORIZATION] = gadgets.io.AuthorizationType.NONE;
+  params[gadgets.io.RequestParameters.REFRESH_INTERVAL] = 1;
+  params[gadgets.io.RequestParameters.HEADERS] = {"Authorization" : "key"};
+  params[gadgets.io.RequestParameters.CONTENT_TYPE] = gadgets.io.ContentType.DOM;
+  gadgets.io.makeRequest(url, searchPOIId, params);
+
+}
+
+function searchPOIId(data) {
+  gData.arrSearchResults = [];
+  gData.searchMarkers = [];
+  gData.searchMarkerIcons = [];
+  _gel('search-box').style.className = '';
+  _gel('map-container').style.width = '100%';
+  _gel('result-section').style.display = 'none';
+  _gel('resultBox').style.display = 'none';
+  _gel('navBox').style.display = 'none';
+  var totalItems;
+  var xmlDoc = domParser(data);
+  var items = xmlDoc.getElementsByTagName('poi');
+  var MAX_ITEMS = 7;
+  var poiData = [];
+  var obj = {};
+  trace('items.length>>> '  +items.length);
+  for (var i = 0, j = items.length; i < j; i++) {
+    obj = {};
+    var nodeData = xmlDoc.getElementsByTagName('id')[i];
+    if (nodeData && nodeData.childNodes[0]) {
+      obj.id = nodeData.childNodes[0].nodeValue;
+    }
+    nodeData = xmlDoc.getElementsByTagName('name')[i];
+    if (nodeData && nodeData.childNodes[0]) {
+      obj.name = nodeData.childNodes[0].nodeValue;
+    }
+    nodeData = xmlDoc.getElementsByTagName('digital-latitude')[i];
+    if (nodeData && nodeData.childNodes[0]) {
+      obj.lat = nodeData.childNodes[0].nodeValue;
+    }
+
+    nodeData = xmlDoc.getElementsByTagName('digital-longitude')[i];
+    if (nodeData && nodeData.childNodes[0]) {
+      obj.lng = nodeData.childNodes[0].nodeValue;
+    }
+    poiData.push(obj);
+    gData.arrSearchResults[i] = obj;
+    //gData.arrSearchResults.push(obj);
+  }
+  addMarkersPOI();
+  _gel('loading-container').innerHTML = '';
+  if (!items.length) {
+    var loadingContainer = _gel('loading-container');
+    loadingContainer.innerHTML = '<b>No results found for "'+ _gel('search-box').value +'"</b>';
+  }
+}
+
+
+function addCustomMarker(index, point, imgUrl, id){
+  var letteredIcon = new GIcon(baseIcon, imgUrl);
+  var markerOptions = {icon: letteredIcon};
+  var marker = new GMarker(point, {icon: letteredIcon, autoPan: false});
+  gMap.addOverlay(marker);
+
+  marker.value = index;
+    gData.searchMarkers[index] = marker;
+    gData.searchMarkerIcons[index] = imgUrl;
+  //Adding data to global array
+  gData.arrSearchResults[index] = { id: id,
+      err : true,
+      lat: point.lat(),
+      lng: point.lng(),
+      name : gData.arrSearchResults[index].name};
+  GEvent.addListener(marker, 'mouseover', function(latlng) {
+    // For masking
+    if (index != -1) {
+      markerIndex = index;
+      var name = gData.arrSearchResults[index].name;
+      currentMarker = marker;
+      currentMarkerIcon = imgUrl;
+      moveMask(latlng);
+      showToolTip(latlng, name);
+      var html = [];
+    }
+  });
+}
+
+/**
+ * Add markers on the poi result items.
+ * @param {Object} Collection of poi items.
+ */
+function addMarkersPOI() {
+  var objTrip =  getTripById(gData.currentTripId);
+  gMap.clearOverlays();
+  if (_gel('resultBox')) {
+    _gel('resultBox').innerHTML = '';
+    itemsContainer = [];
+  }
+  trace (' addMarkersPOI length'  + gData.arrSearchResults.length)
+  //var bounds = new GLatLngBounds();
+  if (gData.arrSearchResults.length) {
+    var counter = 0;
+    var max_result = gData.arrSearchResults.length;
+     for (var i = 0, j = max_result; i < j; i++, counter++) {
+      var start = new GLatLng(gData.arrSearchResults[i].lat, gData.arrSearchResults[i].lng);
+      var iconUrl = 'http://www.google.com/mapfiles/marker.png';
+      addCustomMarker(i, start, iconUrl, gData.arrSearchResults[i].id);
+    }
+    var setCenter = gMap.getBounds().getCenter();
+    var setZoomLevel = gMap.getBoundsZoomLevel(gMap.getBounds());
+    //console.log('setZooooooooom ' +setZoomLevel);
+    gMap.setZoom(setZoomLevel);
+    gMap.setCenter(setCenter, tabAccuracy[objTrip.accuracy]);
+    //console.log('heyyaaaaaa   '+ gMap.getBounds().getCenter());
+    gMap.panTo(setCenter);
+  }
+}
+
+// For lonely planet data
+/**
+ * Search the points of interests according to lonely planet api.
+ * @param {string} id Search parameter.
+ */
+function doPoiByIdLookup(id) {
+    trace('doPoiByIdLookup...');
+  itemsContainer = [];
+  var poiId = id;
+  var url = 'http://apigateway.lonelyplanet.com/api/pois/' + poiId;
+  var params = {};
+  params[gadgets.io.RequestParameters.AUTHORIZATION] = gadgets.io.AuthorizationType.NONE;
+  params[gadgets.io.RequestParameters.REFRESH_INTERVAL] = 1;
+  params[gadgets.io.RequestParameters.HEADERS] = {"Authorization" : "key"};
+  params[gadgets.io.RequestParameters.CONTENT_TYPE] = gadgets.io.ContentType.DOM;
+  gadgets.io.makeRequest(url, displayPingResult, params);
+}
+
+function displayPingResult(data) {
+    trace('displayPingResult...');
+  var xmlDoc = domParser(data);
+ // gData.arrSearchResults = [];
+  var items = xmlDoc.getElementsByTagName('poi');
+  var obj = {};
+  trace('Ping results items ' + items.length);
+  for (var i = 0, j = items.length; i < j; i++) {
+    obj = {};
+  var owner = wave.getViewer();
+  obj.ownerId = owner.getId();
+  obj.ownerName = owner.getDisplayName();
+    var result = xmlDoc.getElementsByTagName('name')[i];
+    if (result && result.childNodes[0]) {
+      obj.name = result.childNodes[0].nodeValue;
+    }
+
+    result = xmlDoc.getElementsByTagName('address')[i];
+    if (result && result.childNodes[0]) {
+      var street = result.getElementsByTagName('street')[0] || '';
+      street = street && street.firstChild && street.firstChild.nodeValue || '';
+      var locality = result.getElementsByTagName('locality')[0] || '';
+      locality = locality && locality.firstChild && locality.firstChild.nodeValue || '';
+
+      totAddress  = street + ' ' + locality;
+      obj.address = totAddress;
+    }
+    trace('Crossed address section..');
+    result = xmlDoc.getElementsByTagName('urls')[i];
+    if (result && result.childNodes[0]) {
+      var url = result.getElementsByTagName('url')[0] || '';
+      obj.weburl = url && url.firstChild && url.firstChild.nodeValue || '';
+      obj.weburl = '<a style="cursor:pointer;color:green;" '+
+          'target=_blank href=http://' + obj.weburl + '>' + obj.weburl + '</a>';
+      obj.link = obj.weburl;
+    }
+    trace('Crossed link section..');
+    result = xmlDoc.getElementsByTagName('review')[i];
+    if (result && result.childNodes[0]) {
+      obj.review = result.childNodes[0].nodeValue;
+    }
+    trace('Crossed review section..');
+    result = xmlDoc.getElementsByTagName('digital-latitude')[i];
+    if (result && result.childNodes[0]) {
+      obj.lat = result.childNodes[0].nodeValue;
+    }
+    trace('Crossed lat lng section..');
+
+    result = xmlDoc.getElementsByTagName('digital-longitude')[i];
+    if (result && result.childNodes[0]) {
+      obj.lng = result.childNodes[0].nodeValue;
+    }
+    obj.dataSource = 'lonely';
+    //arrSearchResults[markerIndex] = obj;
+    trace('parsed data : ' + gadgets.json.stringify(obj));
+    gData.arrSearchResults[markerIndex] = obj;
+  }
+}
+
+</script>
+<style type="text/css">
+#debug-console-wrapper {
+  display: none;
+}
+.drop-highlight {
+  background-color: #e5eefa;
+}
+
+.trip-items-content {
+  padding-top: 8px;
+}
+#trip-items-content-0 {
+  padding-top: 0;
+}
+.trip-items-day-0 {
+  display: none;
+}
+#trip-items-container-0, #trip-items-container-1 {
+  border-top: 0;
+}
+#messageContainer a,
+#messageContainer a:link,
+#messageContainer a:visited,
+#messageContainer a:hover {
+  color: #d8e1de;
+}
+.page-meta {
+  background:url(http://gulliver.googlecode.com/svn/trunk/frontend/wave/images/bar_background_gradient.gif) 0 0 repeat-x #eeeef0;
+  padding-bottom:2px;
+}
+.page-meta .link,
+.page-meta .title {
+  color: #000;
+}
+#loading-container {
+  color: #f66;
+  text-align: center;
+}
+#loadingSection {
+  color: #000;
+}
+</style>
+  ]]>
+  </Content>
+</Module>

@@ -1,0 +1,629 @@
+
+body,
+div,
+form,
+h2,
+h3,
+li,
+p,
+ul {
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: arial, sans-serif;
+  font-size: 12px;
+  overflow: hidden;
+}
+img {
+  border: 0;
+  cursor: pointer;
+}
+ul {list-style: none;}
+h2 {
+  font-size: 100%;
+  font-weight: normal;
+}
+h3 {
+  font-size: 100%;
+  font-weight: bold;
+  line-height: 130%;
+}
+p,
+a,
+span {line-height: 130%;}
+form {text-align: center;}
+a,
+a:link,
+a:visited {
+  color: #039;
+  text-decoration: none;
+}
+a:hover {
+  color: #039;
+  text-decoration: underline;
+}
+.clear {
+  clear: both;
+  font-size: 0;
+  height: 0;
+  line-height: 0;
+  overflow: hidden;
+}
+#error {
+  font-size: 11px;
+  color: #ff5857;
+  height: 8px;
+  text-align: center;
+}
+
+.trip-listing-name {
+  color: #0473cf;
+  cursor:pointer;
+  font-size: 13px;
+  font-weight: bold;
+  padding-left:4px;
+  padding-right: 4px;
+  text-transform: capitalize;
+}
+.trip-listing-data {
+  color: #000;
+  font-size: 12px;
+  padding-left:6px;
+  padding-right: 4px;
+}
+
+
+
+
+
+.mmlib_table {
+  background-color: #ffc;
+  border: 1px solid #ffcc35;
+  border-collapse: separate;
+  border-spacing: 0;
+  color: #000;
+  display: inline;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 2px 15px 2px 10px;
+}
+.heading{font-size:10pt;font-weight:bold;}
+.hint{font-size:11px;}
+.txtBox {
+  font-size: 10pt;
+  border: 1px solid #aaa;
+  width: 100%;
+}
+#msgContainer {
+  padding: 3px 0 10px 0;
+  background: #f5eee6;
+}
+.loading {
+  font-size: 13px;
+  font-family: arial, sans-serif;
+  vertical-align: middle;
+  text-align: center;
+  color: #000;
+}
+#canvasContent {font-family: arial, sans-serif;padding: 0;}
+#tripHeader1, #showingTripText{font-size:12px;}
+#showAllTrips {
+  text-decoration: underline;
+  color: #00f;
+  height: 0px;
+  cursor: pointer;
+  font-size: 10px;
+}
+#tripHeader2 {
+  padding-top: 5px;
+  font-size: 12px;
+  font-weight: normal;
+}
+#tripName, #sDate, #eDate {
+  font-weight: bold;
+  font-size: 13px;
+  padding-right: 5px;
+}
+#imgRating {
+  float: right;
+  padding-right: 10px;
+  padding-top: 5px;
+}
+
+#deleteTrip{float:left;}
+#otherActions{float:right;}
+#editTrip, #editLoc, #editDays { padding-left: 2px;font-weight: normal; }
+#location, #durationSection { font-size: 13px;padding: 0 0 0 4px; }
+#itineraryHead {
+  font-size: 13px;
+  font-weight: bold;
+  width: 100%;
+  float: left;
+  padding-top: 10px;
+}
+.server-msg {
+  background-color: #ffc;
+  border: 1px solid #ffcc35;
+  color: #000;
+  display: inline;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 2px 15px 2px 10px;
+}
+.itemDay {
+  font-size: 13px;
+  font-weight: bold;
+  padding: 0 0 5px 2px;
+}
+.link, itemTitle {
+  text-decoration: underline;
+  cursor: pointer;
+  color: #00c;
+}
+.link{color: #fff; font-size: 12px;}
+.itemTitle{font-size:12px;}
+#unscheduleItemBox{height:150px;}
+#scheduleItemBox{height:360px;}
+#scheduleItemBox, #unscheduleItemBox {
+  border: 1px solid #058a9d;
+  padding-right: 10px;
+  overflow-y: scroll;
+}
+.searchbox, #dragHelper { border: 1px solid #96aed0; }
+.dragobj{background:#efefef;opacity:0.5;}
+.searchText{font-weight:bold;font-size:13px;}
+#resultText{font-weight:bold;font-size:12px;float:left;padding-left:5px;}
+.egText {
+  color: #808080;
+  font-size: 11px;
+  font-weight: normal;
+  float: left;
+}
+.no_trip {
+  background: #f9f9f9;
+  color: #6f6f6f;
+  font-family: arial, sans-serif;
+  font-size: 12px;
+  width: 100%;
+}
+#mapBox{height:546px;border:1px solid #058a9d;}
+#resultBox{overflow:hidden;}
+#itemInfo{position:absolute;font-size:12px;}
+.itemTitle {
+  color: #0f03ff;
+  cursor: pointer;
+  font-size: 12px;
+}
+.trashImg{float:right;}
+.tripCols {
+  border: 1px solid #468Bcb;
+  background: #468Bcb repeat-x 0 0;
+  color: #fff;
+  cursor: default;
+  font-family: arial, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  margin: 0;
+  padding-left: 5px;
+  text-align: left;
+ }
+.head {
+  background: #e5ecf9;
+  color: #004080;
+  font-size: 12px;
+}
+.subhead {
+  color: #039bb2;
+  font-size: 13px;
+  font-weight: bold;
+  padding-right: 4px;
+  text-transform: capitalize;
+}
+.subhead2 {
+  color: #000;
+  font-size: 12px;
+  padding-right: 4px;
+  text-transform: capitalize;
+}
+#tripName {
+  text-transform: capitalize;
+}
+img.trendsstaron {
+  background: transparent url(http://maps.google.com//mapfiles/stars.png) no-repeat scroll 0 0;
+  height: 16px;
+  color: #004080;
+  font-size: 12px;
+}
+.subhead {
+  color: #039bb2;
+  font-size: 13px;
+  font-weight: bold;
+  padding-right: 4px;
+  text-transform: capitalize;
+}
+.subhead2 {
+  color: #000;
+  font-size: 12px;
+  padding-right: 4px;
+  width: 15px;
+}
+img.trendsstaroff {
+  background: transparent url(http://maps.google.com//mapfiles/stars.png) no-repeat scroll -16px 0;
+  height: 16px;
+  width: 15px;
+}
+.editDialog {
+  border: 1px solid #abbfcc;
+  background-color: #e5eefa;
+  height: 65px;
+  position: absolute;
+  padding-left: 5px;
+  width: 200px;
+  z-index: 101;
+}
+.dlgTextBox { width: 190px;font-family: arial, sans-serif; }
+.dlgCtrlSection{padding-top:10px;padding-right:8px;}
+.dlgButton {
+  margin: 0;
+  padding: 2px 5px 2px 5px;
+  font-family: arial, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  text-decoration: none;
+  text-align: left;
+  color: #888;
+  cursor: default;
+  border: 1px solid #aaa;
+  background: #039bb2 url(http://gulliver.googlecode.com/svn/trunk/frontend/wave/images/button-background.gif) repeat-x 0 0;
+  width: 100%;
+}
+.title-addItem {
+  background-color: #468bcb;
+  font-weight: bold;
+  font-size: 13px;
+  font-family: arial, sans-serif;
+  height: 18px;
+  padding: 1px 3px 5px;
+  color: #fff;
+  height: 13px;
+  width: 265px;
+}
+.title {
+  font-weight: bold;
+  font-size: 13px;
+  font-family: arial, sans-serif;
+  height: 20px;
+  width: 97%;
+  padding-top: 1px;
+  padding-left: 5px;
+  color: #fff;
+  background-color: #058a9d;
+}
+.tabledata {
+  font-size: 12px;
+  font-family: arial, sans-serif;
+  padding-top: 5px;
+}
+.startdatedp_div {
+  left: 146px;
+  position: relative;
+  top: 22px;
+  width: 10em;
+  display: none;
+}
+#maindialog {
+  width: 153px;
+  height: 290px;
+  background-color: #fff;
+}
+.dpTable {
+  font-family: Tahoma, Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  text-align: center;
+  color: #555;
+  background-color: #fefefe;
+  border: 1px solid #abcaf8;
+}
+.dpTD {
+  cursor: pointer;
+  border: 1px solid #fff;
+  text-align: center;
+  font-size: 12px;
+}
+.dpselectedTD {
+  cursor: pointer;
+  border: 1px solid #070707;
+  text-align: center;
+}
+.dpDayHighlightTD {
+  border: 1px solid #fff;
+  background-color: #61d8d8;
+  cursor: pointer;
+}
+.dpDayHighlightTDSelected {
+  background-color: #eef9f9;
+  cursor: pointer;
+  border: 1px solid #070707;
+}
+.dpTDHover {
+  background-color: #aca998;
+  border: 1px solid #888;
+  cursor: pointer;
+  color: red;
+  text-align: right;
+}
+.dpButtonTD{ cursor: pointer; }
+.dpDayTD{ color: #000; }
+.dpTitleText {
+  font-size: 12px;
+  color: #fff;
+  font-weight: bold;
+  background-color: #058a9d;
+}
+.dpDayHighlight{color:#000;font-weight:bold;}
+.dpButton {
+  font-family: arial, sans-serif;
+  font-size: 10px;
+  color: gray;
+  background: #d8e8ff;
+  font-weight: bold;
+}
+#viewdatedialogbox {
+  width: 321px;
+  background-color: #fff;
+}
+#itemDescription,  #itemName{
+ font-family: arial;
+ font-size: 13px;
+}
+#sendMailBox {
+  background-color: #058a9d;
+  width: 300px;
+}
+#editItemDialogBox {
+  background-color: #e4effe;
+  width: 270px;
+}
+.change-loc-dlg {
+  background-color: #fff;
+  width: 250px;
+}
+
+#toolTip {
+  position:absolute;
+  height: 14px;
+  border: 1px solid #7D7D72;
+  display: none;
+  background: #fff;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 2px;
+}
+.title_viewDatesDialog {
+  background-color: #058a9d ;
+  font-weight: bold;
+  font-size: 13px;
+  font-family: arial, sans-serif;
+  height: 25px;
+  color: #3e36a5;
+}
+#create-new-item {
+  width: 305px;
+  background-color: #fff;
+}
+.dialog-title {
+  background-color: #468bcb;
+  font-weight: bold;
+  font-size: 13px;
+  font-family: arial, sans-serif;
+  height: 18px;
+  padding: 4px 3px 5px 2px;
+  color: #fff;
+}
+.dialog-title-send {
+  background-color: #468bcb;
+  font-weight: bold;
+  font-size: 13px;
+  font-family: arial, sans-serif;
+  height: 18px;
+  color: #fff;
+}
+.tableCreateItemDialog {
+  font-size: 12px;
+  color: #000;
+  font-family: arial, sans-serif;
+}
+.delete_item {
+  border: 1px solid #058a9d;
+  width: 250px;
+  height: 105px;
+  background-color: #fff;
+}
+
+.print_subTitle {
+  color: #000;
+  font-weight: bold;
+  font-family: arial, sans-serif;
+  font-size: 14px;
+}
+#print_content{display:none;}
+#unscheduleItem_dlg {
+  width: 270px;
+  height: 130px;
+  background-color: #fff;
+}
+#edit-trip-name {
+  width: 250px;
+  background-color: #fff;
+
+}
+@media print {
+  #messageContainer {
+    display: none;
+    height: 0;
+    width: 0;
+  }
+  .tablib_emptyTab_canvas {
+    display: none;
+    height: 0;
+    width: 0;
+  }
+  #msgContainer {
+    display: none;
+    height: 0;
+    width: 0;
+  }
+  .tablib_table{
+    display: none;
+    height: 0;
+    width: 0;
+  }
+  #canvasContent {
+    display: none;
+    height: 0;
+    width: 0;
+  }
+  #dialog {
+    display: none;
+    height: 0;
+    width: 0;
+  }
+  #dialog-mask {
+    display: none;
+    height: 0;
+    width: 0;
+  }
+  #dialog-content {
+    display: none;
+    height: 0;
+    width: 0;
+  }
+  #print_Trip_Items_Dialog {
+    display: none;
+    height: 0;
+    width: 0;
+  }
+  #print_content {
+    display: block;
+    height: 100%;
+    width: 100%;
+    overflow: visible;
+  }
+  #messageContainer {
+    display: none;
+  }
+  #serverMsg {
+    display: none;
+  }
+}
+#print_Trip_Items_Dialog {
+  height: 350px;
+  width: 350px;
+}
+#print_Dialog {
+  overflow: scroll;
+  background: #fff;
+  height: 300px;
+}
+#dialog {
+  position: absolute;
+  z-index: 200;
+  background: #fff;
+  border: 3px solid #468BCB;
+}
+.printTitle {
+  background: #468bcb;
+  text-align: left;
+  height: 30px;
+  color: #000;
+}
+.print_close_img{
+  margin-top: 4px;
+  cursor: pointer;
+  width: 15px;
+  margin-right: 8px;
+}
+a:visited {color:#00c;}
+a:link {color:#00c;}
+a {color:#00c;}
+.tablib_table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0px;
+  empty-cells: show;
+  font-size: 11px;
+  text-align: center;
+}
+.tablib_selected {
+  width: 100px;
+  background: #fff;
+  color: #0f03ff;
+  font-weight: bold;
+  font-size: 13px;
+  text-align: center;
+}
+.tablib_unselected {
+  width: 90px;
+  font-size: 13px;
+  text-align: center;
+  background: #e5eefa;
+  color: #0f03ff;
+  font-weight: bold;
+  border-color: #96aed0;
+}
+.tablib_emptyTab{border-bottom:1px solid #96aed0;width:1px;}
+.tablib_emptyTab_canvas{
+  padding: 10px 5px;
+  background: #f5eee6;
+}
+.tablib_spacerTab {
+  border-bottom: 1px solid #96aed0;
+  padding: 0 1px;
+  width: 1px;
+}
+.tablib_navContainer{width:10px;vertical-align:middle;}
+.tablib_navContainer a:link, .tablib_navContainer a:visited,
+.tablib_navContainer a:hover{color:#3366aa;text-decoration:none;}
+.trip-action {
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.select-option {
+  background-color: #fff;
+  border: 1px solid #999;
+  font-size: 12px;
+  z-index: 1;
+  cursor: pointer;
+}
+.drop-down-table {
+  overflow: visible;
+  width: 0;
+  height: 0;
+  left: -5px
+  z-index: 100;
+  position: relative;
+  top: -14px;
+}
+#server_msg {
+  color: #f00;
+  font-size: 11px;
+  font-weight: none;
+  padding-left: 3px;
+  padding-top: 3px;
+}
+#mailErr {
+  color: #f00;
+  font-size: 11px;
+  text-decoration: none;
+}
+.drop-highlight {
+  background-color: #e5eefa;
+}
+.google-search {
+  background: #fff url(http://gulliver.googlecode.com/svn/trunk/frontend/wave/images/google_watermark.gif) no-repeat scroll left center;
+}
+
+
