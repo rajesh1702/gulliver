@@ -358,7 +358,7 @@ function getPopupHtml(index, flag) {
     tplData.display = 'block';
   }
   tplData.contactInfo = gData.arrSearchResults[index].address ||
-      '<a href="#" onclick="showMarkerInfoByIndex(' + index + ')">Try again...</a>';
+      '<a href="#" onclick="showMarkerInfoByIndex(' + index + ')">See Reviews...</a>';
   return tplHtml.supplant(tplData);
 }
 
