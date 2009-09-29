@@ -2341,7 +2341,7 @@ function getUpdationList() {
   };
 }
 
-// If I am in details page this method will be called.
+// If in details page this method will be called.
 function updateRemoval(keys) {
   if(keys.contains(gData.currentTripId)) {
     trace('<b>The current trip is deleted...</b>');
@@ -2352,7 +2352,7 @@ function updateRemoval(keys) {
     fillAllItems();
   }
 }
-// If I am in details page this method will be called.
+// If in details page this method will be called.
 function updateModification(keys) {
   if(keys.contains(gData.currentTripId)) {
     trace('<b>The current trip has been modified...</b>');
@@ -2409,7 +2409,7 @@ function waveStateChanged() {
 
           }
         case 'listings':
-          // I am in listings page. Either me or someone changed some state. We can re render the listings.
+          // If in listings page. Either me or someone changed some state. We can re render the listings.
           if (updates.newKeys.length > 0 && gData.newTripId && updates.newKeys.contains(gData.newTripId)) {
             exploreTrip(gData.newTripId);
           } else {
@@ -2418,7 +2418,7 @@ function waveStateChanged() {
           }
           break;
         case 'details':
-          // I am in details page. Either me or someone changed some state. Need to identify the section and to be updated.
+          // If in details page. Either me or someone changed some state. Need to identify the section and to be updated.
           if (updates.newKeys.length > 0 && gData.newTripId && updates.newKeys.contains(gData.newTripId)) {
             exploreTrip(gData.newTripId);
           } else {
@@ -3442,7 +3442,7 @@ _IG_Drag.prototype.cacheTargets = function(){
 };
 
 function readyforDrag() {
-  trace('I am preparing for drag...');
+  trace('preparing for drag...');
 }
 
 function initDrag() {
@@ -3596,7 +3596,7 @@ function showLPAuthorizationError() {
   _gel('msgContainer').style.display = 'block';
   var html = ACTION_MSG_TPL;
   html = html.replace(/%MESSAGE%/, message);
-  //timerMsg.createTimerMessage(html, 20);
+  _gel('loading-container').innerHTML = message;
 }
 
 var arrSearchResults = [];
@@ -3622,7 +3622,6 @@ function domParser(data) {
  * @param {Object} data Response object.
  */
 function callbackSearchPOI(data) {
-  //alert("ehy" + data);
   clearTimeout(timerLonelyCallback);
 
   var north, south, east, west;
@@ -3690,15 +3689,17 @@ function callbackSearchPOI(data) {
             west = nodeData.childNodes[0].nodeValue;
           }
         }
+      } else {
+        showDataError('No Data found');
       }
+    } else {
+      showDataError('No Data found');
     }
     trace(north + ':' + east + ':' + west + ':' + south);
     // Search for the POI id according to latitudes and longitudes.
     if (north && east && west && south) {
-      //alert("Caling doLatLangLookup");
       doLatLangLookup(north, east, west, south);
     } else {
-      //alert("no data");
       showDataError('No Data found');
     }
   } else {
@@ -3714,10 +3715,10 @@ var ACTION_MSG_TPL = '<span style="font-weight:bold;position:' +
 function showDataError(message) {
   _gel('loading-container').innerHTML = '';
   _gel('serverMsg').innerHTML = '';
-  _gel('msgContainer').style.display = 'block';
+  _gel('loading-container').style.display = 'block';
   var html = ACTION_MSG_TPL;
   html = html.replace(/%MESSAGE%/, message);
-//  timerMsg.createTimerMessage(html, 5);
+  _gel('loading-container').innerHTML = message;
 }
 
 /**
@@ -3728,8 +3729,6 @@ function showDataError(message) {
  * @param {string} south South coordinates.
  */
 function doLatLangLookup(north, east, west, south) {
-//alert("lat laong lookup");
-  //console.log([north, east, west, south].join('--'));
   var poiType = _gel('search-box').value;
   var bounds = gMap.getBounds();
   var southWest = bounds.getSouthWest();
@@ -3738,11 +3737,9 @@ function doLatLangLookup(north, east, west, south) {
   var west1 = southWest.lng();
   var north1 = northEast.lat();
   var east1 = northEast.lng();
-  //console.log([north, east, west, south].join('--'));
   var url = 'http://apigateway.lonelyplanet.com/api/bounding_boxes/' +
             north1 + ',' + south1 + ',' + east1 + ',' + west1 + '/pois?poi_type=' +
             poiType;
-  //console.log('----------  '+url);
   var params = {};
   params[gadgets.io.RequestParameters.AUTHORIZATION] = gadgets.io.AuthorizationType.NONE;
   params[gadgets.io.RequestParameters.REFRESH_INTERVAL] = 1;
@@ -3789,7 +3786,6 @@ function searchPOIId(data) {
     }
     poiData.push(obj);
     gData.arrSearchResults[i] = obj;
-    //gData.arrSearchResults.push(obj);
   }
   addMarkersPOI();
   _gel('loading-container').innerHTML = '';
@@ -3841,7 +3837,6 @@ function addMarkersPOI() {
     itemsContainer = [];
   }
   trace (' addMarkersPOI length'  + gData.arrSearchResults.length)
-  //var bounds = new GLatLngBounds();
   if (gData.arrSearchResults.length) {
     var counter = 0;
     var max_result = gData.arrSearchResults.length;
@@ -3850,13 +3845,6 @@ function addMarkersPOI() {
       var iconUrl = 'http://www.google.com/mapfiles/marker.png';
       addCustomMarker(i, start, iconUrl, gData.arrSearchResults[i].id);
     }
-    var setCenter = gMap.getBounds().getCenter();
-    var setZoomLevel = gMap.getBoundsZoomLevel(gMap.getBounds());
-    //console.log('setZooooooooom ' +setZoomLevel);
-    gMap.setZoom(setZoomLevel);
-    gMap.setCenter(setCenter, tabAccuracy[objTrip.accuracy]);
-    //console.log('heyyaaaaaa   '+ gMap.getBounds().getCenter());
-    gMap.panTo(setCenter);
   }
 }
 
@@ -3881,7 +3869,6 @@ function doPoiByIdLookup(id) {
 function displayPingResult(data) {
     trace('displayPingResult...');
   var xmlDoc = domParser(data);
- // gData.arrSearchResults = [];
   var items = xmlDoc.getElementsByTagName('poi');
   var obj = {};
   trace('Ping results items ' + items.length);
@@ -3931,7 +3918,6 @@ function displayPingResult(data) {
       obj.lng = result.childNodes[0].nodeValue;
     }
     obj.dataSource = 'lonely';
-    //arrSearchResults[markerIndex] = obj;
     trace('parsed data : ' + gadgets.json.stringify(obj));
     gData.arrSearchResults[markerIndex] = obj;
   }
@@ -3984,7 +3970,7 @@ function isNewlyInstalled() {
   if (stateLogs) {return false;}
   var params = {};
   params[gadgets.io.RequestParameters.METHOD] = gadgets.io.MethodType.POST;
-  var url = 'http://gulliver.googlecode.com/svn/trunk/frontend/wave/content/sample-trip-state.txt';
+  var url = 'http://trippywave.appspot.com/static/content/sample-trip-state.txt';
   gadgets.io.makeRequest(url, installSampleTrip, params);
   return true;
 }
