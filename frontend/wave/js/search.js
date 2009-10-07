@@ -516,7 +516,17 @@ function isNumeric(strValue) {
  */
 function createDeleteItemBox(itemId) {
   itemId = itemId || '';
-  var name = getItemById(itemId || gData.currentTripId).name;
+  var name;
+  // If request is for deleting an item.
+  if (itemId.indexOf('item-') == 0) {
+    name = getItemById(itemId).name;
+  } else if (itemId.indexOf('trip-') == 0) { 
+  //  If request is for deleting a trip.
+    name = getTripById(itemId).name;
+  } else {
+    // If it is a delete request from canvas view.
+    name = getTripById(gData.currentTripId).name;
+  }
   if (name.length > 15) {
     name = name.substr(0, 15) + '...';
   }
@@ -538,7 +548,8 @@ function deleteSelectedItem(itemId) {
   hideDialog();
   var obj = {};
   var items, trip;
-  if (itemId) {// Item need to be deleted.
+  if (itemId.indexOf('item-') == 0) {
+    // Item need to be deleted.
     trace('I want to delete item ' + itemId);
     trip = getTripById(gData.currentTripId);
     trace('B4 delete: '  + trip.items);
@@ -548,15 +559,13 @@ function deleteSelectedItem(itemId) {
     obj[itemId] = null;// To remove the item.
     obj['logs'] = getLogObject('deleted', ' a trip item "' + getItemById(itemId).name + '" of Trip "' + trip.name + '"');
   } else {// Trip needs to be deleted.
-    trace('I want to delete trip ' + itemId);
+    var deleteTrip = itemId || gData.currentTripId;
     var trips = getTrips();
-    trace(' curernt'  + gData.currentTripId);
-    trace('B4 delete: '  + trips.items);
-    trips.items.deleteElement(gData.currentTripId);
+    trips.items.deleteElement(deleteTrip);
     trace('after delete: '  + trips.items);
     obj.trips = gadgets.json.stringify(trips);// To remove from list of trips.
-    obj[gData.currentTripId] = null;//To remove the trip.
-    trip = getTripById(gData.currentTripId);
+    obj[deleteTrip] = null;//To remove the trip.
+    trip = getTripById(deleteTrip);
     var keys = trip.items || [], item;
     for(var i =0; i < keys.length; i++) {
       item = getItemById(keys[i]);

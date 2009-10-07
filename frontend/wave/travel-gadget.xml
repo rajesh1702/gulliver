@@ -2599,6 +2599,9 @@ function init() {
 
 
 <textarea  style="display:none;" id="tpl-trip-listing">
+<p id="top-navigation">
+  <a href="http://code.google.com/p/gulliver/issues/entry?template=Defect report from user" target="_blank">Feedback & suggestions</a>
+</p>
   <div style="padding:7px 0;background:#0a4f9c">
     <form onsubmit="searchTrips();return false;" action="#">
       <table width="100%" cellpadding="0" cellspacing="0" style="height:60px;background:#0a4f9c;">
@@ -2667,15 +2670,16 @@ function init() {
   </div>
 </textarea>
 <textarea style="display:none;" id="tpl-trip-listing-one-record">
-  <div id="row-{index}" style="width:100%;">
+  <div id="row-{index}" style="width:100%; height:22px;">
     <table width="100%">
       <tr>
-        <td width="27%" onclick="exploreTrip('{tripId}');" class="trip-listing-name">
+        <td width="25%" onclick="exploreTrip('{tripId}');" class="trip-listing-name">
           {tripName}&nbsp;
         </td>
         <td width="24%" class="trip-listing-data">{period}&nbsp;</td>
         <td width="24%" class="trip-listing-data">{location}&nbsp;</td>
-        <td class="trip-listing-data">{ownerName}&nbsp;</td>
+        <td width="20%"class="trip-listing-data">{ownerName}&nbsp;</td>
+        <td style="text-align:right;"><img title="__MSG_delete_trip__" src="http://trippywave.appspot.com/static/images/trash.gif" onclick="createDeleteItemBox('{tripId}');"></td>
       </tr>
     </table>
   </div>
@@ -2686,6 +2690,9 @@ function init() {
 <form action="http://maps.google.com/" target="_blank" id="export-map-form" method="get">
   <input type="hidden" name="q" value="" id="export-map-q"/>
 </form>
+<p id="top-navigation">
+  <a href="http://code.google.com/p/gulliver/issues/entry?template=Defect report from user" target="_blank">Feedback & suggestions</a>
+</p>
 <form action="#" onsubmit="localSearch(1, null, false);return false;">
 
   <div id="messageContainer" class="tablib_emptyTab_canvas" style="text-align:left;background-color:#0a4f9c;color: #d8e1de;">
@@ -3961,6 +3968,10 @@ function displayPingResult(data) {
 }
 #loadingSection {
   color: #000;
+}
+#top-navigation {
+  text-align: right;
+  padding: 5px 10px;
 }
 </style>
 <script type="text/javascript">

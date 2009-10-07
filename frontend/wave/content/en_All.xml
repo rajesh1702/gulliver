@@ -83,6 +83,7 @@
   <msg name="delete_this_item" desc="label for button using to delete the item">Delete this item</msg>
   <msg name="delete_item_confirm">Are you sure that you want to delete the item?</msg>
   <msg name="delete_trip_confirm">Are you sure that you want to delete the trip?</msg>
+  <msg name="delete_trip">Delete trip</msg>
   <msg name="trip">trip</msg>
   <msg name="close">Close</msg>
   <msg name="item_deleted">Item (%NAME%) deleted successfully.</msg>
