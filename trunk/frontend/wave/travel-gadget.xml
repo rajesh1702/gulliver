@@ -4,6 +4,7 @@
     <Require feature="dynamic-height"/>
     <Require feature="minimessage"/>
     <Require feature="drag" />
+    <Require feature="com.google.gadgets.analytics" />
     <Locale messages="http://gulliver.googlecode.com/svn/trunk/frontend/wave/content/en_All.xml"/>
   </ModulePrefs>
   <Content type="html">
@@ -958,10 +959,13 @@ function showListings(flag) {
     tripkey = trips[i].id;
     trip = gadgets.json.parse(state.get(tripkey));
     var period = trip.sdate ? (trip.sdate + ' - ' + trip.edate) : 'Unscheduled';
+    
+    var tName = trip.name.length > 28 ? trip.name.substr(0, 20) + '...' :
+                trip.name;
     oneRecordTplData = {
       index: i,
       tripId: trip.id,
-      tripName: trip.name,
+      tripName: tName,
       period: period,
       location: trip.loc,
       ownerName: trip.ownerName
@@ -1461,6 +1465,25 @@ function saveEditItem(index) {
       itemFDate = itemSDate = '';
     }
   }
+  if ((itemName == tripItem.name) &&
+      (itemDesp == tripItem.address) &&
+      (itemDay == tripItem.day)) {
+    hideDialog();
+    return;
+  }
+  var action, logMessage;
+  if (tripItem.name != itemName) {
+    action = 'changed';
+    logMessage = [
+      ' the name of the "', tripItem.name, '" to  "', itemName, '"',
+      ((itemDay == tripItem.day) ? '' : ' and rescheduled')
+    ].join('');
+  } else {
+    action = 'rescheduled';
+    logMessage = [
+      ' the name of the "', tripItem.name, '" of  "', trip.name, '"'
+    ].join('');
+  }
   if (geocoder) {
     geocoder.getLocations(itemDesp, function(result) {
       gadgets.json.stringify(result);
@@ -1480,8 +1503,7 @@ function saveEditItem(index) {
         tripItem.lastModified = (new Date()).getTime();
         var obj = {};
         obj[index] = gadgets.json.stringify(tripItem);
-        obj['logs'] = getLogObject('rescheduled', 'the item "' +
-          tripItem.name + '" of "' + getTripById(gData.currentTripId).name + '"');
+        obj['logs'] = getLogObject(action, logMessage);
         wave.getState().submitDelta(obj);
         hideDialog();
       } else {
@@ -1549,10 +1571,10 @@ function editItemDialog(index, bScheduled) {
   }
   showDialog(html);
   _gel('cancelButton').focus();
-  if (!bScheduled) {
-    unscheduleRadioButton();
-  } else {
+  if (tripItem.day) {
     daysRadioButton();
+  } else {
+    unscheduleRadioButton();
   }
 }
 
@@ -2530,6 +2552,8 @@ function getPosition(element) {
 
 
 function init() {
+  window.ga = new _IG_GA('UA-10961897-1');
+  ga.reportPageview('/trippyGadget/view');
   // Initialize all global variables.
   window.geocoder = new GClientGeocoder();
   window.gTripLastUpdate = {};
@@ -2670,10 +2694,10 @@ function init() {
   </div>
 </textarea>
 <textarea style="display:none;" id="tpl-trip-listing-one-record">
-  <div id="row-{index}" style="width:100%; height:22px;">
+  <div id="row-{index}" style="width:100%;">
     <table width="100%">
       <tr>
-        <td width="25%" onclick="exploreTrip('{tripId}');" class="trip-listing-name">
+        <td width="27%" onclick="exploreTrip('{tripId}');" class="trip-listing-name">
           {tripName}&nbsp;
         </td>
         <td width="24%" class="trip-listing-data">{period}&nbsp;</td>
@@ -3986,6 +4010,7 @@ function isNewlyInstalled() {
   return true;
 }
 function installSampleTrip(response) {
+  ga.reportPageview('/trippyGadget/install');
   if(response.text) {
     var sampleAppData = gadgets.json.parse(response.text);
     var state = wave.getState();
