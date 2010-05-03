@@ -1,0 +1,53 @@
+/**
+ * @fileoverview Style class for dialog boxes in the gadget.
+ * @author gadgetfactory@google.com (gadgetfactory)
+ */
+
+/**
+ * Style for dialog mask.
+ */
+#dialog-mask {
+  background: #666;
+  filter: alpha(opacity=75);
+  height: 750px;
+  left: 0;
+  opacity: .75;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+/**
+ * Style for dialog box.
+ */
+#dialog {
+  background: #fff;
+  border: 3px solid #468bcb;
+  position: absolute;
+  z-index: 200;
+}
+/**
+ * Style for dialog header.
+ */
+#dialog-header {
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  height: 14px;
+  padding: 3px 6px 7px;
+  position: relative;
+  width: 411px;
+}
+
+/**
+ * Style for dialog title.
+ */
+#dialog-title { float: left; }
+/**
+ * Style for dialog content.
+ */
+#dialog-content {
+  color: #666;
+  display: block;
+  font-size: 13px;
+}

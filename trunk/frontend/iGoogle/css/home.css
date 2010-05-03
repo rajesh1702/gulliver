@@ -1,0 +1,97 @@
+/**
+ * @fileoverview Style class for home view in the gadget.
+ * @author gadgetfactory@google.com (gadgetfactory)
+ */
+.heading {
+  font-size: 13px;
+  font-weight: bold;
+}
+.hint { font-size: 11px; }
+.sub-heading {
+  color: #368abd;
+  font-size: 12px;
+  padding-right: 4px;
+}
+.second-heading {
+  color: #000;
+  font-size: 12px;
+  padding-right: 4px;
+}
+.text-box {
+  border: 1px solid #aaa;
+  font-size: 13px;
+  width: 100%;
+}
+.head {
+  background: #e5ecf9;
+  color: #004080;
+  font-size: 12px;
+  font-weight: bold;
+}
+.sublink {
+  color: #368abd;
+  cursor: pointer;
+  font-size: 11px;
+  text-decoration: none;
+}
+.links {
+  color: #00c;
+  cursor: pointer;
+  font-family: arial,sans-serif;
+  font-size: 11px;
+  text-decoration: underline;
+}
+#server-msg {
+  color: #f00;
+  font-size: 13px;
+  font-weight: none;
+  padding-left: 3px;
+  padding-top: 3px;
+  text-align: center;
+}
+a:visited,
+a.link:link,
+a.link,
+a.link:focus { color: #00c; }
+
+/**
+ * Style for hiding various containers not shown in home view.
+ */
+#service_not_available,
+#user-not-authorized,
+#user-not-signed-in,
+#server-msg { display: none; }
+
+/**
+ * Style for hiding various containers not shown in home view.
+ */
+#user-sign-in,
+#unauthorized-user,
+#os-not-avail {
+  font-size: 11px;
+  margin: 16px 0;
+}
+
+/**
+ * Style for main container in home view.
+ */
+#home-content { padding-top: 5px; }
+
+/**
+ * Style for opensocial image.
+ */
+#open-social-image {
+  background-image: url("http://www.gstatic.com/ig/modules/trippy/trippy_sprite1.cache.png");
+  background-position: -135px -27px;
+  display: inline-block;
+  height: 14px;
+  line-height: 13px;
+  width: 19px;
+}
+.loading {
+  color: #5580d5;
+  font-size: 13px;
+  font-weight: bold;
+  padding-left: 5px;
+  padding-top: 10px;
+}

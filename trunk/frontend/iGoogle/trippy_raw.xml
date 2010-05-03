@@ -1,0 +1,1290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+<ModulePrefs title="__MSG_title__"
+             screenshot="http://www.gstatic.com/ig/modules/trippy/trippy.cache.png"
+             thumbnail="http://www.gstatic.com/ig/modules/trippy/lp_logo.cache.png"
+             description="__MSG_description__"
+             author_email="__MSG_author_email__"
+             author_affiliation="Google"
+             category="tools">
+  <Locale messages="http://gadgetdevelopment.appspot.com/static/trippy/content/en_ALL.xml"/>
+  <Require feature="drag" />
+  <Require feature="setprefs"/>
+  <Require feature="opensocial-0.8"/>
+  <Require feature="views"/>
+  <Require feature="dynamic-height"/>
+  <Require feature="minimessage"/>
+</ModulePrefs>
+<Content type="html" view="home">
+<![CDATA[
+<link href="http://gadgetdevelopment.appspot.com/static/trippy/css/home.css" rel="stylesheet" type="text/css">
+<!-- Templates start -->
+<textarea style="display:none;" id="tpl-where-visit">
+  <table width="100%">
+    <tr>
+      <td colspan="2">
+        <font class="heading"> __MSG_where_visit__</font>
+      </td>
+    </tr>
+    <tr>
+      <td width="90%">
+        <input type="text" id="location" class="text-box"/>
+        <font class="hint">__MSG_egLocation__</font>
+      </td>
+      <td width="30%" valign="top">
+        <input type="button" value="__MSG_create__" onClick="validateTripHome();"/>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" width="30%">
+        <a href="__MSG_feedback_link__" target="_blank" class="links">
+          __MSG_feedback__
+        </a>
+      </td>
+</textarea>
+<textarea id="tpl-view-trips" style="display:none;">
+  <td align="right" width="*">
+    <span id="viewAll" class="links" onClick="goToCanvas(true); return false;">
+      __MSG_view_all_trips__
+    </span>
+  </td>
+</textarea>
+<textarea id="tpl-create-trip" style="display:none;">
+  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+      <td align="center" class="hint">__MSG_no_trips__&nbsp;&nbsp;
+        <a href="#" onClick="callbackCreate();">
+          __MSG_create_trip__
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <td align="right" width="30%" colspan="2">
+        <a href="__MSG_feedback_link__" class="links" target="_blank">__MSG_feedback__</a>
+      </td>
+    </tr>
+  </table>
+</textarea>
+<textarea style="display:none;" id="tpl-create-callback">
+  <table border="0" cellpadding="0" cellspacing="0" style="padding-top:5px;" width="100%">
+    <tr>
+      <td align="left" width="30%">
+        <input type=button onClick="callbackCreate();" value="__MSG_create_trip__">
+      </td>
+      <td align="center" width="30%">
+        <a href="__MSG_feedback_link__" class="links" target="_blank">__MSG_feedback__</a>
+      </td>
+      <td align="right" width="30%">
+        <span id="viewAll" class="links" onClick="goToCanvas(true);">
+          __MSG_view_all_trips__
+        </span>
+      </td>
+    </tr>
+  </table>
+</textarea>
+<textarea id="tpl-trip-header" style="display:none;">
+  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr class="head">
+      <td valign="top" width="32%">__MSG_trip_name__</td>
+      <td valign="top" width="32%">__MSG_date__</td>
+      <td valign="top" width="36%">__MSG_location__</td>
+    </tr>
+  </table>
+</textarea>
+<textarea style="display:none;" id="tpl-trip-row">
+  <div id="trip id " style="padding-top:5px;border-bottom:1px #ccc dotted;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr>
+        <td valign="top" width="32%" class="sub-heading" >
+          <a href="javascript:showTripDetails('{id}');" style="text-decoration:none;" title="{tripName}">
+            {tripName}&nbsp;
+          </a>
+        </td>
+        <td valign="top" width="32%" class="second-heading" >{sDate} - {eDate}</td>
+        <td valign="top" width="36%" class="second-heading">{location}</td>
+      </tr>
+    </table>
+  </div>
+</textarea>
+<textarea id="tpl-server-msg" style="display:none;">
+  <center><span class="mmlib-table">{message}</span></center>
+</textarea>
+<!-- Templates end -->
+<div id="server-msg" class="mmlib_table"></div>
+<div id="home-content"></div>
+<div id="service_not_available">
+  <b>__MSG_welcome_igoogle__</b>
+  <div id="os-not-avail">
+    <p>__MSG_os_not_avail__</p>
+  </div>
+</div>
+<div id="user-not-authorized">
+  <b>__MSG_welcome_igoogle__</b>
+  <div id="unauthorized-user">
+    <p>__MSG_no_sensitive__</p>
+    <p>__MSG_up_button__&nbsp;
+      <span id="open-social-image"></span>
+    </p>
+    <p>__MSG_enable_os__</p>
+    <p>__MSG_os_is_new__
+      <a href="mailto:__MSG_author_email__" target="_blank">__MSG_let_us_know__</a>
+    </p>
+  </div>
+</div>
+<div id="user-not-signed-in">
+  <b>__MSG_welcome_igoogle__</b>
+  <div id="user-sign-in">
+    <p>__MSG_user_not_signed_in__</p>
+    <p>__MSG_already_signin__</p>
+  </div>
+</div>
+<script src="http://maps.google.com/maps?file=api&amp;v=2.155&amp;sensor=false&amp;key=KEY" type="text/javascript"></script>
+<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/home.js"></script>
+<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/trippy_data.js"></script>
+<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/config.js"></script>
+<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/util_common.js"></script>
+<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/opensocial.js"></script>
+<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/utility.js"></script>
+<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/date_lib.js"></script>
+]]>
+</Content>
+<Content type="html" view="canvas">
+<![CDATA[
+<link href="http://gadgetdevelopment.appspot.com/static/trippy/css/canvas.css" rel="stylesheet" type="text/css">
+<link href="http://gadgetdevelopment.appspot.com/static/trippy/css/dialog_box.css" rel="stylesheet" type="text/css">
+<div align="center"><span id="server-msg"></span></div>
+<div id="no-print">
+  <div id="main-container">
+    <div id="loading-container" style="background:#f5eee6"></div>
+    <div id="canvas-content"></div>
+    <div id="service_not_available">
+      <b>__MSG_welcome_igoogle__</b>
+      <div id="os-not-avail">
+        <p>__MSG_os_not_avail__</p>
+      </div>
+    </div>
+    <div id="user-not-authorized">
+      <b>__MSG_welcome_igoogle__</b>
+      <div id="unauthorized-user">
+        <p>__MSG_no_sensitive__</p>
+        <p>__MSG_up_button__  &nbsp;
+          <span id ="open-social-image"></span>
+        </p>
+        <p>__MSG_enable_os__</p>
+        <p>__MSG_os_is_new__
+          <a href="mailto:__MSG_author_email__" target="_blank">__MSG_let_us_know__</a>
+        </p>
+      </div>
+    </div>
+    <div id="user-not-signed-in">
+      <b>__MSG_welcome_igoogle__</b>
+      <div id="user-sign-in">
+        <p>__MSG_user_not_signed_in__</p>
+        <p>__MSG_already_signin__</p>
+      </div>
+    </div>
+  </div>
+  <div id="dialog-mask" style="display:none;position:absolute;left:0;top:0; width:100%; background-color:#777; opacity:0.15; filter:alpha(opacity=15)" onclick="return false;"></div>
+  <div id="dialog">
+    <div id="dialog-content"></div>
+  </div>
+</div>
+<!-- Templates start -->
+<textarea style="display:none;" id="tpl-create-trip">
+  <div id="create-trip">
+    <div class="dialog-title">__MSG_create_trip__</div>
+    <form action="#" onsubmit="createTrip();return false;" onreset="hideDialog();">
+      <table style="border:0;width:325px;" cellpadding="1" cellspacing="1">
+        <tr>
+          <td class="heading">__MSG_where_visit__</td>
+        </tr>
+        <tr>
+          <td class="heading">
+            <input type="text" id="create-location" name="create-location" class="text-box"/><br/>
+            <span class="hint">__MSG_egLocation__</span>
+          </td>
+        </tr>
+        <tr>
+          <td id="warning-msg" style="display:none;"></td>
+        </tr>
+        <tr>
+          <td style="text-align:center;" id="create-cancel-trip">
+            <span style="float:left;" id="create-trip-btn"><input type="button" onclick="createTrip();return false;" value="__MSG_create__"/></span>
+            <span style="float:right;" id="cancel-trip-btn"><input type="reset" onclick="hideDialog();" value="__MSG_cancel__" style="width:60px;"/></span>
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align:center;display:none;" id="create-trip-btn">
+            <input type="submit" value="__MSG_create__"/>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+</textarea>
+<textarea style="display:none;" id="tpl-loading">
+  <div id="loading-section" class="loading">
+    <img src="http://www.google.com/ig/images/spinner.gif"/>&nbsp;__MSG_loading__
+  </div>
+</textarea>
+<textarea style="display:none;" id="tpl-trip-listing">
+  <div id="trip-listing">
+    <form onsubmit="searchTrips();return false;" action="#">
+      <table width="100%" cellpadding="0" cellspacing="0" id="trip-listing-header">
+        <tr>
+          <td align="left" style="padding-left:7px;">
+            <nobr>
+              <input type="text" id="searchTripText" class="search-box"/>&nbsp;
+            </nobr>
+            <wbr/>
+            <nobr>
+              <input type="submit" value="__MSG_search_trips__" style="border-color:#fff"/>
+              <span id="show-all-trips" style="display:none;" onclick="showListings(true, false, false);searchFlag=true;"></span>&nbsp;
+              <input type="button" value="__MSG_create_trip__" onclick="createTrip(true);" id="create-new-trip" style="border-color:#fff"/>
+            </nobr>
+          </td>
+          <td width="100px">
+            <a href="http://lonelyplanet.com" target="_blank" style="text-decoration:none;">
+              <img src="http://www.gstatic.com/ig/modules/trippy/lp_logo.cache.png" style="border:0;"/>
+            </a>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+  <div style="margin:0 3px 5px;">
+    <table width="100%" style="backgroundColor:#0080ff;">
+      <tr>
+        <td width="25%" align="right" class="trip-columns" onclick="displayArrowSign(0);">
+          <div id="column1">
+            __MSG_name__&nbsp;
+          </div>
+          <div id="img-0">
+            <img width="7" height="6" src="http://www.google.com/c.gif" class="" style="margin-top:5px;"/>
+          </div>
+        </td>
+        <td width="24%" align="left" class="trip-columns" onclick="displayArrowSign(1);">
+          <div id="column2">
+            __MSG_date__&nbsp;
+          </div>
+          <div id="img-1">
+            <img width="7" height="6" src="http://www.google.com/c.gif" class="down-arrow" style="margin-top:5px;"/>
+          </div>
+        </td>
+        <td width="24%" align="left" class="trip-columns" onclick="displayArrowSign(2);">
+          <div id="column3">
+            __MSG_location__&nbsp;
+          </div>
+          <div id="img-2">
+            <img width="7" height="6" src="http://www.google.com/c.gif" class="" style="margin-top:5px;"/>
+          </div>
+        </td>
+        <td align="left" class="trip-columns" onclick="displayArrowSign(3);">
+          <div id="column4">
+            __MSG_owner__&nbsp;
+          </div>
+          <div id="img-3">
+            <img width="7" height="6" src="http://www.google.com/c.gif" class="" style="margin-top:5px;"/>
+          </div>
+        </td>
+      </tr>
+    </table>
+    <div id="display-rec">{tripListings}</div>
+  </div>
+</textarea>
+<textarea style="display:none;" id="tpl-trip-listing-one-record">
+  <div id="row-{index}" style="width:100%; height:25px;">
+    <table width="100%">
+      <tr>
+        <td width="25%" onclick="exploreTrip('{tripId}');" class="trip-listing-name">
+          {tripName}&nbsp;
+        </td>
+        <td width="24%" class="trip-listing-data">{period}&nbsp;</td>
+        <td width="24%" class="trip-listing-data">{location}&nbsp;</td>
+        <td width="20%"class="trip-listing-data">{ownerName}&nbsp;</td>
+        <td style="text-align:right;">
+          <img title="__MSG_delete_trip__" src="http://www.google.com/c.gif" onclick="createDeleteItemBox('{tripId}',{flag});" class="trash-button">
+        </td>
+      </tr>
+    </table>
+  </div>
+</textarea>
+<textarea style="display:none;" id="tpl-canvas">
+<form action="http://maps.google.com/" target="_blank" id="export-map-form" method="get">
+  <input type="hidden" name="q" value="" id="export-map-query"/>
+</form>
+<form action="#" onsubmit="localSearch(1, null, false);return false;">
+  <table id="main-header" width="100%">
+    <tr>
+   <td width= "40%" id="trip-details-header">
+    <div>
+      <span id="trip-name">{tripNameTitle}</span > - <span class="link" id="editTrip" onclick="showEditDialog();">
+        <nobr>__MSG_edit__</nobr></span>&nbsp;|&nbsp;<span class="link" onclick="showLocationDialog();">__MSG_edit_location__</span>
+      </span>
+    </div>
+    <div>
+      <span class="trip-owner">__MSG_started_by__</span>
+      <span class="owner-name"> {tripOwnerName} &nbsp;&nbsp;</span>
+        <span id="thumb">
+          <span id="thumb-span">
+            <nobr>
+              <b>
+                <span class="thumb-up"></span>
+                <span id="thum_up">
+                  {tripThumbUp}
+                </span></b> &nbsp; <span class="thumb-down"></span> <b>
+                <span id="thum_down">
+                  {tripThumbDown}
+                </span>
+              </b>
+            </nobr>
+          </span>
+        </span>
+        <a class="vote-link" href="javascript:doTripVoting()"><nobr>__MSG_vote_now__</nobr>
+        </a>
+      </span>
+    </div>
+   </td>
+   <td width= "60%">
+     <div id="lp-header">
+       <table cellspacing="0" cellpadding="0">
+         <tr>
+           <td style="vertical-align:top;">
+             <img src="http://www.google.com/c.gif" class="toolbar-left">
+           </td>
+           <td class="module-header">
+             <span onclick="showPrintDialog(true);" style="cursor:pointer;">
+               <img title="__MSG_print_schedule__" src="http://www.google.com/c.gif" class="print-button">
+               __MSG_print_item__
+             </span>
+           </td>
+           <td style="vertical-align:top;">
+             <img src="http://www.google.com/c.gif" class="toolbar-divider"/>
+           </td>
+           <td class="module-header">
+             <span onclick="openMailDialog();" style="cursor:pointer;">
+               <img title="__MSG_send_mail__" src="http://www.google.com/c.gif" class="mail-button">
+               __MSG_send__
+             </span>
+           </td>
+           <td style="vertical-align:top;">
+             <img src="http://www.google.com/c.gif" class="toolbar-divider" />
+           </td>
+           <td class="module-header">
+             <span onclick="exportTripsOnMap();" style="cursor:pointer;">
+               <img title="__MSG_export_trips__" src="http://www.google.com/c.gif" class="export-button">
+               <nobr>__MSG_export_trips__</nobr>
+             </span>
+           </td>
+           <td style="vertical-align:top;">
+             <img src="http://www.google.com/c.gif" class="toolbar-divider" />
+           </td>
+           <td class="module-header">
+             <span onclick="javascript:loadFriends();" style="cursor:pointer;">
+               <nobr>__MSG_view_other_trips__</nobr>
+                 <img title="__MSG_view_other_trips__" src="http://www.google.com/c.gif" class="other-trips">
+             </span>
+           </td>
+           <td style="vertical-align:top;">
+             <img style="padding-left:0;" src="http://www.google.com/c.gif" class="toolbar-right">
+           </td>
+           <td style="padding-left:10px;">
+             <a href="http://lonelyplanet.com" target="_blank" style="text-decoration: none;">
+               <img src="http://www.gstatic.com/ig/modules/trippy/lp_logo.cache.png">
+             </a>
+          </td>
+         </tr>
+       </table>
+     </div>
+   </td>
+  </tr>
+  </table>
+  <table id="lp-button" width="100%" style="padding:10px 5px 10px 5px; border-bottom: 1px solid #c0c0c2;">
+    <tr>
+      <td>
+        <span id="lp-sighting" onclick="javascript:searchPoi('see');"><span class="sighting"></span>&nbsp;&nbsp;__MSG_sights__</span>
+          <span id="lp-shopping" onclick="javascript:searchPoi('shop');"><span class="shopping"></span>&nbsp;&nbsp;__MSG_shopping__</span>
+          <span id="lp-restaurants" onclick="javascript:searchPoi('eat');"><span class="restaurants"></span>&nbsp;&nbsp;__MSG_restaurants__</span>
+      <span id="lp-entertainment" onclick="javascript:searchPoi('night');"><span class="entertainment"></span>&nbsp;&nbsp;__MSG_entertainment__</span>
+      <span id="lp-hotels" onclick="javascript:searchPoi('sleep');"><span class="hotels"></span>&nbsp;&nbsp;__MSG_hotels__</span>
+      <span id="lp-activities" onclick="javascript:searchPoi('do');"><span class="activities"></span>&nbsp;__MSG_activities__</span>
+      <span id="lp-general" onclick="javascript:searchPoi('general');"><span class="general"></span>&nbsp;&nbsp;__MSG_general__</span>
+      </td>
+      <td>
+        <span style="float: right;">
+          <input type="text" style="border: 1px solid rgb(126, 157, 185); width: 200px;" id="search-box" value="" class="google-search" onfocus="this.className=''" onblur="if(this.value=='') this.className='google-search'">&nbsp;
+          <wbr></wbr>
+          <input type="submit" style="width: 65px;" value="__MSG_search__" onclick="localSearch(1,null,false)">&nbsp;
+        </span>
+      </td>
+    </tr>
+  </table
+</form>
+<div id="loading-container" style="background:#f4f4f6"></div>
+<table id ="main-canvas-area" cellpadding="0" cellspacing="0" border="0" width="99%" style="margin:5px;">
+  <tr>
+    <td id="map-area" valign="top">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td valign="top" rowspan="2" id="map-container" style="padding:5px 5px 0 0;">
+            <div id="map-box-area"></div>
+          </td>
+        </tr>
+      </table>
+    </td>
+    <td width="30%" valign="top" style="background:#f4f4f6;">
+      <div id="durationSection">
+        <table border="0" width="100%">
+          <tr>
+            <td width="80%" style="padding-top:6px;">
+              <span style="float:right;padding-right:5px;">
+                <span title="__MSG_change_dates__" onclick="javascript:showDateDialog();" style="cursor:pointer;" class="calendar"></span>
+                <span id="editDays" class="link" onclick="javascript:showDateDialog();">
+                  __MSG_change_dates__
+                </span>
+              </span>
+              <div id="duration"></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <span style="float:right;padding:5px;">
+        <input type="button" value="__MSG_create_new_item__" style="font-size:11px;" onclick="javascript:createCustomItemDialog();">
+      </span>
+      <span id="unscheduled-items-header">__MSG_unscheduled_items__</span>
+      <br style="clear:both"/>
+      <div id="unsched-header-bg">
+        <div style="background:#fff;">
+          <div id="unscheduled-items-box"></div>
+        </div>
+      </div>
+      <span id="scheduled-items-header">__MSG_scheduled_items__</span>
+      <br style="clear:both"/>
+      <div id="sched-header-bg">
+        <div style="background:#fff;">
+          <div id="scheduled-items-box"></div>
+        </div>
+      </div>
+    </td>
+  </tr>
+</table>
+</textarea>
+<textarea id="tpl-trip-vote" style="display:none;">
+  <div id="trip-vote-dialog">
+    <div>
+      <table cellpadding="1" cellspacing="1" width="100%" class="dialog-title-send" id="trip-voting">
+        <tr>
+          <td align="left">__MSG_your_vote__</td>
+          <td align="right">
+            <span class="link" onclick="javascript:hideViewDateDialogBox();">
+              <span class="close-image"></span>
+            </span>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <table cellpadding="1" cellspacing="1" style="font-size:12px;">
+      <tr>
+        <td>
+          <span>__MSG_comments__</span>
+          <span>&lt;textarea cols="26" name="comment"rows="3" id="addVote">&lt;/textarea></span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type="radio" id="thumbUp" name="thumb_up" checked />__MSG_thumbs_up__
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type="radio" name="thumb_up" />__MSG_thumbs_down__</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span style="float:left;">
+            <input type="button" value="__MSG_cancel__" onclick="hideViewDateDialogBox()">
+          </span>
+          <span style="float:right;">
+            <input type="button" value="__MSG_vote__" onclick="postActivity(-1)">
+          </span>
+        </td>
+      </tr>
+    </table>
+  </div>
+</textarea>
+<textarea id="tpl-item-vote" style="display:none;">
+  <div id="items-vote-dialog">
+    <div>
+      <table cellpadding="1" cellspacing="1" width="100%" class="dialog-title-send" id="item-vote">
+        <tr>
+          <td align="left">__MSG_your_vote__</td>
+          <td align="right">
+            <span class="link" onclick="javascript:hideViewDateDialogBox();">
+              <span class="close-image"></span>
+            </span>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <table cellpadding="1" cellspacing="1" style="font-size:12px;">
+      <tr>
+        <td>
+          <span>__MSG_comments__</span>
+          <span>&lt;textarea cols="26" name="comment"rows="3" id="addVote">&lt;/textarea></span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type="radio" id="item_thumb_up" name="thumb_up" value="1" checked/>__MSG_thumbs_up__
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type="radio" name="thumb_up" value="0"/>__MSG_thumbs_down__
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span style="float:left;">
+            <input type="button" value="__MSG_cancel__" onclick="hideViewDateDialogBox()">
+          </span>
+          <span style="float:right;">
+            <input type="button" value="__MSG_vote__" onclick="postActivity('{id}')">
+          </span>
+        </td>
+      </tr>
+    </table>
+  </div>
+</textarea>
+<textarea style="display:none;" id="tpl-item-creation">
+  <div id="create-new-item" >
+    <div class="dialog-title">
+      <div style="float:left;font-weight:bold;">
+      __MSG_create_item__
+      </div>
+      <div style="float:right;">
+        <span class="close-image" onclick="javascript:hideViewDateDialogBox();"></span>
+      </div>
+    </div>
+    <div>
+      <table class="create-item-dlg" width="100%" cellspacing="1" cellpadding="1">
+        <tr>
+          <td width="25%" valign="top" style="color:#666;">__MSG_item_name__<span class="mandatory-asterik">*</span> : </td>
+          <td valign="top"><input type="text" name="itemName" style="width:99%;" id="item-name" maxlength="64"></td>
+        </tr>
+        <tr>
+          <td width="25%" valign="top" style="color:#666;">__MSG_item_addr__<span class="mandatory-asterik">*</span> : </td>
+          <td valign="top">&lt;textarea name="description" style="width:99%;" rows="3" id="item-description">&lt;/textarea></td>
+        </tr>
+        <tr>
+          <td width="20%"/>
+          <td>
+            <div id="warning-msg" style="visibility:hidden;" align="center"></div>
+          </td>
+        </tr>
+        <tr>
+          <td width="20%"></td>
+          <td valign="top"><input type="radio" name="group1" onclick="disableDays();" checked> __MSG_unsch__ </td>
+        </tr>
+        <tr>
+          <td width="20%"></td>
+          <td valign="top"><input type="radio" name="group1" onclick="enableDays();" id="dateradio">{dateHtml}</td>
+        </tr>
+        <tr>
+          <td colspan="2"></td>
+        </tr>
+        <tr>
+          <td align="left"><input type="button" value="__MSG_cancel__" onclick="javascript:hideViewDateDialogBox();"></td>
+          <td align="right"><input type="button" value=" __MSG_save__ " onclick="javascript:createNewItem();"></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</textarea>
+<textarea id="tpl-unschedule-item" style="display:none">
+  <table cellspacing="0" cellpadding="3" border="0" style="width:100%;">
+    <tr>
+      <td width="*">
+        <div id="drag-{dragItemCounter}">
+          <div style="width:100%;padding-bottom:5px;">
+            <table cellspacing="0" cellpadding="0" border="0" style="width:100%;">
+              <tr>
+                <td style="width:30px;padding-top:3px;" rowspan="2" align="middle" valign="top">
+                  <img src="{imgSrc}" class="{className}" width="14px" onmousedown="showItemMarker('{index}')"/>
+                </td>
+                <td style="width:92%;padding-left:3px;">
+                  <div id="drag-handle-{dragItemCounter}">
+                    <span class="itemTitle" style="float:left;" title="{title}" onmousedown="showItemMarker('{index}')">{name}</span>
+                    <span id="item-likes" style="display:{likeDisplay};">&nbsp;&nbsp;({thumbUp} likes)</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" style="font-size:11px;padding-left:3px;">{contactInfo}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </td>
+      <td width="48" valign="top">
+        <nobr>
+          <div style="position:relative;">
+            <div style="width:48px;">
+              <b class="rnd1"></b>
+              <b class="rnd2"></b>
+              <b class="rnd3"></b>
+              <div style="background:#e7f3ff;padding-right:5px;">
+                <span style="padding:0 2px;">
+                  <img title="__MSG_edit_item__" style="cursor:pointer;" class="edit-item" onmousedown="editItemDialog('{index}',false);" src="http://www.google.com/c.gif">
+                </span>
+                <span onmousedown="categoryList('{index}'); return false;">
+                  <img src="http://www.google.com/c.gif" class="drop-down" style="cursor:pointer;padding-right:5px;" title=" __MSG_your_vote__ "/>
+                </span>
+              </div>
+              <b class="rnd3"></b>
+              <b class="rnd2"></b>
+              <b class="rnd1"></b>
+            </div>
+            <div id="dropdown-location-{index}" class="loc-dropdown" style="display:none">{html}</div>
+          </div>
+        </nobr>
+      </td>
+    </tr>
+  </table>
+</textarea>
+
+<textarea id="tpl-trip-items-container" style="display:none;">
+  <div id="trip-items-container-{index}" class="trip-items-container">
+    <div class="trip-items-day trip-items-day-{index}">
+      <span id="trip-items-num-{index}" class="trip-items-style">{itemNumber}</span>
+      <span onclick="toggleDisplay({index}, {itemFlag});" style="cursor:pointer" id="exp-item-{index}">
+      <img id="item-expand-{index}" src='http://www.google.com/c.gif' class="zippy-minus"/>
+      </span>
+      <span id="trip-items-day-{index}" onclick="toggleDisplay({index}, {itemFlag});" style="color:#5b5b5b;padding-left:5px;" onmouseover="style.color='#148cba';style.textDecoration='underline';" onmouseout="style.color='#5b5b5b';style.textDecoration='none';">{day}</span>
+    </div>
+    <div id="trip-items-content-{index}" class="trip-items-content">{content}</div>
+  </div>
+</textarea>
+<textarea style="display:none;" id="tpl-date-dialog">
+  <div id="view-dated-dlg">
+    <div class="dialog-title" style="padding-left:1px;">
+      <div style="float:left;">
+        __MSG_set_trip_dates__
+      </div>
+      <div style="float:right;">
+        <span class="close-image" onclick="hideViewDateDialogBox();"></span>
+      </div>
+    </div>
+    <div>
+    <table class="table-data" width="100%" cellspacing="1" cellpadding="1">
+      <tr>
+        <td colspan="2" width="100%">
+          __MSG_no_of_days__&nbsp;
+          <input maxlength="3" onkeyup="validateUpdatedDuration(this);" id="edit-days-box" type="text" size="3" value="{duration}">
+        </td>
+      </tr>
+      <tr>
+        <td width="50%">
+          __MSG_start_date__
+          <input type="text" id="startDate" name="startdate" value="{startDate}" readonly>
+          <span name="calenderimg1" onclick="displayDatePicker('startdate',1);" align="top" class="calendar"></span>
+        </td>
+        <td width="50%">
+          __MSG_end_date__<input type="text" id="endDate" name="enddate" value="{endDate}" readonly>
+          <span name="calenderimg2" align="top" onclick="displayDatePicker('enddate',1);" class="calendar"></span>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" align="center"><input type="button" value="__MSG_clear_start_end_dates__" onclick="javascript:clearDate();" style="width:186px;"></td>
+      </tr>
+      <tr>
+        <td colspan="2"><div id="warning-msg" style="visibility:hidden;" align="center"></div></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <span style="float:left;"><input type="button" id="cancelButton" onclick="javascript:hideViewDateDialogBox();" value="__MSG_cancel__"></span>
+          <span style="float:right;"><input type="button" value="__MSG_ok__" onclick="saveTripDates();"></span>
+        </td>
+      </tr>
+    </table>
+    </div>
+  </div>
+</textarea>
+<textarea id="tpl-calendar" style="display:none;">
+  <div id="main-dlg">
+    <div class="title" valign="middle">__MSG_add_item__</div>
+    <div id="main-dlg-header"></div>
+    <div id="item-calendar" class="dpDiv" style="visibility:hidden;"></div>
+    <input name="itemDate" style="visibility:hidden;width:1px;height:1px;">
+    <div id="warning-msg" style="visibility:hidden;"></div>
+    <div id="main-item-dlg"><b>{itemName}</b></div>
+    <div id="main-dlg-radio">
+      <input type="radio" id="dateradio"  name="group1" onclick="selectAsScheduled();">__MSG_on__
+      <span id="selecteddate"></span><br>
+        <input type="radio" name="group1" onclick="selectAsUnscheduled();" checked>__MSG_as_unscheduled__<br>
+      <div style="padding-top:3px;">
+        <span align="right" style="padding-left:2px;float:left">
+          <input type="button" style="width:60px;" onclick="hideCalender('item-calendar');hideDialog();" id="cancelButton" value="__MSG_cancel__">
+        </span>
+        <span align="right" style="padding-left:28px;float:right">
+          <input onclick="javascript:addItemDate('{index}');" style="width:60px;" type="button" value="__MSG_add_days__">
+        </span>
+      </div>
+    </div>
+  </div>
+</textarea>
+<textarea id="tpl-trip-days" style="display:none;">
+  <div id="unschedule-item-dlg">
+    <div class="title-add-item" valign="middle" >
+      <div style="float:left;">__MSG_add_item__</div>
+      <div style="float:right;">
+        <span class="close-image" onclick="hideCalender('item-calendar');hideDialog();"></span>
+      </div>
+    </div>
+    <div class="drag-hint-text">
+      <span>__MSG_tip__</span> __MSG_drag_tip__
+    </div>
+    <div class="drag-tip-item">
+      <b>{itemName}</b>
+    </div>
+    <div>
+    <div>
+      <table border="0" cellpadding="0" cellspacing="0" style="font-size:11px;color:#000;">
+        <tr>
+          <td colspan="2">
+            <span id="date-radio-span">
+              <input type="radio" id="dateradio" name="group" onclick="enableDays();">
+            </span>&nbsp;
+            <span>__MSG_as_scheduled__</span>
+            <span align="center" style="padding-left:20px;color:#000;font-size:13px;">
+              <span id="daysoption"></span>
+            </span>
+          </td>
+        </tr>
+        <tr>
+          <td width="1px">
+            <span id="unschedule-span">
+              <input type="radio" name="group" id="unsched" onclick="disableDays();" checked>
+            </span>
+          </td>
+          <td style="padding:4px 0 0 3px;">
+            <span>__MSG_as_unscheduled__</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div style="padding:8px 2px 0 1px;">
+      <span style="float:left;">
+        <input type="button" style="width:60px;" onclick="hideCalender('item-calendar');hideDialog();" id="cancelButton" value="__MSG_cancel__">
+      </span>
+      <span style="float:right;">
+        <input onclick="javascript:addItemDate('{index}');" style="width:60px;" type="button" value="__MSG_add_days__">
+      </span>
+    </div>
+  </div>
+</textarea>
+<textarea id="tpl-loading" style="display:none;">
+  <div id="loading-section" class="loading">
+    <img src=" http://www.google.com/ig/images/spinner.gif"/>&nbsp;__MSG_loading__
+  </div>
+</textarea>
+<textarea id="tpl-mail" style="display:none;">
+  <div id="viewedititemdialogbox">
+    <div id="send-mail-dlg" class="title-dates-dialog" valign="middle">
+      <table class="dialog-title-send" width="100%">
+        <tr>
+          <td align="left">__MSG_send_mail__</td>
+          <td align="right">
+            <span class="link" onclick="javascript:hideViewDateDialogBox();">
+              <span class="close-image"></span>
+            </span>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <table style="width:300px;" class="table-data" cellspacing="4" cellpadding="0" height="85%">
+      <tr>
+        <td align="left" width="25%" class="email-to">
+          __MSG_to__
+          <span class="mandatory-asterik">*</span> :
+        </td>
+        <td colspan="2">
+          <input value="" name="emailId" id="emailId" type="text" class="email-description-header">
+        </td>
+      </tr>
+      <tr>
+        <td align="left" width="25%" valign="top" class="email-description-header">
+          __MSG_item_desc__ :
+        </td>
+        <td colspan="2">
+          &lt;textarea id="mailDescp" class="email-description" rows="5" cols="38">&lt;/textarea>
+        </td>
+      </tr>
+      <tr>
+        <td align="left" style="padding-left:1px;">
+          <input type="button" id="cancelButton" onclick="javascript:hideViewDateDialogBox();" value="__MSG_cancel__">
+        </td>
+        <td align="center">
+          <div id="mail-error"></div>
+        </td>
+        <td align="right">
+          <input type="button" style="width:36px;" value="__MSG_ok__" onclick="sendMail();">
+        </td>
+      </tr>
+    </table>
+  </div>
+</textarea>
+<textarea id="tpl-item-info-drag" style="display:none">
+  <div style="position:relative;top:-10px;">
+    <table cellspacing="0" cellpadding="0" border="0" class="item-drag">
+      <tr>
+        <td width="20%" class="link" align="left" id="link-info" style="padding-left:4px;display:{display}">
+          {image}
+        </td>
+        <td width="80%">
+          <div>
+            <table width="100%" cellpadding="0" cellspacing="0">
+              <tr>
+                <td width="1%" style="cursor:pointer;" align="left" onclick="addItem({index});">
+                  <img border="0" src="http://www.google.com/c.gif" class="curve-arrow"/>
+                </td>
+                <td align="left">
+                  <table>
+                    <tr>
+                      <td align="right">
+                        {closeImage}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="drag-text" style="color:#00f;margin-left:0;" valign="bottom" align="left">
+                        <a href="#" onclick="addItem({index});return false;">
+                          <nobr>
+                            {dragMessage}
+                          </nobr>
+                        </a>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <span class="itemTitle" onclick="javascript:closeInfoWindow();" style="font-weight:bold;">{title}</span>
+          <br/>
+          {contactInfo}&nbsp;&nbsp;<div id="web-link" style="text-decoration:none;">{webUrl}</div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" style="font-size:11px;">
+          <div>{lonelyMore}</div>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div id="reviews-container" style="height:{height};">
+    <table cellpadding="2" cellspacing="1" border="0" style="font-size:12px;">
+      <tr>
+        <td id="reviews-label">{reviewsLabel}</td>
+      </tr>
+      <tr>
+        <td>
+          <div>
+            {reviews}
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</textarea>
+<textarea id="tpl-item-info" style="display:none">
+  <div style="position:relative;top:-10px;">
+    <table cellspacing="1" cellpadding="2" border="0" style="font-size:12px;width:200px;">
+      <tr>
+        <td rowspan="3" valign="top" width="5%">
+          <span style="padding:0 2px 0 2px;"><img src="{imgUrl}" class="{className}"/></span>
+        </td>
+        <td width="*">
+          <div class="itemTitle" onclick="closeInfoWindow(true);">
+            {title}
+          </div>
+          <table cellpadding="0" cellspacing="0">
+            <tr>
+              <td>
+              <span style="font-size:12px;">
+                <nobr>__MSG_item_by__</nobr>
+                <span style="font-weight:bold;">{ownerName}</span></span>
+              </span>
+            </td>
+            </tr>
+            <tr>
+              <td>
+                <span id="thumbItem">
+                  <span style="font-size:12px;">
+                    <nobr>
+                      <span id="sitem_thum_up" style="color:#d52f7d;">{thumbUp} thumbs up,</span>
+                      <span id="sitem_thum_down" style="color:#6242c1;">{thumbDown} thumbs down</span>
+                    </nobr>
+                  </span>
+                </span>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" style="font-size:11px;">
+          {contactInfo}
+          <div id="weblink">{webUrl}</div>
+        </td>
+        <td>
+        </td>
+      </tr>
+      <tr>
+        <td class="link" align="left" colspan="2" id="linkInfo" style="display:{display}">
+          {image}<a href="{overviewUrl}" target="_blank">__MSG_overview__</a>
+          <br>
+          <a href="{detailUrl}" target="_blank">__MSG_detail__</a>
+          <br>
+          <a href="{reviewsUrl}" target="_blank">__MSG_review__</a>
+          <br>
+          <a href="{photosUrl}" target="_blank">__MSG_photo_video__</a>
+        </td>
+        <td>
+        </td>
+      </tr>
+    </table>
+  </div>
+</textarea>
+<textarea id="tpl-delete-item-dialog"  style="display:none;">
+  <div id="delete-item" style="height:100%;">
+  <div class="dialog-title" align="left">
+    <span style="float:left;">__MSG_delete_trip__&nbsp;-&nbsp;{itemName}</span>
+    <span style="float:right;">
+      <span class="close-image" onclick="javascript:hideViewDateDialogBox();"></span>
+    </span>
+  </div>
+    <table width="100%" cellpadding="1" cellspacing="1" border="0">
+      <tr>
+        <td valign="middle" height="60px" class="create-item-dlg" align="left">
+          __MSG_delete_item_confirm__
+        </td>
+      </tr>
+      <tr>
+        <td width="100%">
+          <span style="float:left;">
+            <input type="button" value="__MSG_no__" id="cancelButton" onclick="hideDialog();" style="width:40px;">
+          </span>
+          <span style="float:right;">
+            <input type="button" style="float:left;" onclick="deleteSelectedItem('{itemId}',{flag});" value="__MSG_yes__">
+          </span>
+        </td>
+      </tr>
+    </table>
+  </div>
+</textarea>
+<textarea id="tpl-popup-info" style="display:none">
+  <table cellspacing="1" cellpadding="2" border="0" style="font-size:12px;padding-bottom:2px;">
+    <tr>
+      <td rowspan="3" valign="top" width="5%">
+        <span style="padding:0 2px 0 2px;">
+          <img src="{imgUrl}" class="{className}"/>
+        </span>
+      </td>
+      <td width="*">
+        <div class="itemTitle" onmousedown="closeInfoWindow(true);">
+          {title}
+        </div>
+      </td>
+      <td width="5%" valign="top" align="right">
+        <span class="link" onmousedown="closeInfoWindow(false);">
+          <span class="close-image"></span>
+        </span>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3">
+        {contactInfo}
+        <span id="weblink" style="text-align:right;padding-left:10px;">
+          {webUrl}
+        </span>
+      </td>
+    </tr>
+  </table>
+  <table width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #f4f4f6;">
+    <tr>
+      <td>
+        <span style="font-size:11px;padding-left:10px;font-weight:bold">
+          <nobr>__MSG_item_by__</nobr>
+          <span style="padding-left:4px;color:#993300;">{ownerName}</span>
+        </span>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding-left:10px;"><span id="thumbItem">
+        <span style="font-size:10px;">
+          <nobr>
+            <b><span id="sitem_thum_up">{thumbUp}</span></b>__MSG_thumbs_up__,<b>
+            <span id="sitem_thum_down">{thumbDown}</span></b>__MSG_thumbs_down__
+          </nobr>
+          <span id="itemVoteNow" style="padding-left:5px;">
+            <a href="#" onmousedown="javascript:showVotingDialog('{index}');" class="vote-pop-up">__MSG_vote_now__</a>
+          </span>
+        </span>
+      </td>
+    </tr>
+  </table>
+</textarea>
+<textarea id="tpl-edit-trip-name-dialog" style="display:none">
+  <div style="width:250px;" class="dialog-title">
+    <span style="float:left;">__MSG_edit_trip_name__</span>
+    <span style="float:right;">
+      <span class="close-image" onclick="javascript:hideDialog();"></span>
+    </span>
+  </div>
+  <div style="width:254px;">
+  <table width="100%;" cellpadding="1" cellspacing="1" border="0">
+      <tr>
+        <td valign="middle" height="60px" class="create-item-dlg" align="center" colspan="2">
+          __MSG_trip_name__:&nbsp;<input type="text" maxlength="64" value="{tripName}" id="tripNameEdit">
+        </td>
+      </tr>
+      <tr>
+        <td align="left" class="edit-cancel-btn">
+          <input id="cancelButton" type="button" value="__MSG_cancel__" onclick="hideDialog();">
+        </td>
+        <td align="right">
+          <input type="button" onclick="javascript:updateTripName();" value="__MSG_ok__">
+        </td>
+      </tr>
+    </table>
+  </div>
+</textarea>
+<textarea id="edit-item-tpl" style="display:none;">
+  <div id="viewedititemdialogbox" style="width:354px;">
+    <div id="edit-item-dlg" class="title-dates-dialog" valign="middle" style="width:354px;">
+      <table class="dialog-title" width="100%" style="padding:2px 3px 2px 0;">
+        <tr>
+          <td align="left">__MSG_edit_item__</td>
+          <td align="right">
+            <span class="link" onclick="javascript:hideViewDateDialogBox();">
+              <span class="close-image"></span>
+            </span>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <table class="table-data" cellspacing="1" cellpadding="1" width="100%">
+      <tr>
+        <td style="color:#666;font-size:13px;">__MSG_item_name__
+          <span class="mandatory-asterik">*</span> :
+        </td>
+        <td>
+          &lt;textarea rows="1" cols="31" id="item-name" maxlength="45">{itemName}&lt;/textarea>
+        </td>
+      </tr>
+      <tr>
+        <td style="color:#666;font-size:13px;" valign="top">
+          __MSG_item_addr__ :
+        </td>
+        <td>
+          &lt;textarea {readOnly} ; rows="3" cols="35" id="item-description">{description}&lt;/textarea>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td align="left" >
+          <table id="unschedule-radio-check" cellpadding="0" width="100%">
+            <tr>
+              <td style="vertical-align:top;">
+                <input type="radio" name="unscheduleCheck" onclick="unscheduleRadioButton();" id="unscheduleCheck"> __MSG_unsch__
+              </td>
+              <td>
+                <input type="radio" name="daysCheck" id="daysCheck" onclick="daysRadioButton();">__MSG_day__:&nbsp;
+                  <SELECT NAME="daysSelect" id="daysSelect">{daysOption}</SELECT>
+              </td>
+            </tr>
+            <tr>
+              <td><button onclick=" createDeleteItemBox('{index}',1)" style="padding-left:0;">
+                <img src="http://www.google.com/c.gif" width="13" height="13" class="trash-button"/>&nbsp;__MSG_delete__</button>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <div id="warning-msg" style="display:hidden;"></div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="left">
+          <input type="button" name="" onclick="javascript:hideViewDateDialogBox();" id="cancelButton" value="__MSG_cancel__">
+        </td>
+        <td align="right">
+          <input type="button" value="__MSG_save__" onClick="saveEditedItem('{index}');">
+        </td>
+      </tr>
+    </table>
+  </div>
+</textarea>
+<textarea id="tpl-print-header" style="display:none;">
+  <div id="print-trip-items-dialog" width="100%">
+    <div class="print-title" width="100%">
+      <div align="right" style="color:#fff">
+        <span align="left" class="dialog-title" style="float:left;padding-left:3px">__MSG_print_title__</span>
+        <input type="checkbox" id="print_Map" onclick="javascript:showStaticMap({lat},{lng},{accuracy});">__MSG_include_large_map__&nbsp;
+        <input type="button" style="width:70px;" value="__MSG_print_item__" onclick="printTripItems();" id="printDetails">
+          <span onclick="hideCalender('item-calendar');hideDialog();" class="print-close-img close-image"></span>
+      </div>
+    </div>
+  <div style="background: #f3f3f3;padding:10px;">
+  <div id="print-dialog">
+    <table id="print-dialog-header" cellspacing="0" cellpadding="2">
+      <tr>
+        <td width="5%"></td>
+        <td width="25%">
+          <img src="http://www.gstatic.com/ig/modules/trippy/lp_logo.cache.png"/>
+        </td>
+        <td width="40%" valign="center" style="color:#000">
+          <div style="font-weight:bold;font-size:13px;">{tripName}</div>
+          <div style="font-size:13px;">{tripDateString}</div>
+        </td>
+        <td style="color:#666;font-size:12px;" valign="top">
+          {currentDay},&nbsp;{currentDate}
+        </td>
+      </tr>
+    </table>
+    <div id="staticMap" style="margin:20px 5px 0;"></div>
+    <div style="color:#000;font-size:15px;">
+      <div id="itemDetails">
+        <ul>
+          <div class="print-sub-title"><u>__MSG_scheduled_items__</u></div>
+        </ul>
+      <div id="scheduled-item-details" style= font-size:13px;">
+</textarea>
+<textarea style="display:none;" id="tpl-unscheduled-print">
+    </ul>
+  </div>
+  <ul>
+    <div style="padding-right:2px;">
+      <br><div class="print-sub-title" style="color:#000">
+      <u>__MSG_unscheduled_items__</u>
+    </div>
+  </ul>
+  <div id="unscheduled-item-details" style="font-size:13px;">
+</textarea>
+<textarea style="display:none;" id="tpl-address-header">
+  <div style="padding-left:15px;">
+    <div class="print-name">{itemName}</div>
+    <div class="print-address">{address}</div>
+  </div>
+</textarea>
+<textarea id="tpl-calender-header" style="display:none;">
+  <table cols=7 class="drop-table" >
+  <tr class="dpTitleTR">
+    <td class="drop-button">{buttonCodeUp}</td>
+    <td colspan=5 class="dpTitleTD">
+      <div class="drop-title-text">{dateString}</div>
+    </td>
+    <td class="drop-button">{buttonCodeDown}</td>
+  </tr>
+  <tr class="dpDayTR">
+    <td class="drop-day-td">S</td>
+    <td class="drop-day-td">M</td>
+    <td class="drop-day-td">T</td>
+    <td class="drop-day-td">W</td>
+    <td class="drop-day-td">T</td>
+    <td class="drop-day-td">F</td>
+    <td class="drop-day-td">S</td>
+  </tr>
+  {weekdaysCell}
+  </table>
+</textarea>
+<textarea id="tpl-calendar-cell" style="display:none;">
+  <td id="date{id}" class="{className}" onclick="updateDateField('{field}', '{datemdY}', '{datedMYWS}', {tripDate}, 'date{id}');">
+    {day}
+  </td>
+</textarea>
+<textarea id="tpl-empty-td" style="display:none;">
+  <td class="drop-td">&nbsp;</td>
+</textarea>
+<textarea id="tpl-server-msg" style="display:none;">
+  <center><span class="mmlib-table">{message}</span></center>
+</textarea>
+<textarea id="tpl-no-trip-msg" style="display:none;">
+  <div style="text-align:center;line-height:100px;height:100px;font-size:12px;">__MSG_no_trips__</div>
+</textarea>
+<textarea id="tpl-location-dialog" style="display:none;">
+  <div class="change-loc-dlg">
+    <div class="dialog-title">
+      <div style="padding-left:2px;float:left;font-weight:bold;">
+        __MSG_edit_location__
+      </div>
+      <div style="float:right;">
+        <img src="http://trippywave.appspot.com/static/images/close_promo.gif" onclick="javascript:hideDialog();" border="0" style="width:15px;cursor:pointer;margin-left:3px;padding-left:1px;"/>
+      </div>
+    </div>
+    <table cellspacing="1" border="0" cellpadding="1" width="100%">
+      <tr>
+        <td colspan="2" style="padding-left:5px;">
+          <font class="heading">
+            __MSG_where_visit__
+          </font>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding-left:5px;" colspan="2">
+          <input type="text" id="txtLocation" width="70%" class="txtBox" value="{location}" />
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="hint" style="color:#666;padding-left:5px;">
+            __MSG_egLocation__
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <div id="wrngmsg" style="visibility:hidden;" align="center">
+            __MSG_invalid_location__
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td align="left">
+          <input type="button" name="" onclick="javascript:hideViewDateDialogBox();" id="cancelButton" value="__MSG_cancel__">
+        </td>
+        <td align="right">
+          <input type="button" style="align:right;" name="" value="__MSG_ok__" onclick="changeTripLocation();">
+        </td>
+      </tr>
+    </table>
+  </div>
+</textarea>
+<!-- Templates end -->
+<div id="tool-tip" onmouseout="this.style.display='none'"></div>
+<div id="mask" style="width:20px;height:34px;position:absolute;cursor:move;z-index:10000;display:none;" onclick="showMarkerInfo();" onmouseout="_gel('tool-tip').style.display='none'" unselectable="on">
+  <img style="border:0;margin:0;padding:0;width:20px;height:34px;cursor:move;" src="http://www.google.com/c.gif" unselectable="on"/>
+</div>
+<div id="print-content"></div>
+<script src="http://maps.google.com/maps?file=api&amp;v=2.155&amp;sensor=false&amp;key=ABQIAAAAdJJ71whPrja_yYgs8aDYoxT6ZIvuoW-OMIORrcKaWZZ1wY_9JRT1rKTLR4-M4QK4TAasY9gTfxuxiQ" type="text/javascript"></script>
+<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/datepicker.js"></script>
+<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/opensocial.js"></script>
+<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/config.js"></script>
+<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/config_canvas.js"></script>
+<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/canvas.js"></script>
+<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/trippy_data.js"></script>
+<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/trippy.js"></script>
+<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/util_common.js"></script>
+<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/dialog_box.js"></script>
+<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/drag.js"></script>
+<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/util_canvas.js"></script>
+<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/local_search.js"></script>
+<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/lonely_planet.js"></script>
+<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/utility.js"></script>
+<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/date_lib.js"></script>
+<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/position.js"></script>
+<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/services.js"></script>
+]]>
+</Content>
+</Module>

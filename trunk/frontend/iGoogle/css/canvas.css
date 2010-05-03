@@ -1,0 +1,1022 @@
+/**
+ * @fileoverview Style class for canvas view in the gadget.
+ * @author gadgetfactory@google.com (gadgetfactory)
+ */
+
+div,
+form,
+h2,
+h3,
+p,
+ul {
+  font-family: arial, sans-serif;
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
+}
+img {
+  border: 0;
+  cursor: pointer;
+}
+ul { list-style: none; }
+h2 {
+  font-size: 100%;
+  font-weight: normal;
+}
+h3 {
+  font-size: 100%;
+  font-weight: bold;
+  line-height: 130%;
+}
+p,
+a,
+span { line-height: 130%; }
+form { text-align: center; }
+
+a:link,
+a:visited {
+  color: #00c;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/**
+ * Style for main div for canvas.
+ */
+#canvas-content { padding: 0; }
+/**
+ * Style for main header
+ */
+#main-header {
+  background-color: #09539e;
+  color: #fff;
+}
+
+/**
+ * Style for trip owner names.
+ */
+.trip-owner,
+.owner-name { font-size: 12px; }
+
+/**
+ * Style for trip owner names.
+ */
+.owner-name {
+  font-weight: normal;
+  padding-left: 4px;
+  text-transform: capitalize;
+}
+
+/**
+ * Style for lonley planet header branding.
+ */
+#lp-sighting,
+#lp-shopping,
+#lp-restaurants,
+#lp-entertainment,
+#lp-hotels,
+#lp-activities,
+#lp-general {
+  color: #fff;
+  cursor: pointer;
+  font-size: 11px;
+  line-height: 20px;
+  padding: 5px;
+}
+#lp-sighting { background-color: #dc1f26; }
+#lp-shopping { background-color: #ed326c; }
+#lp-restaurants { background-color: #078c77; }
+#lp-entertainment { background-color: #1d4498; }
+#lp-hotels { background-color: #5d2875; }
+#lp-activities { background-color: #f79200; }
+#lp-general { background-color: #ffd60b; }
+
+#lp-header {
+  float: right;
+  padding-right: 5px;
+  width: 470px;
+}
+#lp-tabs {
+  border: 1px solid #c0c0c2;
+  padding: 10px 5px;
+}
+.trip-listing {
+  background: #0a4f9c;
+  padding:7px 0;
+}
+.trip-listing-name {
+  color: #0473cf;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 0 4px 0 4px;
+  text-transform: capitalize;
+}
+.trip-listing-data {
+  color: #000;
+  font-size: 12px;
+  padding: 0 4px 0 6px;
+}
+/**
+ * Style for server messages.
+ */
+.mmlib-table {
+  background-color: #ffc;
+  border: 1px solid #ffcc35;
+  border-collapse: separate;
+  border-spacing: 0;
+  color: #000;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 2px 15px 2px 10px;
+  text-align: center;
+}
+
+/**
+ * Overrideen css from gadget mini message libraray.
+ */
+.mmlib_table {
+  background-color: #fff;
+  height: 25px;
+}
+
+.heading {
+  font-size: 13px;
+  font-weight: bold;
+}
+.hint { font-size: 11px; }
+.text-box, .search-box {
+  border: 1px solid #aaa;
+  font-size: 13px;
+}
+.text-box { width: 97%; }
+.search-box { width: 200px; }
+.loading {
+  color: #5580d5;
+  font-size: 13px;
+  font-weight: bold;
+  padding-left: 5px;
+  padding-top: 10px;
+}
+
+/**
+ * Style for blue background for lonely planet.
+ */
+.module-header {
+  background: transparent url(http://www.gstatic.com/ig/modules/trippy/toolbar_bg.cache.png)
+    repeat-x 0 0;
+  color: #fff;
+  font-size: 10px;
+  height: 25px;
+  padding-top: 7px;
+  text-align: center;
+  vertical-align: top;
+  width: 22%;
+}
+/**
+ * Style for blue button for lonely planet.
+ */
+.btn-divider {
+  height: 29px;
+  padding-left: 0;
+  width: 15px;
+}
+
+/**
+ * Style for show all trips header in canvas.
+ */
+#show-all-trips {
+  color: #fff;
+  cursor: pointer;
+  font-size: 12px;
+  text-decoration: underline;
+}
+
+#trip-name {
+  font-size: 13px;
+  font-weight: bold;
+  padding-right: 5px;
+}
+
+#editTrip,
+#editDays {
+  cursor: pointer;
+  padding-left: 2px;
+}
+#editDays { vertical-align: top; }
+#location {
+  font-size: 13px;
+  padding-left: 4px;
+}
+#durationSection {
+  background-color: #2f81d3;
+  color: #fff;
+  font-size: 13px;
+}
+#duration {
+  color: #fff;
+  font-size: 14px;
+  font-weight:bold;
+}
+
+.link,
+.itemTitle {
+  color: #039
+  cursor: pointer;
+  font-size: 12px;
+}
+.link {
+  color: #fff;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.itemTitle {
+  color: #000;
+}
+
+.vote-link {
+  color: #fff;
+  font-size: 12px;
+  padding-left: 8px;
+  position: relative;
+  text-decoration: none;
+  top: 0;
+}
+a.vote-link {
+  color: #fff;
+  text-decoration: none;
+}
+
+a.vote-link:visited,
+a.vote-link:hover {
+  text-decoration: underline;
+}
+#thumb {
+  color: #fff;
+  position: relative;
+  top: 0;
+}
+.drag-text {
+  color: #808080;
+  float: left;
+  font-size: 11px;
+  font-weight: normal;
+}
+
+/**
+ * Style for map box area in the canvas view.
+ */
+#map-box-area {
+  border: 1px solid #468bcb;
+  height: 642px;
+}
+
+.trip-columns {
+  background: #468bcb repeat-x 0 0;
+  border: 1px solid #468Bcb;
+  color: #fff;
+  cursor: default;
+  font-size: 12px;
+  font-weight: bold;
+  margin: 0;
+  padding-left: 5px;
+  text-align: left;
+}
+
+.sub-heading {
+  color: #039bb2;
+  font-size: 13px;
+  font-weight: bold;
+  padding-right: 4px;
+  text-transform: capitalize;
+}
+
+.title-add-item,
+.title {
+  background-color: #468bcb;
+  color: #fff;
+  font-size: 13px;
+  font-weight: bold;
+}
+.title-add-item {
+  height: 18px;
+  padding: 1px 3px 5px;
+  height: 13px;
+  width: 265px;
+}
+.title {
+  height: 20px;
+  padding: 1px 0 0 5px;
+  width: 97%;
+}
+.table-data,
+#unschedule-radio-check,
+#item-description,
+#item-name { font-size: 12px; }
+.table-data { padding-top: 5px; }
+#item-description { width: 237px; }
+#item-name {
+  height: 22px;
+  width: 237px;
+}
+
+/**
+ * Style for main dialog box.
+ */
+#main-dlg {
+  background-color: #fff;
+  height: 290px;
+  width: 153px;
+}
+#main-dlg-header {
+  display: block;
+  padding: 2px 0 0 4px;
+  visibility: visible;
+  z-index: 10000;
+}
+#main-item-dlg, #main-dlg-radio {
+  color: #000;
+  position: absolute;
+}
+#main-item-dlg {
+  font-size: 12px;
+  padding-left: 5px;
+  top: 210px;
+}
+#main-dlg-radio {
+  font-size: 11px;
+  top: 225px;
+}
+#view-dated-dlg {
+  background-color: #fff;
+  width: 321px;
+}
+#item-description { font-size: 13px; }
+#send-mail-dlg {
+  background-color: #468bcb;
+  width: 300px;
+}
+#edit-item-dlg {
+  background-color: #e4effe;
+  width: 310px;
+}
+.change-loc-dlg {
+  background-color: #fff;
+  width: 250px;
+}
+#tool-tip {
+  background: #fff;
+  border: 1px solid #7d7d72;
+  display: none;
+  font-size: 11px;
+  font-weight: bold;
+  height: 14px;
+  padding: 2px;
+  position: absolute;
+}
+#create-new-item {
+  background-color: #fff;
+  width: 305px;
+}
+#print-content { display: none; }
+@media print {
+  #print-content {
+    background-color: #fff;
+    color: #000;
+    display: block;
+    height: 100%;
+    overflow: visible;
+    position: absolute;
+    width: 100%;
+  }
+  #server-msg {
+    display: none;
+    height: 0;
+    width: 0;
+  }
+  #no-print {
+    display: none;
+    height: 0;
+    width: 0;
+  }
+}
+
+.print-title {
+  background: #468bcb;
+  color: #000;
+  height: 30px;
+  text-align: left;
+}
+.print-close-img {
+  cursor: pointer;
+  margin: 4px 8px 0 16px;
+  width: 15px;
+}
+/**
+ * Style for mandatory field asterik.
+ */
+.mandatory-asterik,
+.drag-tip {
+  color: #f00;
+}
+#server-msg {
+  color: #f00;
+  font-size: 11px;
+  padding: 0 3px;
+}
+#mail-error {
+  color: #f00;
+  font-size: 11px;
+}
+#mail-error {
+  display: none;
+  text-decoration: none;
+}
+.drop-highlight { background-color: #e5eefa; }
+
+.google-search {
+  background: #fff url(http://www.gstatic.com/ig/modules/trippy/google_watermark.cache.png) no-repeat scroll left center;
+  border: 1px solid #7e9db9;
+  width: 200px;
+}
+
+#user-sign-in,
+#unauthorized-user,
+#os-not-avail {
+  font-size: 11px;
+  margin: 16px 0;
+}
+
+/* Style for print. */
+.print-sub-title {
+  color: #000;
+  font-size: 14px;
+  font-weight: bold;
+}
+.trip-items-container {
+  border-bottom: 0;
+  border-top: 1px solid #ccc;
+  cursor: pointer;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.trip-items-day {
+  font-size: 12px;
+  font-weight: bold;
+  padding-left: 5px;
+}
+
+#trip-items,
+#unscheduled-items-box,
+#scheduled-items-box {
+  border: 1px solid #0a4f9c;
+  padding-right: 10px;
+  overflow-y: scroll;
+}
+
+/**
+ * Style for displaying warning and error messages.
+ */
+#warning-msg, #wrngmsg {
+  color: #ff5857;
+  font-size: 11px;
+  height: 8px;
+  text-align: center;
+}
+
+#trip-items {
+  height: 500px;
+}
+#unscheduled-items-box {
+  height: 160px;
+  text-align: left;
+}
+#scheduled-items-box {
+  height: 380px;
+  text-align: left;
+}
+
+/**
+ * Style for printing address or description in the print dialog.
+ */
+.print-address {
+  color: #000;
+  font-size: 12px;
+  padding-left: 15px;
+}
+
+/**
+ * Style for printing item name in the print dialog.
+ */
+.print-name {
+  color: #000;
+  font-size: 13px;
+}
+
+/**
+ * Style for email popup fields and text area.
+ */
+.email-to,
+.email-description-header {
+  padding-left: 1px;
+}
+.email-description-header { width: 215px; }
+.email-description {
+  font-size: 12px;
+  font-family: arial, sans-serif;
+  width: 99%;
+}
+
+#display-rec {
+  border: 1px solid #ccc;
+  border-top: 0;
+  height: 220px;
+  margin: -2px 2px 0 2px;
+  overflow-y: auto;
+}
+
+/**
+ * Style for trip columns.
+ */
+#column1,
+#column2,
+#column3,
+#column4 {
+  float: left;
+  font-weight: bold;
+}
+
+/**
+ * Style for cancel button of edit dialog box.
+ */
+.edit-cancel-btn { padding: 0 2px; }
+
+/**
+ * Style for trip vote.
+ */
+.vote-pop-up {
+  color: #0077cf;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/**
+ * Style for main container div.
+ */
+#main-container {
+  border: 1px solid #a3a3a3;
+  height: auto !important;
+  height: 500px;
+  margin: 0;
+  min-height: 500px;
+}
+
+/**
+ * Style for hiding various containers.
+ */
+#service_not_available,
+#user-not-authorized,
+#user-not-signed-in { display:none; }
+
+.drag-hint-text {
+  color: #666;
+  font-size: 11px;
+  padding-left: 5px;
+}
+.drag-tip-item {
+  color: #000;
+  padding: 4px 0 4px 5px;
+}
+/* Style for rounded corner display in canvas view. */
+.rnd1,
+.rnd2,
+.rnd3 {
+  border-style: solid;
+  border-width: 0;
+  display: block;
+  font-size: 1px;
+  height: 1px;
+  line-height: 1px;
+  overflow: hidden;
+}
+.rnd1 {
+  background: #e7f3ff none repeat scroll 0 50%;
+  margin: 0 3px;
+}
+.rnd2 { margin: 0 2px; }
+.rnd3 { margin: 0 1px; }
+
+.rnd2,
+.rnd3 {
+  background: #e7f3ff none repeat scroll 0 50%;
+  border-color: #fff;
+}
+/* Style for location suggestions dropdown. */
+.loc-dropdown {
+  background-color: #e9f6ff;
+  border: 1px solid #cce6fd;
+  font-size: 12px;
+  margin: 0;
+  position: absolute;
+  right: 2px;
+  z-index: 2001;
+}
+
+.drop-highlight { background-color: #e5eefa; }
+
+.trip-items-content { padding-top: 8px; }
+#trip-items-content-0 { padding-top: 0; }
+.trip-items-day-0 { display: none; }
+#trip-items-container-0,
+#trip-items-container-1 { border-top: 0; }
+
+#loading-container {
+  color: #f66;
+  font-size: 12px;
+  text-align: center;
+}
+#loading-section { color: #000; }
+
+.drag {
+  border: 0;
+  cursor: move;
+  height: 34px;
+  margin: 0;
+  padding: 0;
+  width: 20px;
+  z-index: 10000;
+}
+
+#map-area {
+  background: #f4f4f6;
+  height: 100%;
+  padding-left: 5px;
+  width: 55%;
+}
+#unscheduled-items-header,
+#scheduled-items-header {
+  background: #f4f4f6;
+  float: left;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 10px 0 0 5px;
+}
+#item-likes {
+  color: #f3529a;
+  font-size: 12px;
+  font-weight: bold;
+}
+#print-dialog-header {
+  font-size: 13px;
+  padding-top: 10px;
+  width: 100%
+}
+#reviews-container {
+  border-top: 1px solid #d3e6d2;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-top: 1px;
+  width: 200px;
+}
+.item-drag {
+  font-size: 12px;
+  padding: 6px 0;
+  width: 200px;
+}
+#unschedule-span,
+#date-radio-span {
+  float: left;
+  margin-top: 2px;
+}
+#startDate,
+#endDate {
+  height: 20px;
+  width: 75px;
+}
+#edit-days-box {
+  height: 19px;
+  width: 35px;
+}
+.trip-items-style {
+  color: #fff;
+  float: right;
+  font-weight: bold;
+  padding: 0 5px;
+}
+#item-vote {
+  font-size: 12px;
+  font-weight: bold;
+  height: 25px;
+}
+#trip-listing-header {
+  background: #0a4f9c;
+  height: 60px;
+}
+
+#img-0,
+#img-1,
+#img-2,
+#img-3 { float: left; }
+#thumb-span {
+  font-size: 12px;
+  padding-left: 5px;
+}
+#sched-header-bg ,
+#unsched-header-bg {
+  background: #f4f4f6;
+  padding: 5px;
+}
+#trip-vote-dialog,
+#items-vote-dialog {
+  color: #000;
+  width: 250px;
+}
+#reviews-label {
+  color: #000;
+  font-size: 13px;
+  font-weight: bold;
+}
+/**
+ * Style class for calendar dialog.
+ */
+.drop-table {
+  background-color: #fefefe;
+  border: 1px solid #abcaf8;
+  color: #555;
+  font-size: 12px;
+  text-align: center;
+}
+.drop-td {
+  border: 1px solid #fff;
+  cursor: pointer;
+  font-size: 12px;
+  text-align: center;
+}
+.drop-selected-td {
+  border: 1px solid #070707;
+  cursor: pointer;
+  text-align: center;
+}
+.highlighted-day {
+  background-color: #468bcb;
+  border: 1px solid #fff;
+  cursor: pointer;
+}
+.highlighted-day-selected {
+  background-color: #058a9d;
+  border: 1px solid #070707;
+  cursor: pointer;
+}
+.drop-button { cursor: pointer; }
+.drop-day-td { color: #000; }
+.drop-title-text {
+  background-color: #468bcb;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+}
+.drop-day-highlight {
+  color: #000;
+  font-weight: bold;
+}
+
+/**
+ * Style for dialog title.
+ */
+.title-dates-dialog,
+.dialog-title,
+.dialog-title-send {
+  background-color: #468bcb;
+  font-size: 13px;
+  font-weight: bold;
+}
+.dialog-title,
+.dialog-title-send {
+  color: #fff;
+  height: 18px;
+}
+.title-dates-dialog {
+  color: #3e36a5;
+  height: 25px;
+}
+.dialog-title { padding: 4px 3px 5px 2px; }
+
+#trip-voting {
+  font-size: 12px;
+  height: 25px;
+}
+
+.create-item-dlg {
+  color: #000;
+  font-size: 12px;
+}
+/**
+ * Style for delete item dialog.
+ */
+#delete-item {
+  background-color: #fff;
+  border: 1px solid #468bcb;
+  height: 105px;
+  width: 250px;
+}
+#unschedule-item-dlg {
+  background-color: #fff;
+  height: 130px;
+  width: 270px;
+}
+#print-trip-items-dialog {
+  height: 465px;
+  width: 726px;
+}
+#print-dialog {
+  background: #fff;
+  height: 414px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+#open-social-image,
+.thumb-down,
+.thumb-up,
+.sighting,
+.shopping,
+.restaurants,
+.entertainment,
+.hotels,
+.activities,
+.general,
+.calendar,
+.close-image,
+.edit-item,
+.drop-down,
+.trash-button,
+.zippy-minus,
+.zippy-plus,
+.print-button,
+.mail-button,
+.export-button,
+.other-trips,
+.toolbar-right,
+.toolbar-left,
+.toolbar-divider,
+.lp-sights,
+.lp-shopping,
+.lp-restaurants,
+.lp-entertainment,
+.lp-hotels,
+.lp-activities,
+.lp-general,
+.curve-arrow,
+.blue-pushpin,
+.down-arrow,
+.up-arrow {
+  background-color: transparent;
+  background-image: url("http://www.gstatic.com/ig/modules/trippy/trippy_sprite1.cache.png");
+  display: inline-block;
+  line-height: 13px;
+}
+.thumb-down,
+.thumb-up { height: 13px; width: 19px; }
+.thumb-up { background-position: -146px -719px; }
+.thumb-down { background-position: -130px -719px; }
+
+.sighting,
+.shopping,
+.restaurants {
+  width: 14px;
+  height: 13px;
+}
+.sighting { background-position: -135px 2px; }
+.shopping { background-position: -76px 2px; }
+.restaurants { background-position: -91px 2px; }
+
+.entertainment {
+  background-position: -120px 2px;
+  height: 15px;
+  width: 14px;
+}
+
+.hotels,
+.activities,
+.general {
+  height: 14px;
+  width: 14px;
+}
+.hotels { background-position: -104px 2px; }
+.activities { background-position: -151px 2px; }
+.general { background-position: -165px 2px; }
+
+.calendar,
+.close-image,
+.edit-item {
+  height: 16px;
+  width: 16px;
+}
+.calendar { background-position: -45px 1px; }
+.close-image {
+  background-position: -163px -42px;
+  cursor: pointer;
+}
+.edit-item {
+  background-position: -147px -14px;
+  cursor: pointer;
+}
+
+#open-social-image {
+  background-position: -135px -27px;
+  cursor: none;
+  height: 14px;
+  width: 19px;
+}
+
+.drop-down {
+  background-position: -162px -14px;
+  cursor: pointer;
+  height: 9px;
+  width: 16px;
+}
+.trash-button {
+  background-position: -118px -28px;
+  cursor: pointer;
+  height: 15px;
+  width: 16px;
+}
+.zippy-minus,
+.zippy-plus {
+  cursor: pointer;
+  height: 13px;
+  width: 16px;
+}
+.zippy-minus { background-position: -115px -14px; }
+.zippy-plus { background-position: -131px -14px; }
+
+.print-button,
+.mail-button,
+.export-button,
+.other-trips {
+  background-position: -15px 0;
+  cursor: pointer;
+  height: 11px;
+  vertical-align: top;
+  width: 15px;
+}
+.print-button { background-position: -15px 0; height:15px;}
+.mail-button { background-position: 0 0; }
+.export-button { background-position: -30px 0; height: 14px;}
+.other-trips { background-position: 0 -12px; }
+
+.toolbar-right,
+.toolbar-left {
+  cursor: pointer;
+  height: 30px;
+  width: 16px;
+}
+.toolbar-right { background-position: -90px -15px; }
+.toolbar-left { background-position: -60px -15px; }
+
+.toolbar-divider {
+  background-position: -75px -15px;
+  cursor: pointer;
+  height: 30px;
+  width: 20px;
+}
+
+.lp-sights,
+.lp-shopping,
+.lp-restaurants,
+.lp-entertainment,
+.lp-hotels,
+.lp-activities,
+.lp-general {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+}
+.lp-sights {background-position: -323px 0;}
+.lp-shopping {background-position: -263px 0;}
+.lp-restaurants {background-position: -278px 0;}
+.lp-entertainment {background-position: -308px 0;}
+.lp-hotels {background-position: -293px 0;}
+.lp-activities {background-position: -338px 0;}
+.lp-general {background-position: -353px 0;}
+
+.curve-arrow {
+  background-position: -27px -15px;
+  height: 29px;
+  width: 29px;
+}
+.blue-pushpin {
+  background-position: 0 -27px;
+  height: 25px;
+  width: 16px;
+}
+.down-arrow,
+.up-arrow {
+  height: 7px;
+  margin-top: 5px;
+  width: 14px;
+}
+.up-arrow {background-position: -15px -20px;}
+.down-arrow {background-position: -15px -15px;}
