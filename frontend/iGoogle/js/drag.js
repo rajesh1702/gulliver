@@ -1,6 +1,6 @@
 /**
  * @fileoverview Code related to drag functionality.
- * @author gadgetfactory@google.com (gadgetfactory)
+ * 
  */
 
 /**

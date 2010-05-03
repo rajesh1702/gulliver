@@ -1,6 +1,6 @@
 /**
  * @fileoverview Contains common utility functions.
- * @author gadgetfactory@google.com (gadgetfactory)
+ * 
  */
 
 /**

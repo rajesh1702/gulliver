@@ -2,7 +2,7 @@
 
 /**
  * @fileoverview The externs file for the Tripit gadget.
- * @author gadgetfactory@google.com (GadgetFactory)
+ * 
  */
 var G_DEFAULT_ICON;
 function GMap2(map){};

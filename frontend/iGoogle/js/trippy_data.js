@@ -1,6 +1,6 @@
 /**
  * @fileoverview Class for Gulliver gadget of type JGulliverData.
- * @author gadgetfactory@google.com (gadgetfactory)
+ * 
  */
 
 /**

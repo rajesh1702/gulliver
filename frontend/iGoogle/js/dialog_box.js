@@ -1,6 +1,6 @@
 /**
  * @fileoverview Code related to dialog box and related functions.
- * @author gadgetfactory@google.com (gadgetfactory)
+ * 
  */
 
 /**

@@ -2,7 +2,7 @@
  * @fileoverview Contains library functions for calculating
  * properties. i.e. Page height, Page's top position, Absolute position
  * of element etc.
- * @author gadgetfactory@google.com (gadgetfactory)
+ * 
  */
 
 /**

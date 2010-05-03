@@ -1,6 +1,6 @@
 /**
  * @fileoverview Code contains opensocial related functionality.
- * @author gadgetfactory@google.com (gadgetfactory)
+ * 
  */
 
 /**

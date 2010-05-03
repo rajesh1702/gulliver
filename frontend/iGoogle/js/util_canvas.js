@@ -1,6 +1,6 @@
 /**
  * @fileoverview Utility methods for canvas view.
- * @author gadgetfactory@google.com (gadgetfactory)
+ * 
  */
 
 /**

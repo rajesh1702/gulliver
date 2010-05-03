@@ -1,6 +1,6 @@
 /**
  * @fileoverview Code contains canvas view related functionality.
- * @author gadgetfactory@google.com (gadgetfactory)
+ * 
  */
 
 /**
