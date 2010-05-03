@@ -1,6 +1,6 @@
 /**
  * @fileoverview Config file for the canvas view of gadget.
- * @author gadgetfactory@google.com (gadgetfactory)
+ * 
  */
 
 /**

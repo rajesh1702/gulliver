@@ -1,6 +1,6 @@
 /**
  * @fileoverview Code to handle local search and markers related functions.
- * @author gadgetfactory@google.com (gadgetfactory)
+ * 
  */
 
 /**

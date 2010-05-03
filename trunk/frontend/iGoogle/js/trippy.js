@@ -1,6 +1,6 @@
 /**
  * @fileoverview Containes trip related functions.
- * @author gadgetfactory@google.com (gadgetfactory)
+ * 
  */
 
 /**

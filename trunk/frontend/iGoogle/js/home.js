@@ -1,6 +1,6 @@
 /**
  * @fileoverview Code to handle home view of gadget.
- * @author gadgetfactory@google.com (gadgetfactory)
+ * 
  */
 
 /**

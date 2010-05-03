@@ -7,7 +7,7 @@
              author_email="__MSG_author_email__"
              author_affiliation="Google"
              category="tools">
-  <Locale messages="http://gadgetdevelopment.appspot.com/static/trippy/content/en_ALL.xml"/>
+  <Locale messages="http://gulliver.googlecode.com/svn/trunk/frontend/iGoogle/js/content/en_ALL.xml"/>
   <Require feature="drag" />
   <Require feature="setprefs"/>
   <Require feature="opensocial-0.8"/>
@@ -17,7 +17,7 @@
 </ModulePrefs>
 <Content type="html" view="home">
 <![CDATA[
-<link href="http://gadgetdevelopment.appspot.com/static/trippy/css/home.css" rel="stylesheet" type="text/css">
+<link href="http://gulliver.googlecode.com/svn/trunk/frontend/iGoogle/js/css/home.css" rel="stylesheet" type="text/css">
 <!-- Templates start -->
 <textarea style="display:none;" id="tpl-where-visit">
   <table width="100%">
@@ -139,19 +139,19 @@
   </div>
 </div>
 <script src="http://maps.google.com/maps?file=api&amp;v=2.155&amp;sensor=false&amp;key=KEY" type="text/javascript"></script>
-<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/home.js"></script>
-<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/trippy_data.js"></script>
-<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/config.js"></script>
-<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/util_common.js"></script>
-<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/opensocial.js"></script>
-<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/utility.js"></script>
-<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/date_lib.js"></script>
+<script src="http://gulliver.googlecode.com/svn/trunk/frontend/iGoogle/js/js/home.js"></script>
+<script src="http://gulliver.googlecode.com/svn/trunk/frontend/iGoogle/js/js/trippy_data.js"></script>
+<script src="http://gulliver.googlecode.com/svn/trunk/frontend/iGoogle/js/js/config.js"></script>
+<script src="http://gulliver.googlecode.com/svn/trunk/frontend/iGoogle/js/js/util_common.js"></script>
+<script src="http://gulliver.googlecode.com/svn/trunk/frontend/iGoogle/js/js/opensocial.js"></script>
+<script src="http://gulliver.googlecode.com/svn/trunk/frontend/iGoogle/js/js/utility.js"></script>
+<script src="http://gulliver.googlecode.com/svn/trunk/frontend/iGoogle/js/js/date_lib.js"></script>
 ]]>
 </Content>
 <Content type="html" view="canvas">
 <![CDATA[
-<link href="http://gadgetdevelopment.appspot.com/static/trippy/css/canvas.css" rel="stylesheet" type="text/css">
-<link href="http://gadgetdevelopment.appspot.com/static/trippy/css/dialog_box.css" rel="stylesheet" type="text/css">
+<link href="http://gulliver.googlecode.com/svn/trunk/frontend/iGoogle/js/css/canvas.css" rel="stylesheet" type="text/css">
+<link href="http://gulliver.googlecode.com/svn/trunk/frontend/iGoogle/js/css/dialog_box.css" rel="stylesheet" type="text/css">
 <div align="center"><span id="server-msg"></span></div>
 <div id="no-print">
   <div id="main-container">
@@ -1267,24 +1267,24 @@
   <img style="border:0;margin:0;padding:0;width:20px;height:34px;cursor:move;" src="http://www.google.com/c.gif" unselectable="on"/>
 </div>
 <div id="print-content"></div>
-<script src="http://maps.google.com/maps?file=api&amp;v=2.155&amp;sensor=false&amp;key=ABQIAAAAdJJ71whPrja_yYgs8aDYoxT6ZIvuoW-OMIORrcKaWZZ1wY_9JRT1rKTLR4-M4QK4TAasY9gTfxuxiQ" type="text/javascript"></script>
-<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/datepicker.js"></script>
-<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/opensocial.js"></script>
-<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/config.js"></script>
-<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/config_canvas.js"></script>
-<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/canvas.js"></script>
-<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/trippy_data.js"></script>
-<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/trippy.js"></script>
-<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/util_common.js"></script>
-<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/dialog_box.js"></script>
-<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/drag.js"></script>
-<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/util_canvas.js"></script>
-<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/local_search.js"></script>
-<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/lonely_planet.js"></script>
-<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/utility.js"></script>
-<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/date_lib.js"></script>
-<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/position.js"></script>
-<script src="http://gadgetdevelopment.appspot.com/static/trippy/js/services.js"></script>
+<script src="http://maps.google.com/maps?file=api&amp;v=2.155&amp;sensor=false&amp;key=KEY" type="text/javascript"></script>
+<script src="http://gulliver.googlecode.com/svn/trunk/frontend/iGoogle/js/js/datepicker.js"></script>
+<script src="http://gulliver.googlecode.com/svn/trunk/frontend/iGoogle/js/js/opensocial.js"></script>
+<script src="http://gulliver.googlecode.com/svn/trunk/frontend/iGoogle/js/js/config.js"></script>
+<script src="http://gulliver.googlecode.com/svn/trunk/frontend/iGoogle/js/js/config_canvas.js"></script>
+<script src="http://gulliver.googlecode.com/svn/trunk/frontend/iGoogle/js/js/canvas.js"></script>
+<script src="http://gulliver.googlecode.com/svn/trunk/frontend/iGoogle/js/js/trippy_data.js"></script>
+<script src="http://gulliver.googlecode.com/svn/trunk/frontend/iGoogle/js/js/trippy.js"></script>
+<script src="http://gulliver.googlecode.com/svn/trunk/frontend/iGoogle/js/js/util_common.js"></script>
+<script src="http://gulliver.googlecode.com/svn/trunk/frontend/iGoogle/js/js/dialog_box.js"></script>
+<script src="http://gulliver.googlecode.com/svn/trunk/frontend/iGoogle/js/js/drag.js"></script>
+<script src="http://gulliver.googlecode.com/svn/trunk/frontend/iGoogle/js/js/util_canvas.js"></script>
+<script src="http://gulliver.googlecode.com/svn/trunk/frontend/iGoogle/js/js/local_search.js"></script>
+<script src="http://gulliver.googlecode.com/svn/trunk/frontend/iGoogle/js/js/lonely_planet.js"></script>
+<script src="http://gulliver.googlecode.com/svn/trunk/frontend/iGoogle/js/js/utility.js"></script>
+<script src="http://gulliver.googlecode.com/svn/trunk/frontend/iGoogle/js/js/date_lib.js"></script>
+<script src="http://gulliver.googlecode.com/svn/trunk/frontend/iGoogle/js/js/position.js"></script>
+<script src="http://gulliver.googlecode.com/svn/trunk/frontend/iGoogle/js/js/services.js"></script>
 ]]>
 </Content>
 </Module>

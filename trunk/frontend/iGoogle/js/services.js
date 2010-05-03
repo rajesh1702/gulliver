@@ -1,7 +1,7 @@
 /**
  * @fileoverview Code contains gadget featured services like mailing a trip,
  * printing trip, exporting trip on google maps, voting for trips or trip items.
- * @author gadgetfactory@google.com (gadgetfactory)
+ * 
  */
 
 /**

@@ -1,6 +1,6 @@
 /**
  * @fileoverview Contains date related common utility functions.
- * @author gadgetfactory@google.com (gadgetfactory)
+ * 
  */
 
 /**

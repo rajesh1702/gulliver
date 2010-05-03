@@ -1,6 +1,6 @@
 /**
  * @fileoverview Config file for gadget.
- * @author gadgetfactory@google.com (gadgetfactory)
+ * 
  */
 
 /**

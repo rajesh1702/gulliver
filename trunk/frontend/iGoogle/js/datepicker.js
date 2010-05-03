@@ -1,6 +1,6 @@
 /**
  * @fileoverview Library of calendar events for the gadget.
- * @author gadgetfactory@google.com (gadgetfactory)
+ * 
  */
 
 /**

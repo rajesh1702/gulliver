@@ -1,6 +1,6 @@
 /**
  * @fileoverview Code to handle lonely planet related functionality.
- * @author gadgetfactory@google.com (gadgetfactory)
+ * 
  */
 
 /**
