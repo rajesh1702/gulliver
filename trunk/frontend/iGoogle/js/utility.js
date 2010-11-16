@@ -1,6 +1,6 @@
 /**
  * @fileoverview Contains common utility functions.
- * 
+ * @author
  */
 
 /**
@@ -84,4 +84,21 @@ Util.supplant = function(sourceString, dataObject) {
           replace : match;
     }
   );
+};
+
+/**
+ * To find the index of a given element in an array. If element is found in
+ * array it returns the index else returns -1.
+ * @param {Array} names List of string on which we have to perform search.
+ * @param {string} searchToken Searched string.
+ * @return {number} Returns index of the element in the array else returns -1.
+ */
+Util.indexOf = function(names, searchToken) {
+  var namesList = names.length;
+  for (var i = 0; i < namesList; i++) {
+    if (names[i] == searchToken) {
+      return i;
+    }
+  }
+  return -1;
 };

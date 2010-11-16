@@ -11,13 +11,6 @@
 var AUTHORIZATION_KEY = 'KEY';
 
 /**
- * Stores the timer id.
- * @const
- * @type {string}
- */
-var timerLonelyCallback;
-
-/**
  * To store current searched category for lonely planet search.
  */
 var poiCategory;
@@ -33,34 +26,12 @@ var xmlDoc;
  * @param {string} target Search parameter e.g. london.
  */
 function searchPoi(target) {
+  var serverMsg = _gel('server-msg');
+  serverMsg.innerHTML = '';
+  serverMsg.style.display = 'none';
   _gel('loading-container').innerHTML = _gel('tpl-loading').value;
   poiCategory = target;
-  var url = 'http://apigateway.lonelyplanet.com/api/places?name=' +
-            _esc(getTripById(gCurrentTripsData.currentTripId).loc);
-  var params = {};
-  params[gadgets.io.RequestParameters.AUTHORIZATION] =
-      gadgets.io.AuthorizationType.NONE;
-  params[gadgets.io.RequestParameters.REFRESH_INTERVAL] = 1;
-  params[gadgets.io.RequestParameters.HEADERS] =
-      {'Authorization' : AUTHORIZATION_KEY};
-  params[gadgets.io.RequestParameters.CONTENT_TYPE] =
-      gadgets.io.ContentType.DOM;
-  // Timeout after 15 seconds.
-  timerLonelyCallback =
-      window.setTimeout(showLPAuthorizationError, 15000);
-  gadgets.io.makeRequest(url, callbackSearchPOI, params);
-}
-
-/**
- * Method to show lonely planet authorization error.
- */
-function showLPAuthorizationError() {
-  var message = prefs.getMsg('auth_error') +
-      '<a href="javascript:window.location.reload();">' +
-      prefs.getMsg('try_again') + '</a>';
-  _gel('loading-container').innerHTML = '';
-  _gel('server-msg').innerHTML = '';
-  showServerMessage({message: message});
+  doLatLangLookup();
 }
 
 /**
@@ -73,57 +44,6 @@ function domParser(data) {
   } else { // Internet Explorer
     xmlDoc = new ActiveXObject('Microsoft.XMLDOM');
     xmlDoc.loadXML(data.text);
-  }
-}
-
-/**
- * Callback for searching the latitude and longitude.
- * @param {Object} data Response object.
- */
-function callbackSearchPOI(data) {
-  window.clearTimeout(timerLonelyCallback);
-  var north, south, east, west;
-  var mapLocation =
-      getTripById(gCurrentTripsData.currentTripId).loc.toLowerCase();
-  if (data.text) {
-    var track = 0;
-    domParser(data);
-    if (xmlDoc) {
-      var nodeData = '';
-      var items = xmlDoc.getElementsByTagName('place');
-      var shortName;
-      if (items && items.length) {
-        for (var i = 0, j = items.length; i < j; i++) {
-          shortName = xmlDoc.getElementsByTagName('short-name')[i];
-          if (shortName) {
-            shortName = shortName.childNodes[0].nodeValue.toLowerCase();
-            if (shortName == mapLocation) {
-              // Used to check whether the results matches the
-              //  map location otherwise it will pick the first result.
-              track = i;
-            }
-            break;
-          }
-        }
-        north = getNodeData('north-latitude', track);
-        south = getNodeData('south-latitude', track);
-        east = getNodeData('east-longitude', track);
-        west = getNodeData('west-longitude', track);
-
-      } else {
-        showDataError(prefs.getMsg('no_data_found'));
-      }
-    } else {
-      showDataError(prefs.getMsg('no_data_found'));
-    }
-    // Search for the POI id according to latitudes and longitudes.
-    if (north && east && west && south) {
-      doLatLangLookup();
-    } else {
-      showDataError(prefs.getMsg('no_data_found'));
-    }
-  } else {
-    showDataError(prefs.getMsg('not_authenticate'));
   }
 }
 
@@ -193,14 +113,19 @@ function searchPOIId(data) {
     obj.name = getNodeData('name', i);
     obj.lat = getNodeData('digital-latitude', i);
     obj.lng = getNodeData('digital-longitude', i);
+    obj.dataSource = Datasource.LONELY;
     gCurrentTripsData.arrSearchResults[i] = obj;
   }
   addMarkersPOI();
   _gel('loading-container').innerHTML = '';
   if (!poiItemsLength) {
-    _gel('loading-container').innerHTML =
-        '<b>' + prefs.getMsg('no_results') +
-        ' "' + LONELY_IMG[poiCategory].name + '"</b>';
+    localSearch(LONELY_IMG[poiCategory].name);
+    var tplData = {
+      message: prefs.getMsg('no_connection_search_google_data')
+    };
+    showServerMessage(tplData);
+  } else {
+    hightLightSelectedItem(0);
   }
 }
 
@@ -220,7 +145,8 @@ function addCustomMarker(index, point, imgUrl, id){
   baseIcon.infoWindowAnchor = new GPoint(9, 2);
   var letteredIcon = new GIcon(baseIcon, imgUrl);
   letteredIcon.iconSize = new GSize(12, 22);
-  letteredIcon.shadow = 'http://www.gstatic.com/ig/modules/trippy/pin_sml_shadow.cache.png';
+  letteredIcon.shadow =
+      'http://www.gstatic.com/ig/modules/trippy/pin_sml_shadow.cache.png';
   letteredIcon.shadowSize = new GSize(23, 22);
   letteredIcon.iconAnchor = new GPoint(9, 23);
   letteredIcon.infoWindowAnchor = new GPoint(9, 2);
@@ -237,7 +163,8 @@ function addCustomMarker(index, point, imgUrl, id){
     err: true,
     lat: point.lat(),
     lng: point.lng(),
-    name: markerName
+    name: markerName,
+    dataSource: Datasource.LONELY
   };
   // For masking.
   if (index != -1) {
@@ -260,7 +187,7 @@ function addMarkersPOI() {
   gMap.clearOverlays();
   // To locate the added trip items on map.
   for (var j = 0, count = gTripItemDB.length; j < count; j++) {
-    addBlueMarker(gTripItemDB[j]);
+    addBlueMarker(gTripItemDB[j], j);
   }
   var searchResultsLength = gCurrentTripsData.arrSearchResults.length;
   var addMarkerData, start, iconUrl;
@@ -288,58 +215,100 @@ function doPoiByIdLookup(id) {
       {'Authorization' : AUTHORIZATION_KEY};
   params[gadgets.io.RequestParameters.CONTENT_TYPE] =
       gadgets.io.ContentType.DOM;
-  gadgets.io.makeRequest(url, parseLonelyPlanetData, params);
+  var timeOutId = setTimeout(function() {
+                    handleErrorInPOI(currentMarker.index);
+                  }, 5000);
+  gadgets.io.makeRequest(url,
+      _IG_Callback(parseLonelyPlanetData, currentMarker.index, timeOutId),
+      params);
 }
 
 /**
  * Callback method to parse lonely planet result xml and
  * put values in global array.
- * @param {Object} data The reponse data to be parsed.
+ * @param {Object} data The response data to be parsed.
+ * @param {number} index Index of the item selected.
+ * @param {number} timeOutId Id of the timer.
  */
-function parseLonelyPlanetData(data) {
-  domParser(data);
-  var items = xmlDoc.getElementsByTagName('poi');
-  var obj = {};
-  for (var i = 0, j = items.length; i < j; i++) {
-    obj = {};
-    obj.ownerId = getTripById(gCurrentTripsData.currentTripId).ownerId;
-    obj.ownerName = gViewer;
-    obj.name = getNodeData('name', i);
-    var tempXmlDoc = xmlDoc;
-    var result = tempXmlDoc.getElementsByTagName('address')[i];
-    if (result && result.childNodes[0]) {
-      xmlDoc = result;
-      var street = getNodeData('street', 0);
-      var locality = getNodeData('locality', 0);
-      obj.address = street + ' ' + locality;
+function parseLonelyPlanetData(data, index, timeOutId) {
+  try {
+    // If response is received clear the timer.
+    clearTimeout(timeOutId);
+    domParser(data);
+
+    var obj = gCurrentTripsData.arrSearchResults[index];
+    var dataFetched = obj.dataFetched;
+    obj.dataFetched = true;
+    var items = xmlDoc.getElementsByTagName('poi');
+    for (var i = 0, j = items.length; i < j; i++) {
+      obj.ownerId = getTripById(gCurrentTripsData.currentTripId).ownerId;
+      obj.ownerName = gViewer;
+      obj.name = getNodeData('name', i);
+      var tempXmlDoc = xmlDoc;
+      var result = tempXmlDoc.getElementsByTagName('address')[i];
+      if (result && result.childNodes[0]) {
+        xmlDoc = result;
+        var street = getNodeData('street', 0);
+        var locality = getNodeData('locality', 0);
+        obj.address = street + ' ' + locality;
+      }
+      result = tempXmlDoc.getElementsByTagName('urls')[i];
+      var url = '';
+      if (result && result.childNodes[0]) {
+        xmlDoc = result;
+        var link = getNodeData('url', 0);
+        if (link) {
+          obj.link = 'http://' + link;
+        }
+      }
+      xmlDoc = tempXmlDoc;
+      obj.review = getNodeData('review', i);
+      obj.lat = getNodeData('digital-latitude', i);
+      obj.lng = getNodeData('digital-longitude', i);
+      obj.dataSource = Datasource.LONELY;
+      obj.category = poiCategory;
+      result = xmlDoc.getElementsByTagName('representations')[i];
+      if (result && result.childNodes[0]) {
+        // result.getElementsByTagName('representation') returns array of
+        // 3 elements, in which 3rd element refers to the details of the item in
+        // lonely planet site.
+        // eg: http://touch.lonelyplanet.com/et-1000226350
+        var lonelyLink =
+            result.getElementsByTagName('representation')[2] || '';
+        lonelyLink = lonelyLink.getAttribute('href');
+        // Check whether Id of the item is defined or not.
+        if (lonelyLink != 'http://touch.lonelyplanet.com/et-') {
+          obj.lonelyLink = lonelyLink;
+        }
+      }
+      var telePhone = xmlDoc.getElementsByTagName('telephone')[i];
+      if (telePhone && telePhone.childNodes[0]) {
+        var areaCode = getNodeData('area-code', 0);
+        var number = getNodeData('number', 0);
+        var separator = areaCode ? ' - ' : '';
+        obj.address += '<br/>' + areaCode + separator + number;
+      }
     }
-    result = tempXmlDoc.getElementsByTagName('urls')[i];
-    var url = '';
-    if (result && result.childNodes[0]) {
-      xmlDoc = result;
-      obj.weburl = getNodeData('url', 0);
-      obj.weburl = '<a style="cursor:pointer;color:green;" ' +
-          'target=_blank href=http://' + obj.weburl + '>' +
-          obj.weburl + '</a>';
-      obj.link = obj.weburl;
+    if (!dataFetched) {
+      showMarkerInfo(index);
     }
-    xmlDoc = tempXmlDoc;
-    obj.review = getNodeData('review', i);
-    obj.lat = getNodeData('digital-latitude', i);
-    obj.lng = getNodeData('digital-longitude', i);
-    obj.dataSource = 'lonely';
-    obj.category = poiCategory;
-    result = xmlDoc.getElementsByTagName('representations')[i];
-    if (result && result.childNodes[0]) {
-      var lonelyLink =
-          result.getElementsByTagName('representation')[2] || '';
-      lonelyLink = lonelyLink.getAttribute('href');
-      obj.lonelyLink = '<a style="cursor:pointer;color:#00c;" ' +
-          'target=_blank href=' + lonelyLink + '>' +
-          prefs.getMsg('more_link') + '&raquo;</a>';
-    }
-    gCurrentTripsData.arrSearchResults[currentMarker.index] = obj;
+  } catch (err) {
+    handleErrorInPOI(index);
   }
 }
+
+/**
+ * Handles any error while trying to fetch/parse POI item details.
+ * @param {number} index Index of the item selected.
+ */
+function handleErrorInPOI(index) {
+  var obj = gCurrentTripsData.arrSearchResults[index];
+  var dataFetched = obj.dataFetched;
+  obj.dataFetched = true;
+  if (!dataFetched) {
+    showMarkerInfo(index);
+  }
+}
+
 // Export
 window.searchPoi = searchPoi;

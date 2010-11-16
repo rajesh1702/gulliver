@@ -1,6 +1,6 @@
 /**
  * @fileoverview Config file for gadget.
- * 
+ * @author
  */
 
 /**
@@ -14,7 +14,7 @@ var prefs = new _IG_Prefs();
  * @const
  * @type {string}
  */
-var BASE_URL = 'http://trippy-app.appspot.com';
+var BASE_URL = 'http://trippy-lp.appspot.com/trippy/igoogle';
 
 /**
  * Enum for transaction response.
@@ -58,7 +58,7 @@ var gTripData = [];
 var gMap;
 
 /**
- * Global array for holding refernce for deleted markers.
+ * Global array for holding reference for deleted markers.
  * @type {Array}
  */
 var gDeletedMarkers = [];
@@ -82,16 +82,53 @@ var geocoder;
 var gViewer;
 
 /**
+ * To hold current viewer email id.
+ * @type {Object}
+ */
+var gOwnerId;
+
+/**
  * Array to store opensocial data.
  * @type {Array}
  */
 var gOpenSocial = [];
-/**
+
+/**
  * Variables to hold voting values for a trip.
  * @type {number}
  */
 var trip_thumb_up, trip_thumb_down;
 
+/**
+ * Enum specifing operation to be performed at server side.
+ * @type {string}
+ */
+var Operation = {
+  'ADD_TRIP': 'addTrip',
+  'UPDATE_TRIP': 'updateTrip',
+  'DELETE_TRIP': 'deleteTrip',
+  'SHARE_TRIP': 'shareTrip',
+  'UPDATE_TRIP_ITEM': 'updateItem',
+  'ADD_TRIP_ITEM': 'addItem',
+  'RESCHEDULE_TRIP_ITEMS': 'rescheduleItems',
+  'GET_TRIPS': 'getTrips',
+  'GET_TRIP_ITEMS': 'getItems',
+  'DELETE_TRIP_ITEM': 'deleteItem',
+  'ADD_COMMENT': 'addComment',
+  'GET_COMMENTS': 'getComments',
+  'MAIL_TRIP': 'mailTrip',
+  'DELETE_COMMENT': 'deleteComment'
+};
+
+/**
+ * Enum specifing data source like google, lonely planet or custom.
+ * @type {string}
+ */
+var Datasource = {
+  GOOGLE: 'GOOGLE',
+  LONELY: 'LP', // Lonely Planet
+  CUSTOM: 'custom'
+};
 
 /**
  * Loading template.
@@ -101,3 +138,23 @@ var trip_thumb_up, trip_thumb_down;
 var LOADING_TPL = '<div style="text-align:center"><span class="loading">' +
     '<img src="http://www.google.com/ig/images/spinner.gif"/>&nbsp;&nbsp;' +
     prefs.getMsg('loading') + '</span></div>';
+
+/**
+ * Contains the current view of the gadget.
+ * @type {Object}
+ */
+var currentView = gadgets && gadgets.views &&
+                  gadgets.views.getCurrentView();
+
+/**
+ * Selected view name.
+ * @type {string}
+ */
+var selectedView = currentView ?
+                   currentView.getName().toLowerCase() : 'home';
+
+/**
+ * Flag indicates whether user is in home view or canvas view.
+ * @type {boolean}
+ */
+var isHomeView = selectedView == 'home';
