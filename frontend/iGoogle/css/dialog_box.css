@@ -1,6 +1,6 @@
 /**
  * @fileoverview Style class for dialog boxes in the gadget.
- * @author gadgetfactory@google.com (gadgetfactory)
+ * @author
  */
 
 /**
@@ -26,6 +26,7 @@
   position: absolute;
   z-index: 200;
 }
+
 /**
  * Style for dialog header.
  */
@@ -43,6 +44,7 @@
  * Style for dialog title.
  */
 #dialog-title { float: left; }
+
 /**
  * Style for dialog content.
  */

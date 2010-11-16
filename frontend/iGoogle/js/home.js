@@ -1,6 +1,6 @@
 /**
  * @fileoverview Code to handle home view of gadget.
- * 
+ * @author
  */
 
 /**
@@ -27,26 +27,13 @@ var selectedTrip = {};
  * Callback function for all trips data of the user.
  * @param {Object} response Response of opensocial request.
  */
-function callbackAllTrips(response) {
-  var data = [];
-  if (!gOpenSocial.viewer) {
-    gOpenSocial.viewer = response.get('viewer').getData();
-    gViewer = gOpenSocial.viewer.getDisplayName();
-    data.push(gViewer);
-  }
-  gOpenSocial.viewerFriends = response.get('groupPeople').getData();
-  if (gOpenSocial.viewerFriends) {
-    gOpenSocial.viewerFriends.each(function(person) {
-      data.push(person.getDisplayName());
-    });
-  }
-  var friendsList = [];
-  for (var j = 0, length = data.length - 1; j <= length; j++) {
-    friendsList.push('\'' + _esc(data[j]) + '\'');
-  }
-  var url = BASE_URL + '/getAllTrips?friendsList=' +
-      friendsList.join(',') + '&rand=' + Math.random();
-  gadgets.io.makeRequest(url, initializeData);
+function initializeTrip(response) {
+  var url = BASE_URL + '?action=' + Operation.GET_TRIPS +
+      '&ldap=' + gOwnerId;
+  var params = {};
+  params[gadgets.io.RequestParameters.AUTHORIZATION] =
+      gadgets.io.AuthorizationType.SIGNED;
+  gadgets.io.makeRequest(url, initializeData, params);
 }
 
 /**
@@ -54,7 +41,7 @@ function callbackAllTrips(response) {
  * @param {Object} response Response of opensocial request.
  */
 function handleResponse(response) {
-  callbackAllTrips(response);
+  initializeTrip();
 }
 /**
  * Initializes the trip data.
@@ -62,9 +49,8 @@ function handleResponse(response) {
  */
 function initializeData(response) {
   // Global variable to store all trips as an array.
-  var owner_trips = gadgets.json.parse(response.data);
-  gTripData = owner_trips;
-  if (owner_trips != '') {
+  gTripData = eval(response.data);
+  if (gTripData != '') {
     showTrips();
   } else {
     callbackCreate();
@@ -95,7 +81,7 @@ function showTrips() {
 /**
  * Used to get the html of the details of the expanded trip.
  * @param {string} id Id of the current trip.
- * @return {string} Details of the expanded trip.
+ * @return {string} Details of a trip.
  */
 function getDetailsSection(id) {
   var html = [];
@@ -105,17 +91,30 @@ function getDetailsSection(id) {
   if (tripName.length > MAX_NAME_LENGTH) {
     tripName = tripName.substring(0, MAX_NAME_LENGTH) + '...';
   }
-  var tplHtml = _gel('tpl-trip-row').value;
+  // Checking whether dates of the trip are defined.
+  // If start date is defined then final date will be defined.
+  if (Util.isEmpty(tripData.startDate)) {
+    tripData.sdate = tripData.fdate = '';
+  } else {
+    tripData.sdate = getFormattedDate(tripData.startDate);
+    tripData.fdate =
+        DateLib.addDaysToDate(tripData.startDate, tripData.duration - 1);
+  }
+  var period = '---';
+  // Checking whether dates of the trip are defined.
+  // If start date is defined then final date will be defined.
+  if (!Util.isEmpty(tripData.sdate)) {
+    period = DateLib.formatDate(tripData.sdate, '{M} {d}');
+    period += tripData.duration > 1 ?
+        '&nbsp;-&nbsp;' + DateLib.formatDate(tripData.fdate, '{M} {d}') : '';
+  }
   var tplData = {
     id: id,
     tripName: tripName,
-    sDate: Util.isEmpty(tripData.sdate) ?
-        '' : DateLib.formatDate(tripData.sdate, '{M} {d}'),
-    eDate: Util.isEmpty(tripData.fdate) ?
-        '' : DateLib.formatDate(tripData.fdate, '{M} {d}'),
-    location: tripData.loc
+    period: period,
+    location: tripData.location
   };
-  return Util.supplant(tplHtml, tplData);
+  return Util.supplant(_gel('tpl-trip-row').value, tplData);
 }
 
 /**
@@ -127,11 +126,11 @@ function showTripDetails(nIndex) {
   selectedTrip = {
     ownerName: tripData.ownerName,
     name: tripData.name,
-    id: tripData.id,
-    location: tripData.loc,
-    lat: tripData.lat,
-    lng: tripData.lng,
-    accuracy: tripData.accuracy,
+    id: tripData.key,
+    location: tripData.location,
+    lat: tripData.latitude,
+    lng: tripData.longitude,
+    accuracy: tripData.accuracy || 12,
     duration: tripData.duration,
     sdate: tripData.sdate,
     edate: tripData.fdate
@@ -226,13 +225,11 @@ function validateTripHome() {
  * Callback function to create home UI.
  */
 function callbackCreate() {
-  var html = [_gel('tpl-where-visit').value];
-  if (gTripData.length) {
-    html.push(_gel('tpl-view-trips').value);
-  }
-  html.push('</tr></table>');
-  _gel('home-content').innerHTML = html.join('');
+  _gel('home-content').innerHTML = _gel('tpl-where-visit').value;
   addKeyListener('location');
+  if (gTripData.length) {
+    _gel('view-all-link').innerHTML = _gel('tpl-view-trips').value;
+  }
   _IG_AdjustIFrameHeight();
 }
 
@@ -241,80 +238,86 @@ function callbackCreate() {
  * @param {string} location Trip location.
  */
 function createTripHome(location) {
-  var req = opensocial.newDataRequest();
-  req.add(req.newFetchPersonRequest('VIEWER'), 'viewer');
-  req.send(function(response) {
-    selectedTrip.ownerId = response.get('viewer').getData().getId();
-    selectedTrip.ownerName = response.get('viewer').getData().getDisplayName();
-    gViewer = selectedTrip.ownerName;
-    var params = {currentViewer: selectedTrip.ownerName};
-    // Creates an instance of trip object.
-    var objTrip = getTripObject();
-    if (geocoder) {
-      geocoder.getLocations(location, function(result) {
-        // If location of created trip is found.
-        if (result.Status.code == RESPONSE_SUCCESS) {
-          if (result.Placemark.length) {
-            var place = result.Placemark[0];
-            selectedTrip.accuracy = place.AddressDetails.Accuracy;
-            var pointCoordinates = result.Placemark[0].Point.coordinates;
-            selectedTrip.name = location + ' ' + prefs.getMsg('trip');
-            var params = {};
-            params[gadgets.io.RequestParameters.METHOD] =
-                gadgets.io.MethodType.POST;
-            var postData = gadgets.io.encodeValues({
-              'owner_id': selectedTrip.ownerId,
-              'owner_name': selectedTrip.ownerName,
-              'trip_name': selectedTrip.name,
-              'location': location,
-              'lat': pointCoordinates[1],
-              'lang': pointCoordinates[0],
-              'accuracy': selectedTrip.accuracy,
-              'duration': selectedTrip.duration,
-              'isListing': false
-            });
-            params[gadgets.io.RequestParameters.POST_DATA] = postData;
-            var url = BASE_URL + '/saveTrip?rand=' + Math.random();
-            gadgets.io.makeRequest(url, function(response) {
-              var tplData;
-              var responseData = gadgets.json.parse(response.data);
-              if (responseData[0].error == transResponse.ERROR) {
-                tplData = {
-                  message:
-                      Util.supplant(prefs.getMsg('trip_create_err'),
-                                   {name: location})
-                };
-                showServerMessage(tplData);
-                return;
-              }
-              tplData = {message: prefs.getMsg('trip_created')};
+  selectedTrip.ownerId = gOwnerId;
+  selectedTrip.ownerName = gViewer;
+  // Creates an instance of trip object.
+  var objTrip = getTripObject();
+  if (geocoder) {
+    geocoder.getLocations(location, function(result) {
+      // If location of created trip is found.
+      if (result.Status.code == RESPONSE_SUCCESS) {
+        if (result.Placemark.length) {
+          var place = result.Placemark[0];
+          selectedTrip.accuracy = place.AddressDetails.Accuracy;
+          var pointCoordinates = result.Placemark[0].Point.coordinates;
+          var bounds = result.Placemark[0].ExtendedData.LatLonBox;
+          selectedTrip.name = location + ' ' + prefs.getMsg('trip');
+          var params = {};
+          params[gadgets.io.RequestParameters.METHOD] =
+              gadgets.io.MethodType.POST;
+          var postData = {
+            'ownerName': selectedTrip.ownerName,
+            'name': selectedTrip.name,
+            'location': location,
+            'latitude': pointCoordinates[1],
+            'longitude': pointCoordinates[0],
+            'duration': selectedTrip.duration,
+            'eastLongitude': bounds.east,
+            'northLatitude': bounds.north,
+            'southLatitude': bounds.south,
+            'westLongitude': bounds.west
+          };
+          var dataObj = gadgets.io.encodeValues({
+            'data': gadgets.json.stringify(postData),
+            'action': Operation.ADD_TRIP,
+            'ldap': gOwnerId
+          });
+          params[gadgets.io.RequestParameters.POST_DATA] = dataObj;
+          // Making the request signed.
+          params[gadgets.io.RequestParameters.AUTHORIZATION] =
+              gadgets.io.AuthorizationType.SIGNED;
+          gadgets.io.makeRequest(BASE_URL, function(response) {
+            var tplData;
+            if (response.error) {
+              tplData = {
+                message:
+                  Util.supplant(prefs.getMsg('trip_create_err'),
+                                {name: location})
+              };
               showServerMessage(tplData);
-              selectedTrip.id = responseData[0].tripId;
-              objTrip.trip_id = selectedTrip.id;
-              objTrip.trip_name = selectedTrip.name;
-              objTrip.owner_name = selectedTrip.ownerName;
-              objTrip.owner_id = selectedTrip.ownerId;
-              objTrip.loc = location;
-              objTrip.lat = pointCoordinates[1];
-              objTrip.lang = pointCoordinates[0];
-              objTrip.accuracy = selectedTrip.accuracy;
-              objTrip.thumb_up = 0;
-              objTrip.thumb_down = 0;
-              objTrip.sdate = selectedTrip.sdate;
-              objTrip.fdate = selectedTrip.edate;
-              objTrip.thumb_down = 0;
-              gTripData.push(objTrip);
-              goToCanvas(false);
-            }, params);
-          }
-        } else {
-          _gel('server-msg').innerHTML = prefs.getMsg('loc_not_found');
+              return;
+            }
+            tplData = {
+              message: Util.supplant(prefs.getMsg('trip_created'),
+                                {name: location})
+            };
+            showServerMessage(tplData);
+            selectedTrip.id = response.data;
+            objTrip.trip_id = selectedTrip.id;
+            objTrip.trip_name = selectedTrip.name;
+            objTrip.owner_name = selectedTrip.ownerName;
+            objTrip.owner_id = selectedTrip.ownerId;
+            objTrip.loc = location;
+            objTrip.lat = pointCoordinates[1];
+            objTrip.lang = pointCoordinates[0];
+            objTrip.accuracy = selectedTrip.accuracy;
+            objTrip.thumb_up = 0;
+            objTrip.thumb_down = 0;
+            objTrip.sdate = selectedTrip.sdate;
+            objTrip.fdate = selectedTrip.edate;
+            objTrip.thumb_down = 0;
+            objTrip.collaborators = [gOwnerId];
+            gTripData.push(objTrip);
+            goToCanvas(false);
+          }, params);
         }
-      });
-    } else {
-      _gel('server-msg').innerHTML = prefs.getMsg('map_not_loaded');
-    }
-  });
+      } else {
+        _gel('server-msg').innerHTML = prefs.getMsg('loc_not_found');
+      }
+    });
+  } else {
+    _gel('server-msg').innerHTML = prefs.getMsg('map_not_loaded');
+  }
 }
 
 /**
@@ -327,16 +330,6 @@ function init() {
   }
   _gel('home-content').innerHTML = LOADING_TPL;
   requestData();
-}
-
-function handleOpensocial() {
-  var req = opensocial.newDataRequest();
-      req.add(req.newFetchPersonRequest('VIEWER'), 'viewer');
-      req.add(req.newFetchPeopleRequest(opensocial.newIdSpec({
-          'userId': 'VIEWER',
-          'groupId': 'FRIENDS'
-      })), 'groupPeople');
-      req.send(callbackAllTrips);
 }
 
 /**
@@ -358,7 +351,8 @@ function goToCanvas(listing) {
       duration: selectedTrip.duration,
       sdate: selectedTrip.sdate,
       fdate: selectedTrip.edate,
-      currentViewer: gViewer
+      currentViewer: gViewer,
+      selectedIndex: selectedTrip.selectedIndex
     };
   }
   _gel('home-content').innerHTML = '';

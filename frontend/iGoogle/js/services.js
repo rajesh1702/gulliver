@@ -1,7 +1,7 @@
 /**
  * @fileoverview Code contains gadget featured services like mailing a trip,
  * printing trip, exporting trip on google maps, voting for trips or trip items.
- * 
+ * @author
  */
 
 /**
@@ -32,34 +32,38 @@ function sendMail() {
   var emailId = _gel('emailId');
   if (Util.validateEmailId(emailId.value)) {
     var objTrip = getTripById(gCurrentTripsData.currentTripId);
-    var toList = emailId.value;
+    var toList = [];
     // Separating email ids on basis of separator.
-    var tempArr = toList.split(',');
+    var tempArr = emailId.value.split(',');
     if (tempArr.length > MAX_EMAIL_ADDRESS) {
       mailErr.style.display = 'block';
       mailErr.innerHTML = prefs.getMsg('not_more') + MAX_EMAIL_ADDRESS + '  ' +
           prefs.getMsg('email_allow');
     } else {
+      for (var key in tempArr) {
+        toList.push(tempArr[key]);
+      }
       var description = _gel('mailDescp').value;
       description = '<pre class="mail-style">' + description + '</pre>';
       var params = {};
       var sortOrder =
           Util.isEmpty(objTrip.sdate) && Util.isEmpty(objTrip.edate) ?
           'day' : 'date';
-      postData = gadgets.io.encodeValues({
-        'owner_id': objTrip.ownerId,
-        'owner_name': objTrip.ownerName,
-        'trip_id': objTrip.id,
-        'toList': toList,
-        'description': description,
-        'ownerMailId': ownerMailId,
-        'sortOrder': sortOrder
+
+      var dataObj = gadgets.io.encodeValues({
+        'message': gadgets.json.stringify(description),
+        'action': Operation.MAIL_TRIP,
+        'recipients': gadgets.json.stringify(toList),
+        'id': gCurrentTripsData.currentTripId,
+        'ldap': gOwnerId
       });
+      params[gadgets.io.RequestParameters.POST_DATA] = dataObj;
+
       params[gadgets.io.RequestParameters.METHOD] = gadgets.io.MethodType.POST;
-      params[gadgets.io.RequestParameters.POST_DATA] = postData;
-      var url = BASE_URL + '/mailTrip?rand=' + Math.random();
+      params[gadgets.io.RequestParameters.AUTHORIZATION] =
+          gadgets.io.AuthorizationType.SIGNED;
       var tplData;
-      gadgets.io.makeRequest(url, function(response) {
+      gadgets.io.makeRequest(BASE_URL, function(response) {
         var responseData = gadgets.json.parse(response.data);
         var serverMsg;
         if (responseData.error == transResponse.ERROR) {
@@ -106,7 +110,7 @@ function showPrintDialog() {
   // Sort the itemArray.
   var tripItems = gTripItemDB;
   var tripItemsLength = tripItems.length;
-  sortCol = (!Util.isEmpty(trip.sdate)) ? enTripCol.DATE : enTripCol.DAY;
+  sortCol = enTripCol.DAY;
   isAscending = 1;
   sortByColumn(tripItems);
 
@@ -241,51 +245,78 @@ function actionOnItemActivity(id, activityType) {
  *     its a trip.
  */
 function postActivity(index, activityType) {
-  var thumb_url;
   var params = {};
   var postData;
   var trip = getTripById(gCurrentTripsData.currentTripId);
   trip_thumb_up = trip_thumb_up || trip.thumb_up;
   trip_thumb_down = trip_thumb_down || trip.thumb_down;
   var tripItem = getItemById(index);
-  if (activityType) { // Voting for a trip item.
+  if (index != -1) { // Voting for a trip item.
       var upCount = tripItem.Item_thumb_up;
       var downCount = tripItem.Item_thumb_down;
       var itemVotes = updateItemVotes(activityType, upCount, downCount);
+      var updatedData = {
+        'key': tripItem.id,
+        'thumbsUp': itemVotes.up,
+        'thumbsDown': itemVotes.down,
+        'tripId': gCurrentTripsData.currentTripId,
+        'name': tripItem.name,
+        'startDay': tripItem.day,
+        'latitude': tripItem.lat,
+        'longitude': tripItem.lng,
+        'address': tripItem.address,
+        'ownerName': tripItem.item_owner,
+        'dataSource': tripItem.dataSource,
+        'category': tripItem.category,
+        'searchResultUrl': tripItem.weburl
+      };
       postData = gadgets.io.encodeValues({
-        'item_id': tripItem.id,
-        'Item_thumb_up': itemVotes.up,
-        'Item_thumb_down': itemVotes.down
+        'data': gadgets.json.stringify(updatedData),
+        'action': Operation.UPDATE_TRIP_ITEM,
+        'ldap': gOwnerId
       });
-      thumb_url = '/saveItemThumb';
   } else { // Voting for a trip.
     if (index == -1) {
       updateTripVotes(activityType);
-      postData = gadgets.io.encodeValues({
-        'user_id': trip.ownerId,
-        'trip_id': trip.id,
-        'thumb_up': trip_thumb_up || 0,
-        'thumb_down': trip_thumb_down || 0
+      var updatedData = {
+        'key': trip.id,
+        'thumbsUp': trip_thumb_up || 0,
+        'thumbsDown': trip_thumb_down || 0,
+        'name': trip.name,
+        'duration': trip.duration,
+        'startDate': Util.isEmpty(trip.startDate) ?
+                     null : getDateObject(trip.startDate),
+        'ownerId': trip.ownerId,
+        'location': trip.loc,
+        'latitude': trip.lat,
+        'longitude': trip.lng,
+        'ownerName': trip.ownerName,
+        'description': trip.description
+      };
+      var postData = gadgets.io.encodeValues({
+        'data': gadgets.json.stringify(updatedData),
+        'action': Operation.UPDATE_TRIP,
+        'ldap': gOwnerId
       });
-      thumb_url = '/saveThumb';
     }
   }
+  params[gadgets.io.RequestParameters.AUTHORIZATION] =
+      gadgets.io.AuthorizationType.SIGNED;
   params[gadgets.io.RequestParameters.METHOD] = gadgets.io.MethodType.POST;
   params[gadgets.io.RequestParameters.POST_DATA] = postData;
-  var url = BASE_URL + thumb_url;
-  gadgets.io.makeRequest(url, function(response) {
+  gadgets.io.makeRequest(BASE_URL, function(response) {
     var responseData = gadgets.json.parse(response.data);
-    var serverMsg;
+    var serverMsg, tplData;
     if (responseData.error == transResponse.ERROR) {
       serverMsg = prefs.getMsg('activity_error');
+      tplData = {message: serverMsg};
+      showServerMessage(tplData);
       return false;
     } else if (index == -1) {
       serverMsg = prefs.getMsg('voting_success') + ' ' + _unesc(trip.name);
-    } else {
-      serverMsg = prefs.getMsg('voting_success') + ' ' + _unesc(tripItem.name);
+      tplData = {message: serverMsg};
+      showServerMessage(tplData);
     }
-    var tplData = {message: serverMsg};
-    showServerMessage(tplData);
     if (index != -1) { // Fetching updated data for trip items.
       fetchAllItems();
     } else {
@@ -298,10 +329,10 @@ function postActivity(index, activityType) {
 
 /**
  * Get trip votes count.
- *
+ * @param {boolean} activityType Vote up or vote down.
  */
-function updateTripVotes() {
-  if (_gel('thumbUp').checked) {
+function updateTripVotes(activityType) {
+  if (activityType) {
     trip_thumb_up = getVotesCount(trip_thumb_up);
   } else {
     trip_thumb_down = getVotesCount(trip_thumb_down);
@@ -361,13 +392,6 @@ function showVotingDialog(id) {
 }
 
 /**
- * Dialog for adding vote.
- */
-function doTripVoting() {
-  showDialog(_gel('tpl-trip-vote').value);
-}
-
-/**
  * Get item votes count.
  * @param {string} activityType Type of activity like vote up or down.
  * @param {number} upCount Number of up votes.
@@ -379,7 +403,7 @@ function updateItemVotes(activityType, upCount, downCount) {
     up: '',
     down: ''
   };
-  if (activityType == prefs.getMsg('vote_up')) {
+  if (activityType) {
     itemVote.down = downCount;
     itemVote.up = getVotesCount(upCount);
     if (Util.isEmpty(itemVote.down)) {
@@ -404,4 +428,3 @@ window.actionOnItemActivity = actionOnItemActivity;
 window.printTripItems = printTripItems;
 window.showStaticMap = showStaticMap;
 window.showVotingDialog = showVotingDialog;
-window.doTripVoting = doTripVoting;

@@ -1,6 +1,6 @@
 /**
  * @fileoverview Code related to dialog box and related functions.
- * 
+ * @author
  */
 
 /**
@@ -133,6 +133,72 @@ function showLocationDialog() {
 }
 
 /**
+ * It will open a dialog box containing list of user friend's name and email
+ * address. Once user will press done button after selecting few friends from
+ * the list, it will add friend(s) as a collaborator for a trip. In case an
+ * existing collaborator name is unchecked from list, it will remove that user
+ * from list of collaborators.
+ */
+function showShareDialog() {
+  cursorPosition = 0;
+  var trip = getTripById(gCurrentTripsData.currentTripId);
+  var collabrators = trip.collaborators;
+  var tplHtml;
+  // Checking whether current user is owner of the trip or not.
+  if (gOwnerId != trip.ownerId) {
+    tplHtml = _gel('tpl-unshare-trip').value;
+    var tplData = {
+      link: '<a onclick="removeCollaborator();" href="javascript:void(0);">' +
+        prefs.getMsg('unshare_link') + '</a>'
+    };
+    tplHtml = Util.supplant(tplHtml, tplData);
+    showDialog(tplHtml);
+  } else {
+    var contactListId = [];
+    // Adding collaborators to list which are not part of a user friends.
+    // Suppose we shared the trip with a friend with email id test@gmail.com.
+    // Now if that friend is not part of a user's friend list, it will not be
+    // shown in dialog box as checked once sharing is done.
+    // Get already collaborated friends which have been unselected.
+    for (var i = 0, len = friendsContactData.length; i < len; i++) {
+      contactListId.push(friendsContactData[i].emailId);
+    }
+    for (var i = 0, len = collabrators.length; i < len; i++) {
+      if (Util.indexOf(contactListId, collabrators[i]) == -1 &&
+          collabrators[i] != gOwnerId) {
+        var obj = {};
+        obj.emailId = collabrators[i];
+        friendsContactData.push(obj);
+      }
+    }
+    tplHtml = _gel('tpl-share-trip').value;
+    showDialog(tplHtml);
+    var isChecked, checked, data;
+    var checkedList = [], otherList = [];
+    for (var i = 0, count = friendsContactData.length; i < count; i++) {
+      var html = [];
+      data = friendsContactData[i];
+      isChecked = Util.indexOf(collabrators, data.emailId) != -1;
+      checked = isChecked ? 'checked' : '';
+      html.push('<div class="mail-row">' +
+          '<input id="mail-id-', i, '" type="checkbox" ', checked + '>&nbsp;');
+      if (data.name) {
+        html.push('<span style="color:#000;">',
+            data.name.substring(0, 25),
+            '</span>&nbsp;-&nbsp;');
+      }
+      html.push('<span>', data.emailId.substring(0, 35), '</span></div>');
+      if (isChecked) {
+        checkedList.push(html.join(''));
+      } else {
+        otherList.push(html.join(''));
+      }
+    }
+    _gel('mail-list').innerHTML = checkedList.join('') + otherList.join('');
+  }
+}
+
+/**
  * Closes any opened popup window.
  */
 function closeInfoWindow() {
@@ -177,7 +243,8 @@ function createDeleteItemBox(itemId, isItem) {
 function showEditDialog() {
   var tplHtml = _gel('tpl-edit-trip-name-dialog').value;
   var tripData = getTripById(gCurrentTripsData.currentTripId);
-  var tplData = {tripName: tripData.name};
+  var desc = tripData.description || '';
+  var tplData = {tripName: tripData.name, tripDesc: desc};
   tplHtml = Util.supplant(tplHtml, tplData);
   showDialog(tplHtml);
   var element = _gel('tripNameEdit');
@@ -191,7 +258,7 @@ function showEditDialog() {
 function createTripBox() {
   // Showing create trip dialog by filling data from template.
   showDialog(_gel('tpl-create-trip').value);
-  _gel('server-msg').style.display = 'none';
+  _gel('server-msg').innerHTML = '';
   _gel('create-location').focus();
   _gel('cancel-trip-btn').style.display = 'none';
 }
@@ -268,8 +335,30 @@ function editItemDialog(id) {
     description: _unesc(description),
     daysOption: daysOption.join('')
   };
-  tplData.readOnly = tripItem.isCustom ? '' : 'disabled';
+  tplData.readOnly = tripItem.dataSource == Datasource.CUSTOM ? '' : 'disabled';
   showDialog(Util.supplant(tplHtml, tplData));
+  // To show category drop down for custom items.
+  if (tripItem.dataSource == Datasource.CUSTOM) {
+    var isFoundCategory = false;
+    var OTHERS_CATEGORY_INDEX = 7;
+    var LP_CATEGORIES =
+        ['general', 'do', 'night', 'sleep', 'eat', 'see', 'shop'];
+    _gel('category-list').style.display = '';
+    for(var i = 0, count = LP_CATEGORIES.length; i < count; i++) {
+      if (tripItem.category == LP_CATEGORIES[i]) {
+        isFoundCategory = true;
+        break;
+      }
+    }
+    if (isFoundCategory) {
+      _gel('item_category').selectedIndex = i;
+    } else {
+      var userEntryRef = _gel('user_entry_category');
+      userEntryRef.value = tripItem.category;
+      userEntryRef.style.display = '';
+      _gel('item_category').selectedIndex = OTHERS_CATEGORY_INDEX;
+    }
+  }
   _gel('cancelButton').focus();
   if (tripItem.day) {
     daysRadioButton();
@@ -293,7 +382,7 @@ function showAddItemDialog(itemName, index) {
     // Shows popup by putting data in the template.
     showDialog(Util.supplant(_gel('tpl-trip-days').value, tplData));
     _gel('cancelButton').focus();
-    var dialogHtml = ['<select style="width:32%;" id="days_id" disabled>'];
+    var dialogHtml = ['<select id="days_id" disabled>'];
     for (var i = 1; i <= trip.duration; i++) {
       dialogHtml.push('<option value="', i, '">', prefs.getMsg('day'),
           '&nbsp;', i, '</option>');
@@ -343,3 +432,4 @@ window.selectAsUnscheduled = selectAsUnscheduled;
 window.editItemDialog = editItemDialog;
 window.hideViewDateDialogBox = hideViewDateDialogBox;
 window.createDeleteItemBox = createDeleteItemBox;
+window.showShareDialog = showShareDialog;

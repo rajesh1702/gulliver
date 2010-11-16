@@ -1,20 +1,32 @@
 /**
  * @fileoverview Code to handle local search and markers related functions.
- * 
+ * @author
  */
 
 /**
  * Search for a particular query.
+ * @param {string} opt_category Optional category will be passed on click of
+ *   link in error message.
  */
-function localSearch() {
-  var mapLocation;
-  var keyword = _gel('search-box').value;
-  var searchUrl = 'http://www.google.com/local?q=%KEYWORD%&near=' +
-      '%LOCATION%&start=1&num=20&output=kml';
-  if (!keyword) {
-    _gel('loading-container').innerHTML = '';
+function localSearch(opt_category) {
+  var mapLocation, keyword;
+  var searchBoxRef = _gel('search-box');
+  if (arrowPosition) {
     return;
   }
+  if (opt_category) {
+    keyword = opt_category;
+    searchBoxRef.value = opt_category;
+    searchBoxRef.className = '';
+  } else {
+    keyword = searchBoxRef.value;
+    if (!keyword) {
+      _gel('loading-container').innerHTML = '';
+      return;
+    }
+  }
+  var searchUrl = 'http://www.google.com/local?q=%KEYWORD%&near=' +
+      '%LOCATION%&start=1&num=20&output=kml';
   // Getting maps bounds for visible map area.
   var sspnUrl = gMap.getBounds().getCenter().toUrlValue();
   var params = {};
@@ -35,30 +47,33 @@ function parseLocalSearchResults(feed) {
   try {
     _gel('loading-container').innerHTML = '';
     if (!feed || !feed.data) {
-      _gel('loading-container').innerHTML = '<b>' +
-      prefs.getMsg('no_results') + '"' + _gel('search-box').value +
-      '"</b>';
+      var msg = prefs.getMsg('no_results_found')
+              .replace('%CATEGORY%', _gel('search-box').value);
+       _gel('loading-container').innerHTML =
+          '<span class="local-search-errmsg">' + msg + '</span>';
       return;
     }
     var placemarks = feed.data.getElementsByTagName('Placemark');
     gMap.clearOverlays();
-    var bounds = new GLatLngBounds();
+    var point, bounds = new GLatLngBounds();
     gCurrentTripsData.arrSearchResults = [];
+    gCurrentTripsData.searchMarkers = [];
+    gCurrentTripsData.searchMarkerIcons = [];
     var length = Math.min(MAX_ITEM, placemarks.length);
     for (var i = 0; i < length; i++) {
       var placeMarkObj = parsePlaceMark(placemarks[i].childNodes);
-      addMarker(i,
-                new GLatLng(placeMarkObj.lat, placeMarkObj.lng),
-                MARKER_IMG,
-                placeMarkObj.name);
-      bounds.extend(new GLatLng(placeMarkObj.lat, placeMarkObj.lng));
-      placeMarkObj.dataSource = 'google';
+      point = new GLatLng(placeMarkObj.lat, placeMarkObj.lng);
+      bounds.extend(point);
+      addMarker(i, point, MARKER_IMG, placeMarkObj.name);
+      placeMarkObj.dataSource = Datasource.GOOGLE;
       gCurrentTripsData.arrSearchResults.push(placeMarkObj);
     }
+    setMapZoomLevel(bounds);
     // To locate the added trip items on map.
     for (var j = 0, count = gTripItemDB.length; j < count; j++) {
-      addBlueMarker(gTripItemDB[j]);
+      addBlueMarker(gTripItemDB[j], j);
     }
+    hightLightSelectedItem(0);
   } catch (err) {
     // Do nothing.
   }
@@ -130,6 +145,8 @@ function addMarker(index, point, imgUrl, name) {
         {icon: letteredIcon, autoPan: false});
     gMap.addOverlay(marker);
     marker.value = index;
+    gCurrentTripsData.searchMarkers[index] = marker;
+    gCurrentTripsData.searchMarkerIcons[index] = imgUrl;
     if (index != -1) {
       GEvent.addListener(marker, 'mouseover', function(latlng) {
           currentMarker = {
@@ -186,12 +203,10 @@ function getStyleMap(text, placeMarkObj) {
             }
           }
         }
-        index = textNode.search(/<img src="http:\/\/base.googl/i);
-        if (index != -1) {
+        var arr = textNode.match(/<a[^>]*[^>]*><img[^>]*src="([^"]*)"[^>]*>/i);
+        if (arr && arr[1]) {
           // The value of url value start from 10th position.
-          textNode = textNode.substr(index + 10);
-          placeMarkObj.imgurl =
-              textNode.substr(0, textNode.indexOf('"'));
+          placeMarkObj.imgurl = arr[1];
         }
       }
     }

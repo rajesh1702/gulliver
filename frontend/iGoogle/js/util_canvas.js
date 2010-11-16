@@ -1,6 +1,6 @@
 /**
  * @fileoverview Utility methods for canvas view.
- * 
+ * @author
  */
 
 /**
@@ -19,6 +19,46 @@ function showToolTip(point, name) {
   eleStyle.left = divPoint.x + mapElementPosition.x + 'px';
   eleStyle.top = divPoint.y + mapElementPosition.y - 40 + 'px';
   element.innerHTML = name;
+}
+
+/**
+ * Used for escaping HTML.
+ * @param {string} str Input string.
+ * @return {string} Returns the string with all HTML escaped.
+ */
+function hesc(str) {
+  var htmlEntities = {
+    '&lt;': /</g,
+    '&gt;': />/g,
+    '&quot;': /"/g,
+    '&#39;': /'/g
+  };
+  for (var key in htmlEntities) {
+    str = str.replace(htmlEntities[key], key);
+  }
+  return str;
+}
+
+/**
+* Used to break the long text with wbr tag.
+* @param {string} name Input string.
+* @return {string} Return the string with added spaces.
+*/
+function wrapText(name) {
+  var value = [];
+  var MAX_CHARS = 5;
+  // Add 'wbr' tag to the string so the string will have a line break if it
+  // exceeds the width given.
+  var spanSpacer = '<wbr/>';
+  if (name.length < MAX_CHARS) {
+    return name;
+  } else {
+    for (var k = 0, length = name.length; k < length; k += MAX_CHARS) {
+      var substr = name.substring(k, k + MAX_CHARS);
+      value.push(substr);
+    }
+  }
+  return value.join(spanSpacer);
 }
 
 /**
@@ -193,17 +233,9 @@ function validateTripDuration(days) {
  */
 function saveTripDates() {
   var objTrip = getTripById(gCurrentTripsData.currentTripId);
-  var oldDuration = objTrip.duration;
   var days = getNumDays();
   if (days && validateTripDuration(days)) {
-    // To move items whose date or day of occurrence is greater than
-    // trip end date or day, to unscheduled section.
-    if (oldDuration > days) {
-      resetItemsDate(objTrip.sdate, objTrip.fdate, days);
-    } else {
-      // Updating new trip dates in records.
-      updateTripDate(objTrip.sdate, objTrip.fdate, days);
-    }
+    updateTripDate(objTrip.sdate, objTrip.fdate, days);
   }
 }
 
@@ -242,14 +274,37 @@ function getNewItemObjectByIndex(index, opt_day) {
   tripItem.imgurl = searchData.imgurl || '';
   tripItem.link = searchData.link || '';
   tripItem.day = opt_day || 0;
-  tripItem.dataSource = searchData.dataSource || 'custom';
+  tripItem.dataSource = searchData.dataSource || Datasource.CUSTOM;
   tripItem.tripName = trip.name;
+  tripItem.ownerId = gOwnerId;
   if (!Util.isEmpty(trip.sdate) && opt_day) {
     var formatDate =
         DateLib.addDaysToDate(trip.sdate, tripItem.day - 1, '{m}/{d}/{Y}');
     tripItem.sdate = tripItem.fdate = formatDate;
   }
   return tripItem;
+}
+
+/**
+ * Removes special characters from text.
+ * @param {string} text Original text.
+ * @return {string} String without special characters.
+ */
+function rmhtml(text) {
+  return text.replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&quot;/g, '\"')
+      .replace(/&apos;/g, '\'');
+}
+
+/**
+ * Trims all spaces in a string.
+ * @param {string} str Input string.
+ * @return {string} Output string.
+ */
+function trimAllSpaces(str) {
+  return str.replace(/^\s+|\s+$/g, '');
 }
 
 // Exports

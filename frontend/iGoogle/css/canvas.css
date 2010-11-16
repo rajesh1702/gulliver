@@ -16,7 +16,6 @@ ul {
 }
 img {
   border: 0;
-  cursor: pointer;
 }
 ul { list-style: none; }
 h2 {
@@ -43,6 +42,14 @@ a:hover {
 }
 
 /**
+ * Items links to be displayed underline.
+ */
+#trip-item-link a:link,
+#trip-item-link a:visited {
+  color: #00c;
+  text-decoration: underline;
+}
+/**
  * Style for main div for canvas.
  */
 #canvas-content { padding: 0; }
@@ -50,7 +57,7 @@ a:hover {
  * Style for main header
  */
 #main-header {
-  background-color: #09539e;
+  background-color: #0a4f9c;
   color: #fff;
 }
 
@@ -83,7 +90,7 @@ a:hover {
   cursor: pointer;
   font-size: 11px;
   line-height: 20px;
-  padding: 5px;
+  padding: 0 5px;
 }
 #lp-sighting { background-color: #dc1f26; }
 #lp-shopping { background-color: #ed326c; }
@@ -124,7 +131,6 @@ a:hover {
  */
 .mmlib-table {
   background-color: #ffc;
-  border: 1px solid #ffcc35;
   border-collapse: separate;
   border-spacing: 0;
   color: #000;
@@ -173,7 +179,7 @@ a:hover {
   padding-top: 7px;
   text-align: center;
   vertical-align: top;
-  width: 22%;
+  width: 30%;
 }
 /**
  * Style for blue button for lonely planet.
@@ -182,6 +188,17 @@ a:hover {
   height: 29px;
   padding-left: 0;
   width: 15px;
+}
+
+/**
+ * Style for license text.
+ */
+#license-text {
+  border: 1px solid #ccc;
+  color: #797a73;
+  margin-bottom: 5px;
+  padding: 8px;
+  text-align: justify;
 }
 
 /**
@@ -205,7 +222,6 @@ a:hover {
   cursor: pointer;
   padding-left: 2px;
 }
-#editDays { vertical-align: top; }
 #location {
   font-size: 13px;
   padding-left: 4px;
@@ -261,8 +277,9 @@ a.vote-link:hover {
 .drag-text {
   color: #808080;
   float: left;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: normal;
+  padding-top: 5px;
 }
 
 /**
@@ -351,7 +368,7 @@ a.vote-link:hover {
 }
 #view-dated-dlg {
   background-color: #fff;
-  width: 321px;
+  width: 352px;
 }
 #item-description { font-size: 13px; }
 #send-mail-dlg {
@@ -423,6 +440,7 @@ a.vote-link:hover {
 }
 #server-msg {
   color: #f00;
+  display: none;
   font-size: 11px;
   padding: 0 3px;
 }
@@ -446,7 +464,7 @@ a.vote-link:hover {
 #unauthorized-user,
 #os-not-avail {
   font-size: 11px;
-  margin: 16px 0;
+  margin: 16px 5px;
 }
 
 /* Style for print. */
@@ -472,8 +490,10 @@ a.vote-link:hover {
 #unscheduled-items-box,
 #scheduled-items-box {
   border: 1px solid #0a4f9c;
-  padding-right: 10px;
   overflow-y: scroll;
+}
+#trip-items {
+  padding-right: 10px;
 }
 
 /**
@@ -483,6 +503,7 @@ a.vote-link:hover {
   color: #ff5857;
   font-size: 11px;
   height: 8px;
+  padding: 2px 0;
   text-align: center;
 }
 
@@ -583,7 +604,7 @@ a.vote-link:hover {
 .drag-hint-text {
   color: #666;
   font-size: 11px;
-  padding-left: 5px;
+  padding: 5px;
 }
 .drag-tip-item {
   color: #000;
@@ -592,7 +613,28 @@ a.vote-link:hover {
 /* Style for rounded corner display in canvas view. */
 .rnd1,
 .rnd2,
-.rnd3 {
+.rnd3,
+.rnd1-sights,
+.rnd2-sights,
+.rnd3-sights,
+.rnd1-shpng,
+.rnd2-shpng,
+.rnd3-shpng,
+.rnd1-rest,
+.rnd2-rest,
+.rnd3-rest,
+.rnd1-ent,
+.rnd2-ent,
+.rnd3-ent,
+.rnd1-hotel,
+.rnd2-hotel,
+.rnd3-hotel,
+.rnd1-act,
+.rnd2-act,
+.rnd3-act,
+.rnd1-gen,
+.rnd2-gen,
+.rnd3-gen {
   border-style: solid;
   border-width: 0;
   display: block;
@@ -601,18 +643,104 @@ a.vote-link:hover {
   line-height: 1px;
   overflow: hidden;
 }
-.rnd1 {
-  background: #e7f3ff none repeat scroll 0 50%;
-  margin: 0 3px;
-}
-.rnd2 { margin: 0 2px; }
-.rnd3 { margin: 0 1px; }
 
 .rnd2,
+.rnd2-sights,
+.rnd2-shpng,
+.rnd2-ent,
+.rnd2-hotel,
+.rnd2-act,
+.rnd2-gen,
+.rnd2-rest { margin: 0 1px; }
+
+.rnd1 {
+  background: #09539e none repeat scroll 0 50%;
+  margin: 0 3px;
+}
+.rnd2,
 .rnd3 {
-  background: #e7f3ff none repeat scroll 0 50%;
+  background: #09539e none repeat scroll 0 50%;
+  border-color: #09539e;
+}
+
+.rnd1-sights {
+  background: #dc1f26 none repeat scroll 0 50%;
+  margin: 0 3px;
+}
+.rnd2-sights,
+.rnd3-sights {
+  background: #dc1f26 none repeat scroll 0 50%;
   border-color: #fff;
 }
+
+.rnd1-shpng {
+  background: #ed326c none repeat scroll 0 50%;
+  margin: 0 3px;
+}
+.rnd2-shpng,
+.rnd3-shpng {
+  background: #ed326c none repeat scroll 0 50%;
+  border-color: #fff;
+}
+
+.rnd1-rest {
+  background: #078c77 none repeat scroll 0 50%;
+  margin: 0 3px;
+}
+.rnd2-rest,
+.rnd3-rest {
+  background: #078c77 none repeat scroll 0 50%;
+  border-color: #fff;
+}
+
+.rnd1-ent {
+  background: #1d4498 none repeat scroll 0 50%;
+  margin: 0 3px;
+}
+.rnd2-ent,
+.rnd3-ent {
+  background: #1d4498 none repeat scroll 0 50%;
+  border-color: #fff;
+}
+
+.rnd1-hotel {
+  background: #5d2875 none repeat scroll 0 50%;
+  margin: 0 3px;
+}
+.rnd2-hotel,
+.rnd3-hotel {
+  background: #5d2875 none repeat scroll 0 50%;
+  border-color: #fff;
+}
+
+.rnd1-act {
+  background: #f79200 none repeat scroll 0 50%;
+  margin: 0 3px;
+}
+.rnd2-act,
+.rnd3-act {
+  background: #f79200 none repeat scroll 0 50%;
+  border-color: #fff;
+}
+
+.rnd1-gen {
+  background: #ffD60b none repeat scroll 0 50%;
+  margin: 0 3px;
+}
+#search-results-navigation .rnd1-gen {
+  background: #e2e8fa none repeat scroll 0 50%;
+}
+.rnd2-gen,
+.rnd3-gen {
+  background: #ffd60b none repeat scroll 0 50%;
+  border-color: #fff;
+}
+#search-results-navigation .rnd2-gen,
+#search-results-navigation .rnd3-gen {
+  background: #e2e8fa none repeat scroll 0 50%;
+  border-color: #fff;
+}
+
 /* Style for location suggestions dropdown. */
 .loc-dropdown {
   background-color: #e9f6ff;
@@ -633,7 +761,7 @@ a.vote-link:hover {
 #trip-items-container-1 { border-top: 0; }
 
 #loading-container {
-  color: #f66;
+  color: #dc1f26;
   font-size: 12px;
   text-align: center;
 }
@@ -663,26 +791,58 @@ a.vote-link:hover {
   font-weight: bold;
   padding: 10px 0 0 5px;
 }
-#item-likes {
+.item-likes {
   color: #f3529a;
-  font-size: 12px;
-  font-weight: bold;
 }
+.item-dislikes {
+  color: #6242c1;
+}
+.item-dislikes,
+.item-likes {
+  font-size: 12px;
+}
+a.link-unhighlight {
+  color: #000;
+  cursor: default;
+  text-decoration: none;
+}
+a.link-unhighlight:hover {
+  text-decoration: none;
+}
+a.link-hilight {
+  color: #0000cc;
+  cursor: pointer;
+  text-decoration: none;
+}
+a.link-hilight:hover {
+  text-decoration: underline;
+}
+.trip-items-links {
+  font-size: 11px;
+  padding: 0 0 3px 3px;
+  width: 92%;
+}
+.like-dislike-links a:hover {
+  text-decoration: underline;
+}
+.like-dislike-links a {
+  text-decoration: none;
+}
+
 #print-dialog-header {
   font-size: 13px;
   padding-top: 10px;
   width: 100%
 }
-#reviews-container {
-  border-top: 1px solid #d3e6d2;
+.info-window-text-container {
   overflow-x: hidden;
   overflow-y: auto;
   padding-top: 1px;
-  width: 200px;
+  width: 300px;
 }
 .item-drag {
   font-size: 12px;
-  padding: 6px 0;
+  padding: 6px 0 0;
   width: 200px;
 }
 #unschedule-span,
@@ -735,8 +895,7 @@ a.vote-link:hover {
 }
 #reviews-label {
   color: #000;
-  font-size: 13px;
-  font-weight: bold;
+  font-size: 12px;
 }
 /**
  * Style class for calendar dialog.
@@ -823,7 +982,7 @@ a.vote-link:hover {
 }
 #unschedule-item-dlg {
   background-color: #fff;
-  height: 130px;
+  height: 135px;
   width: 270px;
 }
 #print-trip-items-dialog {
@@ -871,22 +1030,35 @@ a.vote-link:hover {
 .curve-arrow,
 .blue-pushpin,
 .down-arrow,
-.up-arrow {
+.edit-thumb-up,
+.edit-thumb-down,
+.up-arrow,
+.share-icon,
+#right-navigation img,
+#left-navigation img {
   background-color: transparent;
-  background-image: url("http://www.gstatic.com/ig/modules/trippy/trippy_sprite1.cache.png");
+  background-image: url("http://www.gstatic.com/ig/modules/trippy/trippy_sprite.cache.png");
   display: inline-block;
   line-height: 13px;
 }
 .thumb-down,
 .thumb-up { height: 13px; width: 19px; }
 .thumb-up { background-position: -146px -719px; }
-.thumb-down { background-position: -130px -719px; }
-
+.thumb-down { background-position: -130px -721px; }
+.edit-thumb-up,
+.edit-thumb-down { height: 15px; width: 17px; }
+.edit-thumb-up { background-position: -148px -720px; }
+.edit-thumb-down { background-position: -130px -719px; }
 .sighting,
 .shopping,
 .restaurants {
   width: 14px;
   height: 13px;
+}
+.title-thumb-down {
+  cursor: pointer;
+  position: relative;
+  top: 3px;
 }
 .sighting { background-position: -135px 2px; }
 .shopping { background-position: -76px 2px; }
@@ -909,11 +1081,20 @@ a.vote-link:hover {
 .general { background-position: -165px 2px; }
 
 .calendar,
-.close-image,
-.edit-item {
+.close-image {
   height: 16px;
   width: 16px;
 }
+.edit-item {
+  height: 14px;
+  width: 16px;
+}
+#comment-prev,
+#comment-nxt {
+  font-size: 17px;
+  font-weight: 12px;
+}
+
 .calendar { background-position: -45px 1px; }
 .close-image {
   background-position: -163px -42px;
@@ -957,7 +1138,6 @@ a.vote-link:hover {
 .export-button,
 .other-trips {
   background-position: -15px 0;
-  cursor: pointer;
   height: 11px;
   vertical-align: top;
   width: 15px;
@@ -1003,6 +1183,7 @@ a.vote-link:hover {
 .lp-general {background-position: -353px 0;}
 
 .curve-arrow {
+  cursor: pointer;
   background-position: -27px -15px;
   height: 29px;
   width: 29px;
@@ -1020,3 +1201,255 @@ a.vote-link:hover {
 }
 .up-arrow {background-position: -15px -20px;}
 .down-arrow {background-position: -15px -15px;}
+
+.share-icon {
+  background-position: -293px 30px;
+  height: 15px;
+  vertical-align: top;
+  width: 16px;
+}
+
+/* Style class for error message on local search. */
+.local-search-errmsg {
+  background-color: #ffc;
+  color: #000;
+  font-weight: bold;
+  padding: 0 5px;
+}
+
+#googleSearch a,
+#googleSearch a:hover,
+#googleSearch a:visited {
+  color: #fff;
+  font-weight: bold;
+  padding: 0 10px;
+  text-decoration: underline;
+}
+
+/* Style for share trip dialog. */
+.share-trip {
+  height: 490px;
+  width: 490px;
+}
+
+/* Style for save lp trip dialog. */
+.save-lp-trip {
+  height: 130px;
+  width: 380px;
+}
+
+#lp-top-destinations td {
+  vertical-align: top;
+}
+
+/* Style for unshare trip dialog. */
+.unshare-trip {
+  height: 200px;
+  width: 490px;
+}
+
+/* Style for email ids shown in share dialog. */
+#mail-list {
+  border: 1px solid #468bcb;
+  height: 400px;
+  margin: 10px 0 0 18px;
+  overflow: auto;
+  width: 450px;
+}
+.mail-row {
+  border-bottom: 1px solid #468bcb;
+  height: 25px;
+}
+
+/* Style for approval link when user first time logs into gadget. */
+#approval {text-align: center;}
+#approval a,
+#approval a:hover,
+#approval a:visited {
+  font-size: 15px;
+  text-decoration: underline;
+}
+
+/* Style for blue background for lonely planet logo on signin page. */
+.logo-header {
+  background: #0a4f9c repeat-x 0 0;
+  color: #fff;
+  font-size: 10px;
+  height: 49px;
+  text-align: center;
+  vertical-align: top;
+}
+
+/* Style for grant access link on sign in page. */
+#grant-access {
+  padding-top: 10px;
+  text-align: center;
+}
+#promotion-line {
+  font-size: 12px;
+  padding-top: 10px;
+}
+.more {
+  font-size: 11px;
+  padding-top: 7px;
+}
+.more a,
+#weblink a {
+  color: green;
+  text-decoration: underline;
+}
+.more-reviews {
+  font-size: 12px;
+  text-align: right;
+}
+/* Style for image shown of the item in pop up of google local search */
+#link-info {
+  width: 100px;
+}
+#link-info img {
+  height: 60px;
+  padding: 4px 4px 0 0;
+  width: 100px;
+}
+/* Style for links in pop up window */
+.link-info {
+  padding-top: 2px;
+  vertical-align: top
+}
+.link-info a {
+  color: green;
+  font-size: 11px;
+  text-decoration: underline;
+}
+.contact-info {
+  font-size: 11px;
+  font-weight: bold;
+}
+
+/* Style for auto select panel of the categories in google search box. */
+.auto-select {
+  display: none;
+  height: 0;
+  overflow: visible;
+  padding-right: 77px;
+  position: absolute;
+  z-index: 100;
+}
+.list-categories {font-size: 12px;}
+
+/* Style for suggested categories dropdown. */
+#categories-dropdown {
+  background-color: #fff;
+  border: 3px solid #6080aa;
+  width: 100%;
+}
+#dropdown-search-box {
+  position: absolute;
+}
+#categories-dropdown td {
+ text-transform: capitalize;
+}
+/* Style for comment textarea */
+.trip-items-links textarea {
+  height: 52px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.trip-items-links input {
+  width: 65px;
+}
+
+.cmntlink-enable {
+  color: #0000cc;
+  cursor: pointer;
+  font-weight: bold;
+}
+.cmntlink-disable {
+  color: #000;
+  cursor: default;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.nxt-prev-link-disable {
+  color: #666;
+  font-weight: bold;
+}
+.add-contact-button {
+  white-space: nowrap;
+}
+
+.add-contact-input {
+  width: 99%;
+}
+
+.add-contact-panel {
+  padding-bottom: 10px;
+  width: 100%;
+}
+
+.footer-panel {
+  padding-left: 15px;
+  width: 485px;
+}
+
+#friends-table {
+  background: none repeat scroll 0 0 #e0ecff;
+  border: 1px solid #666;
+  color: #00c;
+  margin: 21px 15px;
+  padding: 0 0 1px;
+  position: absolute;
+  z-index: 10;
+}
+
+.friend-row {
+  cursor: pointer;
+  height: 21px;
+  width: 280px;
+}
+
+#share-error {
+  color: #f00;
+  display: none;
+  padding-bottom: 2px;
+  text-align: center;
+}
+#search-results-navigation {
+  display: none;
+}
+.navigation-table {
+  padding-right: 3px;
+  width: 100%;
+}
+.navigation {
+  text-align: left;
+  width: 40px;
+}
+#left-navigation,
+#right-navigation {
+  background-color: #e2e8fa;
+  cursor: pointer;
+  font-size: 13px;
+  height: 17px;
+  text-align: center;
+}
+#left-navigation img {
+  background-position: -241px 23px;
+  height: 15px;
+  vertical-align: top;
+  width: 16px;
+}
+#right-navigation img {
+  background-position: -258px 23px;
+  height: 15px;
+  vertical-align: top;
+  width: 16px;
+}
+.search-result {
+  background-color: #e2e8fa;
+  color: #2e4987;
+  font-size: 13px;
+  font-weight: bold;
+  text-align: center;
+}

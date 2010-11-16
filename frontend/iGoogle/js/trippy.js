@@ -1,6 +1,6 @@
 /**
  * @fileoverview Containes trip related functions.
- * 
+ * @author
  */
 
 /**
@@ -65,10 +65,10 @@ JGulliverData.prototype.deleteTrip = function(deleteTripId) {
   var allTripsData = this;
   var params = {};
   var objTrip = getTripById(deleteTripId);
-  params[gadgets.io.RequestParameters.METHOD] = gadgets.io.MethodType.POST;
-  var postData = gadgets.io.encodeValues({'trip_id': deleteTripId});
-  params[gadgets.io.RequestParameters.POST_DATA] = postData;
-  var url = BASE_URL + '/deleteTrip?rand=' + Math.random();
+  params[gadgets.io.RequestParameters.AUTHORIZATION] =
+      gadgets.io.AuthorizationType.SIGNED;
+  var url = BASE_URL + '?action=' + Operation.DELETE_TRIP +
+      '&id=' + deleteTripId + '&ldap=' + gOwnerId;
   var tplData;
   gadgets.io.makeRequest(url, function(response) {
     var responseData = gadgets.json.parse(response.data);
@@ -86,7 +86,7 @@ JGulliverData.prototype.deleteTrip = function(deleteTripId) {
       };
       showServerMessage(tplData);
       hideDialog();
-      loadFriends();
+      handleResponse();
     }
   }, params);
 };
@@ -133,30 +133,26 @@ function saveRescheduledItem(rescheduledItemId, day) {
  * @param {number} newDuration New duration of the trip.
  */
 function resetItemsDate(startDate, endDate, newDuration) {
-  var objTrip = getTripById(gCurrentTripsData.currentTripId);
+  var currentId = gCurrentTripsData.currentTripId;
+  var objTrip = getTripById(currentId);
   var params = {};
-  params[gadgets.io.RequestParameters.METHOD] = gadgets.io.MethodType.POST;
-  var postData = gadgets.io.encodeValues({
-    'trip_id': gCurrentTripsData.currentTripId,
-    'sdate': startDate,
-    'fdate': endDate,
-    'days': newDuration,
-    'duration': newDuration
-  });
-  params[gadgets.io.RequestParameters.POST_DATA] = postData;
-  var url = BASE_URL + '/saveItemDatesAsZero?rand=' + Math.random();
+  params[gadgets.io.RequestParameters.AUTHORIZATION] =
+      gadgets.io.AuthorizationType.SIGNED;
+
+  var url = BASE_URL + '?action=' + Operation.RESCHEDULE_TRIP_ITEMS +
+      '&ldap=' + gOwnerId + '&id=' + currentId;
   var tplData;
   gadgets.io.makeRequest(url, function(response) {
-    var responseData = gadgets.json.parse(response.data);
-    if (responseData.error == transResponse.ERROR) {
+    if (response.errors.length) {
       tplData = {message: prefs.getMsg('tripdates_update_err')};
       showServerMessage(tplData);
     } else {
       tplData = {message: prefs.getMsg('allitems_updated')};
       showServerMessage(tplData);
       // Updating new trip dates in records.
-      updateTripDate(startDate, endDate, newDuration);
       updateTripDateDisplay(startDate, endDate, newDuration, 'duration');
+      fetchAllItems();
+      hideViewDateDialogBox();
     }
   }, params);
 }
@@ -168,27 +164,37 @@ function resetItemsDate(startDate, endDate, newDuration) {
  * @param {number} tripDuration Duration of trip.
  */
 function updateTripDate(startDate, endDate, tripDuration) {
-  var objTrip = getTripById(gCurrentTripsData.currentTripId);
+  var trip = getTripById(gCurrentTripsData.currentTripId);
   var params = {};
-  params[gadgets.io.RequestParameters.METHOD] = gadgets.io.MethodType.POST;
+  var updatedData = {
+    'key': trip.id,
+    'thumbsUp': trip_thumb_up || 0,
+    'thumbsDown': trip_thumb_down || 0,
+    'name': trip.name,
+    'duration': tripDuration,
+    'startDate': Util.isEmpty(startDate) ?
+                 null : getDateObject(startDate),
+    'ownerId': trip.ownerId,
+    'location': trip.loc,
+    'latitude': trip.lat,
+    'longitude': trip.lng,
+    'ownerName': trip.ownerName,
+    'description': trip.description
+  };
   var postData = gadgets.io.encodeValues({
-    'trip_id': gCurrentTripsData.currentTripId,
-    'sdate': startDate,
-    'fdate': endDate,
-    'duration': tripDuration
+    'data': gadgets.json.stringify(updatedData),
+    'action': Operation.UPDATE_TRIP,
+    'ldap': gOwnerId
   });
+  params[gadgets.io.RequestParameters.AUTHORIZATION] =
+      gadgets.io.AuthorizationType.SIGNED;
   params[gadgets.io.RequestParameters.POST_DATA] = postData;
-  var url = BASE_URL + '/updateTripDate?rand=' + Math.random();
-  var tplData;
-  gadgets.io.makeRequest(url, function(response) {
-    var responseData = gadgets.json.parse(response.data);
-    if (responseData.error == transResponse.ERROR) {
-      tplData = {message: prefs.getMsg('tripdates_update_err')};
-      showServerMessage(tplData);
+  params[gadgets.io.RequestParameters.METHOD] = gadgets.io.MethodType.POST;
+  gadgets.io.makeRequest(BASE_URL, function(response) {
+    if (response.errors.length) {
+      showServerMessage({message: prefs.getMsg('tripdates_update_err')});
     } else {
-      updateTripDateDisplay(startDate, endDate, tripDuration, 'duration');
-      fetchAllItems();
-      hideViewDateDialogBox();
+      resetItemsDate(startDate, endDate, tripDuration);
     }
   }, params);
 }
@@ -203,8 +209,8 @@ function updateTripDate(startDate, endDate, tripDuration) {
  */
 function updateTripDateDisplay(startDate, endDate, duration, domElement) {
   if (Util.isEmpty(startDate) && Util.isEmpty(endDate)) {
-    _gel(domElement).innerHTML = '(' + duration + '&nbsp;' +
-                                 prefs.getMsg('days') + ')';
+    _gel(domElement).innerHTML = duration + '&nbsp;' +
+                                 prefs.getMsg('unscheduled_trip');
   } else {
     _gel(domElement).innerHTML = DateLib.formatDate(startDate, '{M} {d}') +
         ' - ' + DateLib.formatDate(endDate, '{M} {d}, {Y}') + ' (' + duration +
@@ -229,27 +235,34 @@ function parseTripsList(trips, isSearchedTrips, isTripListing) {
   for (var i = 0; i < tripsLength; i++) {
     trip = getTripObject();
     currentTrip = trips[i];
-    period = currentTrip.sdate ?
-        (currentTrip.sdate + ' - ' + currentTrip.fdate) : prefs.getMsg('unsch');
     tripName = currentTrip.name;
     // Shorten trip name if length exceeds 28.
     tripName = tripName.length > 28 ? tripName.substr(0, 28) + '...' : tripName;
-    tripId = currentTrip.id;
-    trip.id = tripId
+    tripId = currentTrip.key || currentTrip.id;
+    trip.id = tripId;
     trip.ownerId = currentTrip.ownerId;
-    trip.ownerName = currentTrip.ownerName;
+    trip.ownerName = currentTrip.ownerName || currentTrip.ownerId;
     trip.name = tripName;
-    trip.lat = currentTrip.lat;
-    trip.lng = currentTrip.lng;
-    trip.loc = currentTrip.loc;
+    trip.lat = currentTrip.latitude;
+    trip.lng = currentTrip.longitude;
+    trip.loc = currentTrip.location;
+    trip.startDate = currentTrip.startDate;
+    trip.location = currentTrip.location;
     trip.accuracy = currentTrip.accuracy;
     trip.duration = currentTrip.duration;
-    trip.sdate = currentTrip.sdate;
-    trip.fdate = currentTrip.fdate;
-    trip.thumb_up = Util.isEmpty(currentTrip.thumb_up) ?
-        0 : currentTrip.thumb_up;
-    trip.thumb_down = Util.isEmpty(currentTrip.thumb_down) ?
-        0 : currentTrip.thumb_down;
+    trip.collaborators = currentTrip.contributorIds;
+    trip.description = currentTrip.description;
+    trip.sdate = Util.isEmpty(currentTrip.startDate) ?
+        '' : getFormattedDate(currentTrip.startDate);
+    trip.fdate = Util.isEmpty(currentTrip.startDate) ?
+        '' :
+        DateLib.addDaysToDate(trip.sdate, trip.duration - 1, '{m}-{d}-{Y}');
+    period = trip.sdate ?
+        (trip.sdate + ' - ' + trip.fdate) : prefs.getMsg('unsch');
+    trip.thumb_up = Util.isEmpty(currentTrip.thumbsUp) ?
+        0 : currentTrip.thumbsUp;
+    trip.thumb_down = Util.isEmpty(currentTrip.thumbsDown) ?
+        0 : currentTrip.thumbsDown;
     // Pushing trips in global array.
     tripDB[tripId] = trip;
     if (!isSearchedTrips) {
@@ -257,6 +270,18 @@ function parseTripsList(trips, isSearchedTrips, isTripListing) {
       gCurrentTripsData.sortedTrips.push(trip);
     }
     if (isTripListing) {
+      period = '---';
+      // Checking whether dates of the trip are defined.
+      // If start date is defined then final date will be defined.
+      if (!Util.isEmpty(trip.sdate)) {
+        // The year of start date might be different from the year of the
+        // end date, however, these are rare cases and the chance to confuse
+        // users is low. So, we will just show the year of the end date only.
+        period = trip.duration > 1 ?
+            DateLib.formatDate(trip.sdate, '{M} {d}') +
+            ' - ' + DateLib.formatDate(trip.fdate, '{M} {d}, {Y}') :
+            DateLib.formatDate(trip.sdate, '{M} {d}, {Y}');
+      }
       var oneRecordTplData = {
         index: i,
         tripId: trip.id,
@@ -264,6 +289,7 @@ function parseTripsList(trips, isSearchedTrips, isTripListing) {
         period: period,
         location: trip.loc,
         ownerName: trip.ownerName,
+        tripDesc: trip.description ? trip.description : trip.name,
         flag: 0
       };
       tripListings.push(Util.supplant(oneRecordTpl, oneRecordTplData));
@@ -310,8 +336,8 @@ function saveEditedItem(index) {
     return;
   }
   if (!Util.isEmpty(itemDescElement.value) ||
-      tripItem.dataSource != 'custom' ||
-      tripItem.dataSource != 'lonely') {
+      tripItem.dataSource != Datasource.CUSTOM ||
+      tripItem.dataSource != Datasource.LONELY) {
     itemDesp = itemDescElement.value;
   } else {
     message.innerHTML = prefs.getMsg('field_empty');
@@ -343,8 +369,17 @@ function saveEditedItem(index) {
     address: itemDesp,
     sdate: itemStartDate,
     edate: itemEndDate,
-    day: itemDay
+    day: itemDay,
+    category: tripItem.category
   };
+  if (tripItem.dataSource == Datasource.CUSTOM) {
+    var OTHERS_CATEGORY_INDEX = 7;
+    var category = _gel('item_category');
+    var selectedCategory = category.selectedIndex == OTHERS_CATEGORY_INDEX ?
+        _trim(_gel('user_entry_category').value) :
+        category[category.selectedIndex].value;
+    updatedObj.category = selectedCategory;
+  }
   updateEditedItems(updatedObj, index);
 }
 
@@ -361,15 +396,16 @@ function updateEditedItems(updatedObj, index) {
   tripItem.sdate = updatedObj.sdate;
   tripItem.fdate = updatedObj.edate;
   tripItem.day = updatedObj.day;
+  tripItem.category = updatedObj.category;
   // Check for two things.
   // 1. Sometimes we dont get details other than name from lonelyplanet. In that
   // case editing to reschedule items is not allowed.
   // 2. While rescheduling items from unschedule to schedule we are always
   // confirming address via google geocoder. However, it fails to recogonize
   // valid lonely planet addresses for which we are by passing this check.
-  if (tripItem.dataSource == 'lonely' ||
-      tripItem.dataSource == 'google' ||
-      (tripItem.dataSource == 'custom' && !tripItem.address)) {
+  if (tripItem.dataSource == Datasource.LONELY ||
+      tripItem.dataSource == Datasource.GOOGLE ||
+      (tripItem.dataSource == Datasource.CUSTOM && !tripItem.address)) {
     // Updating item details.
     updateItemDetails(tripItem);
     hideDialog();
@@ -378,7 +414,7 @@ function updateEditedItems(updatedObj, index) {
   if (geocoder) {
     geocoder.getLocations(updatedObj.address, function(result) {
       if (result.Status.code == RESPONSE_SUCCESS && result.Placemark.length) {
-        if (tripItem.dataSource == 'custom') {
+        if (tripItem.dataSource == Datasource.CUSTOM) {
           var place = result.Placemark[0];
           var point = place.Point.coordinates;
           tripItem.lat = point[1];
@@ -405,19 +441,32 @@ function updateEditedItems(updatedObj, index) {
 function updateItemDetails(rescheduledItem) {
   var params = {};
   params[gadgets.io.RequestParameters.METHOD] = gadgets.io.MethodType.POST;
-  var postData = gadgets.io.encodeValues({
-    'item_id': rescheduledItem.id,
-    'sdate': rescheduledItem.sdate,
-    'fdate': rescheduledItem.fdate,
+  params[gadgets.io.RequestParameters.AUTHORIZATION] =
+      gadgets.io.AuthorizationType.SIGNED;
+  var updatedData = {
+    'tripId': gCurrentTripsData.currentTripId,
+    'key': rescheduledItem.id,
     'name': rescheduledItem.name,
     'review': rescheduledItem.address,
-    'day' : rescheduledItem.day,
-    'lat' : rescheduledItem.lat,
-    'lang' : rescheduledItem.lng
+    'startDay': rescheduledItem.day,
+    'latitude': rescheduledItem.lat,
+    'longitude': rescheduledItem.lng,
+    'address': rescheduledItem.address,
+    'thumbsUp': rescheduledItem.Item_thumb_up || 0,
+    'thumbsDown': rescheduledItem.Item_thumb_down || 0,
+    'ownerName': rescheduledItem.item_owner || gViewer,
+    'ownerId': rescheduledItem.ownerId,
+    'description': rescheduledItem.description,
+    'dataSource': rescheduledItem.dataSource,
+    'category': rescheduledItem.category
+  };
+  var postData = gadgets.io.encodeValues({
+    'data': gadgets.json.stringify(updatedData),
+    'action': Operation.UPDATE_TRIP_ITEM,
+    'ldap': gOwnerId
   });
   params[gadgets.io.RequestParameters.POST_DATA] = postData;
-  var url = BASE_URL + '/updateItemInfo?rand=' + Math.random();
-  gadgets.io.makeRequest(url, function(response) {
+  gadgets.io.makeRequest(BASE_URL, function(response) {
     var tplData;
     var responseData = gadgets.json.parse(response.data);
     if (responseData.error == transResponse.ERROR) {
@@ -444,14 +493,13 @@ function updateItemDetails(rescheduledItem) {
 function deleteItem(itemId) {
   var itemObject = getItemById(itemId);
   var params = {};
-  params[gadgets.io.RequestParameters.METHOD] = gadgets.io.MethodType.POST;
-  var postData = gadgets.io.encodeValues({'item_id': itemObject.id});
-  params[gadgets.io.RequestParameters.POST_DATA] = postData;
-  var url = BASE_URL + '/deleteItem?rand=' + Math.random();
+  var url = BASE_URL + '?action=' + Operation.DELETE_TRIP_ITEM +
+      '&ldap=' + gOwnerId + '&id=' + itemId;
+  params[gadgets.io.RequestParameters.AUTHORIZATION] =
+      gadgets.io.AuthorizationType.SIGNED;
   gadgets.io.makeRequest(url, function(response) {
     var tplData;
-    var responseData = gadgets.json.parse(response.data);
-    if (responseData.error == transResponse.ERROR) {
+    if (response.errors.length) {
       tplData = {
         message: Util.supplant(prefs.getMsg('item_delete_err'),
                                {name: _unesc(itemObject.name)})
@@ -488,35 +536,34 @@ function saveItem(objItem) {
     objItem.review = Util.stripHtml(objItem.review).substring(0, 450);
   }
   var params = {};
-  params[gadgets.io.RequestParameters.METHOD] = gadgets.io.MethodType.POST;
-  var postData = {
-    'user_id': trip.ownerId,
-    'item_owner': gViewer,
-    'trip_id': trip.id,
+  var updatedData = {
+    'ownerId': trip.ownerId,
+    'ownerName': gViewer,
+    'tripId': trip.id,
     'custom': objItem.isCustom,
     'name': _hesc(objItem.name),
-    'location': objItem.address,
-    'lat': objItem.lat,
-    'lang': objItem.lng,
-    'review': objItem.review,
+    'address': objItem.address,
+    'latitude': objItem.lat,
+    'longitude': objItem.lng,
     'duration': objItem.duration,
-    'day': objItem.day,
+    'startDay': objItem.day,
     'category': objItem.category,
-    'link': objItem.link,
-    'weburl': objItem.weburl,
-    'imgurl': objItem.imgurl,
+    'searchResultUrl': objItem.link,
+    'imageUrl': objItem.imgurl,
     'dataSource': objItem.dataSource,
-    'sdate': '',
-    'fdate': ''
+    'description': objItem.review
   };
-  if (objItem.sdate && objItem.fdate) {
-    postData.fdate = objItem.fdate;
-    postData.sdate = objItem.sdate;
-  }
-  params[gadgets.io.RequestParameters.POST_DATA] =
-      gadgets.io.encodeValues(postData);
-  var url = BASE_URL + '/saveItemToTrip?rand=' + Math.random();
-  gadgets.io.makeRequest(url, function(response) {
+  var postData = gadgets.io.encodeValues({
+    'data': gadgets.json.stringify(updatedData),
+    'action': Operation.ADD_TRIP_ITEM,
+    'ldap': gOwnerId
+  });
+  params[gadgets.io.RequestParameters.METHOD] = gadgets.io.MethodType.POST;
+  params[gadgets.io.RequestParameters.POST_DATA] = postData;
+  // Make the request as signed.
+  params[gadgets.io.RequestParameters.AUTHORIZATION] =
+      gadgets.io.AuthorizationType.SIGNED;
+  gadgets.io.makeRequest(BASE_URL, function(response) {
     var responseData = gadgets.json.parse(response.data);
     var tplData;
     if (responseData.error == transResponse.ERROR) {
@@ -533,107 +580,6 @@ function saveItem(objItem) {
   }, params);
 }
 
-/**
- * This function will be used to change the trip location from canvas view.
- */
-function changeTripLocation() {
-  var idWarningMsg = _gel('wrngmsg');
-  var location = _gel('txtLocation').value;
-  var tripData = getTripById(gCurrentTripsData.currentTripId);
-  if (_trim(location) != '') {
-    var validLocation = Util.isNumeric(location);
-    if (validLocation) {
-      idWarningMsg.innerHTML = prefs.getMsg('invalid_loc');
-      idWarningMsg.style.visibility = 'visible';
-    } else {
-      if (location != tripData.loc) {
-        validateLocation(location);
-      } else {
-        hideDialog();
-      }
-    }
-  } else {
-    idWarningMsg.innerHTML = prefs.getMsg('enter_loc');
-    idWarningMsg.style.visibility = 'visible';
-  }
-}
-
-/**
- * Checks whether the location is valid and if valid,
- *     update the location.
- * @param {string} address Location entered by user.
- */
-function validateLocation(address) {
-  var newLat, newLang;
-  if (geocoder) {
-    geocoder.getLocations(address, function(result) {
-      if (result.Status.code == 200) {
-        if (result.Placemark.length > 0) {
-          var place = result.Placemark[0];
-          var accuracy = place.AddressDetails.Accuracy;
-          var p = result.Placemark[0].Point.coordinates;
-          newLat = p[1];
-          newLang = p[0];
-          updateLocation(address, newLat, newLang, accuracy);
-          hideDialog();
-       }
-      } else {
-        _gel('wrngmsg').innerHTML = prefs.getMsg('loc_not_found');
-        _gel('wrngmsg').style.visibility = 'visible';
-      }
-    });
-  }
-}
-
-/**
- * Checks whether the location is valid and if valid,
- *     update the location.
- * @param {string} address Location entered by user.
- * @param {number} newLat Latitude of new location.
- * @param {number} newLang Longitude of new location.
- * @param {number} accuracy Accuracy of new location.
- */
-function updateLocation(address, newLat, newLang, accuracy) {
-  var tripId = gCurrentTripsData.currentTripId;
-  var trip = getTripById(tripId);
-  var oldLoc = trip.loc;
-  trip.loc = address;
-  trip.lat = newLat;
-  trip.lng = newLang;
-  trip.accuracy = accuracy;
-  var start = new GLatLng(trip.lat, trip.lng);
-  gMap.setCenter(start, tripAccuracy[trip.accuracy]);
-  var params = {};
-  params[gadgets.io.RequestParameters.METHOD] = gadgets.io.MethodType.POST;
-  var postdata = gadgets.io.encodeValues({
-    'trip_id': tripId,
-    'lat': newLat,
-    'lng' : newLang,
-    'location': address
-  });
-  params[gadgets.io.RequestParameters.POST_DATA] = postdata;
-  var url = BASE_URL + '/updateTripLocation?rand=' + Math.random();
-  var tplData;
-  gadgets.io.makeRequest(url, function(response) {
-    var responseData = gadgets.json.parse(response.data);
-    if (responseData.error == transResponse.ERROR) {
-      tplData = {
-        message: Util.supplant(prefs.getMsg('triploc_update_err'))
-      };
-      showServerMessage(tplData);
-      return false;
-    }
-    tplData = {
-        message: Util.supplant(prefs.getMsg('triploc_updated'))
-    };
-    showServerMessage(tplData);
-    trip.loc = address;
-    trip.lng = newLang;
-    trip.lat = newLat;
-    gMap.clearOverlays();
-    gMap.setCenter(new GLatLng(newLat, newLang), tripAccuracy[accuracy]);
-  }, params);
-}
 // Exports
 window.deleteSelectedItem = deleteSelectedItem;
 window.saveEditedItem = saveEditedItem;
