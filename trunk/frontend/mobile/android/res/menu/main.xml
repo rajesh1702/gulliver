@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"> 
+	<item android:id="@+id/menu_refresh"
+		android:title="@string/refresh"
+		android:icon="@drawable/ic_menu_refresh"/>
+	<item android:id="@+id/menu_nav"
+		android:title="@string/navigate"
+		android:icon="@*android:drawable/ic_menu_directions"/>	
+	<item android:id="@+id/menu_photos"
+		android:title="@string/take_photo"
+		android:icon="@*android:drawable/ic_menu_camera"/>
+	<item android:id="@+id/menu_share"
+		android:title="@string/share"
+		android:icon="@*android:drawable/ic_menu_share"/>
+</menu>
