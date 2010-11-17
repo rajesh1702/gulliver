@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Trippy</string>
+    <string name="refresh">Refresh</string>
+    <string name="loading">Loading Trippy...</string>
+    <string name="take_photo">Take Photos</string>
+    <string name="photo_dialog">Attach photo to a location</string>
+    <string name="share">Share Photos</string>
+    <string name="navigate">Navigate</string>
+    <string name="navigate_dialog">Navigate to</string>
+</resources>
