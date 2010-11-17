@@ -1,0 +1,65 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder' 
+  xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <ui:with field='res' type='com.google.mobile.trippy.web.client.TrippyBundle' />
+    <ui:style>
+
+     .description {
+       font-weight: bold;
+       float: left;
+       line-height: 2em;
+       color: #0A4F9C
+     }
+
+    .user {
+      float: left;
+    }
+
+    .date {
+      float: right;
+      text-align: right;
+    }
+
+    .panel {
+      border-bottom: 1px solid #CCCCCC;
+    }
+
+    .deleteActive {
+      cursor: pointer;
+      float: right;
+      margin: 3px;
+      width: 60px;
+      vertical-align: top;
+    }
+
+    .ellipsis {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .styleCss {
+      float: right;
+    }
+    </ui:style>
+
+  <g:FlowPanel>
+    <g:FlowPanel>
+      <g:HTMLPanel>
+        <table width="100%">
+          <tr>
+            <td><g:Label ui:field='description' styleName='{style.description} {res.commonStyle.titleFont} {res.commonStyle.colorFont}' /></td>
+            <td style="vertical-align: top; float:right"><g:Image addStyleNames="{style.styleCss}" resource="{res.trash}" ui:field="delete"></g:Image></td>
+          </tr>
+        </table>
+      </g:HTMLPanel>
+    </g:FlowPanel>
+    <g:HTMLPanel styleName='{style.panel}'>
+      <table width="100%">
+        <tr>
+          <td><g:Label ui:field='user' styleName='{style.user} {res.commonStyle.baseFont} {res.commonStyle.colorFont} {style.ellipsis}' /></td>
+          <td><g:Label ui:field='date' styleName='{style.date} {res.commonStyle.baseFont} {res.commonStyle.colorFont}' /></td>
+        </tr>
+      </table>
+    </g:HTMLPanel>
+  </g:FlowPanel>
+</ui:UiBinder>

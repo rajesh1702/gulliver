@@ -1,0 +1,92 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+  xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <ui:with field='res' type='com.google.mobile.trippy.web.client.TrippyBundle' />
+  <ui:style>
+    .tripitem {
+      font-family: Arial Unicode MS, Arial, sans-serif;
+      border-bottom: #CCC 1px solid;
+      padding-bottom: 15px;
+      padding-top: 15px;
+      padding-left: 10px;
+    }
+
+    .name {
+      font: normal normal 16px Arial;
+      color: #0A4D9A;
+      font-weight: bold;
+      color: #0A4D9A;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 59%;
+    }
+
+    .address {
+      font: normal normal 13px Arial;
+      color: #0A4D9A;
+      font-weight: normal;
+      width: 80%;
+    }
+
+    .buttonLayout {
+      margin-right: 36px;
+      margin-top: -38px;
+    }
+
+   .arrowImage {
+     float: right;
+     margin-right: 10px;
+     margin-top: -1.4em;
+    }
+
+    .btn {
+      font: normal normal 13px Arial;
+      text-shadow: #fff 0 1px 0;
+      font-weight: bold;
+      color: #2e4987;
+      margin: 0px;
+      padding: 0px;
+      border-width: 4px 4px 5px 4px;
+      line-height: 19px;
+      position: relative;
+      z-index: 0;
+      min-height: 19px;
+      min-width: 19px;
+    }
+
+    .btn.btn-pressed {
+      color: #fff;
+      text-shadow: #2e4987 0 1px 0;
+      z-index: 1;
+    }
+
+    .btn-normal {
+      -webkit-border-image: url(images/buttonNormal.png) 4 4 5 4;
+      -moz-border-image: url(images/buttonNormal.png) 4 4 5 4;
+    }
+
+    .btn-normal.btn-pressed {
+      -webkit-border-image: url(images/buttonPressed.png) 4 4 5 4;
+      -moz-border-image: url(images/buttonPressed.png) 4 4 5 4;
+    }
+
+    .addBut {
+      float: right;
+      text-align: center;
+      margin-right: 43px;
+      margin-top: -39px;
+    }
+   </ui:style>
+  <g:FlowPanel>
+    <g:FocusPanel ui:field="showDetails" addStyleNames="{style.tripitem}">
+      <g:HTMLPanel>
+        <g:Label addStyleNames="{style.name}" ui:field="name"/>
+        <g:Image ui:field='arrowImg' resource='{res.arrowIcon}' styleName='{style.arrowImage}'/>
+        <g:Label addStyleNames="{style.address}" ui:field="address"/>
+      </g:HTMLPanel>
+    </g:FocusPanel>
+    <g:FocusPanel ui:field="addRemove" styleName="{style.btn} {style.btn-normal} {style.addBut}">
+        <g:Image ui:field="btnAdd" resource="{res.iconPlus}" />
+    </g:FocusPanel>
+  </g:FlowPanel>
+</ui:UiBinder>

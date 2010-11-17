@@ -1,0 +1,130 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+  xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <ui:with field='res' type='com.google.mobile.trippy.web.client.TrippyBundle' />
+  <ui:style>
+  .headerBase {
+    color:#182647;
+    -moz-border-image: url('images/buttonPressed.png') 5 5 3 3;
+    \-webkit-border-image: url('images/buttonPressed.png') 5 5 3 3;
+    color:#182647;
+    font-size:17px;
+    font-weight:bold;
+    height:27px;
+    line-height:0;
+    margin:-4.5px 6px 0;
+    text-align:center;
+    width:100%;
+  }
+
+  .buttonBase {
+    -x-system-font:none;
+    border-width: 4px 4px 5px;
+    color: #2E4987;
+    font-family: Arial;
+    font-size: 13px;
+    font-size-adjust: none;
+    font-stretch: normal;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: bold;
+    line-height: 22px;
+    margin: 3px;
+    min-height: 20px;
+    min-width: 20px;
+    padding: 4px;
+    position: relative;
+    text-shadow: 0 1px 0 #FFFFFF;
+    z-index: 0;
+    -moz-border-image: url('images/buttonNormal.png') 4 4 5 4;
+    \-webkit-border-image: url('images/buttonNormal.png') 4 4 5 4;
+  }
+
+   .cancelImage {
+     float: right;
+   }
+
+   .content {
+     padding:10px;
+     background-color:#F2F5FB;
+     
+   }
+   
+  .button {
+    color:#FFFFFF;
+    float:right;
+    font-family:Arial;
+    font-size:13px;
+    font-size-adjust:none;
+    font-stretch:normal;
+    font-style:normal;
+    font-variant:normal;
+    font-weight:bold;
+    line-height:22px;
+    margin: -15px 1px;
+    min-height:20px;
+    min-width:15px;
+    padding:0 2px 0;
+    position:relative;
+    text-shadow:0 1px 0 #2E4987;
+    width:7px;
+    z-index:1;
+   -moz-border-image: url('images/buttonPressed.png') 4 4 5 4;
+   \-webkit-border-image: url('images/buttonPressed.png') 4 4 5 4;
+ }
+  .titleBase {
+     color: white;
+     font-size: 80%;
+     vertical-align: top;
+     width: 10em;
+     margin-top:13px;
+  }
+
+   .overLap {
+     margin-left: -2px;
+     padding-right: 3px;
+   }
+
+
+   .base {
+     background:white none repeat scroll 0 0;
+     border-color:#5B89D9;
+     border-style:solid;
+     padding:0 2px 0 0;
+   }
+  
+  .buttonCss {
+    width: 83px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .buttonDayBase {
+    background-color: #F2F5FB;
+    border-color: #D9E2F9;
+    border-style: hidden hidden solid;
+    border-width: medium medium 1px;
+    color: #2E4987;
+    cursor:pointer;
+    margin-right: -5px;
+    padding: .4em;
+  }
+
+  </ui:style>
+  <g:FlowPanel>
+  <g:DecoratedPopupPanel ui:field="dayPopUp" styleName="{style.base}">
+      <g:HTMLPanel>
+        <g:HTMLPanel addStyleNames="{style.headerBase} {style.overLap} ">
+           <g:Label ui:field="selectDaysLabel" addStyleNames="{style.titleBase}">Select Day</g:Label>
+         <g:FocusPanel ui:field="cancel" addStyleNames="{style.button}">
+            <g:Image resource="{res.iconStopWhite}"/>
+          </g:FocusPanel>
+        </g:HTMLPanel>
+        <g:FlowPanel ui:field="content" addStyleNames="{style.content}" />
+        <!-- @AddItemPupupView Select multiple days Popup -->
+        <g:FlowPanel ui:field="buttonPanel" styleName="{style.buttonDayBase}" visible="false">
+          <g:Label ui:field="addItemsBtn" styleName="{style.buttonCss} {res.commonStyle.button}" visible="false">Add</g:Label>
+        </g:FlowPanel>
+      </g:HTMLPanel>
+    </g:DecoratedPopupPanel>
+  </g:FlowPanel>
+</ui:UiBinder>

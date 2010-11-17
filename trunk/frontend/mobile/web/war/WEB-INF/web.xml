@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app>
+  <filter>
+    <filter-name>guiceFilter</filter-name>
+    <filter-class>com.google.inject.servlet.GuiceFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>guiceFilter</filter-name>
+    <url-pattern>/trippy/dbcachemanager/*</url-pattern>
+    <url-pattern>/trippy/lpsearch</url-pattern>
+  </filter-mapping>
+
+  <listener>
+    <listener-class>com.google.mobile.trippy.web.server.guice.TrippyGuiceServletContextListener</listener-class>
+  </listener>
+  <!-- Servlets -->
+  <servlet>
+    <servlet-name>TripService</servlet-name>
+    <servlet-class>com.google.mobile.trippy.web.server.service.TripServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>TripService</servlet-name>
+    <url-pattern>/trippy/tripservice</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>TripCopyService</servlet-name>
+    <servlet-class>com.google.mobile.trippy.web.server.service.TripCopyServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>TripCopyService</servlet-name>
+    <url-pattern>/trippy/tripcopyservice</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>InviteService</servlet-name>
+    <servlet-class>com.google.mobile.trippy.web.server.ShareTripServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>InviteService</servlet-name>
+    <url-pattern>/invite</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>IGoogleService</servlet-name>
+    <servlet-class>com.google.mobile.trippy.web.server.service.IGoogleServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>IGoogleService</servlet-name>
+    <url-pattern>/trippy/igoogle</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>EulaServlet</servlet-name>
+    <servlet-class>com.google.mobile.trippy.web.server.EulaAcceptServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>EulaServlet</servlet-name>
+    <url-pattern>/acceptEula</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Default page to serve -->
+  <welcome-file-list>
+    <welcome-file>Trippy.jsp</welcome-file>
+  </welcome-file-list>
+
+</web-app>

@@ -1,0 +1,68 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder' xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <ui:with field='res' type='com.google.mobile.trippy.web.client.TrippyBundle' />
+  <ui:style>
+    .btn {
+      font: normal normal 13px Arial;
+      text-shadow: #fff 0 1px 0;
+      font-weight: bold;
+      color: #2e4987;
+      margin: 0px;
+      padding: 0px;
+      border-width: 4px 4px 5px 4px;
+      line-height: 22px;
+      position: relative;
+      z-index: 0;
+      min-height: 19px;
+      min-width: 19px;
+    }
+    
+    .btn.btn-pressed {
+      color: #fff;
+      text-shadow: #2e4987 0 1px 0;
+      z-index: 1;
+    }
+    
+    .btn-normal {
+      -webkit-border-image: url(images/buttonNormal.png) 4 4 5 4;
+      -moz-border-image: url(images/buttonNormal.png) 4 4 5 4;
+    }
+    
+    .btn-normal.btn-pressed {
+      -webkit-border-image: url(images/buttonPressed.png) 4 4 5 4;
+      -moz-border-image: url(images/buttonPressed.png) 4 4 5 4;
+    }
+    
+    .table {
+      width: 100%;
+      background-color: #E0ECFF;
+    }
+    
+    .leftNav,.addBut,.rightNav {
+      width: 3.5em;
+    }
+    
+    .leftNav,.addBut,.rightNav,.infoBut {
+      text-align: center;
+    }
+    .ellipses {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 99%;
+    }
+  </ui:style>
+  <g:HTMLPanel>
+    <table class="{style.table}">
+      <tr>
+        <td class="{style.infoBut}">
+          <g:FocusPanel ui:field="clickPanel" styleName="{style.btn} {style.btn-normal}">
+            <g:HTMLPanel>
+              <g:Label ui:field="name" addStyleNames="{style.ellipses}"/>
+              <g:Label ui:field="address" addStyleNames="{style.ellipses}"/>
+            </g:HTMLPanel>
+          </g:FocusPanel>
+        </td>
+      </tr>
+    </table>
+  </g:HTMLPanel>
+</ui:UiBinder>

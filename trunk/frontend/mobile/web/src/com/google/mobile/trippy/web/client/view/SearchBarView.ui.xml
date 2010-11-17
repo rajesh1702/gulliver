@@ -1,0 +1,245 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder" xmlns:g="urn:import:com.google.gwt.user.client.ui">
+  <ui:with field='res' type='com.google.mobile.trippy.web.client.TrippyBundle' />
+  <ui:style type="com.google.mobile.trippy.web.client.view.SearchBarView.Style">
+    .headerBase {
+      color: #182647;
+      -moz-border-image: url('images/buttonPressed.png') 4 4 5 3;
+      \-webkit-border-image: url('images/buttonPressed.png') 4 4 5 3;
+      width: 100%;
+      height: 27px;
+      line-height: 0px;
+      font-size: 17px;
+      font-weight: bold;
+      text-align: center;
+      margin: 0 -5px -3px 0;
+      padding-bottom: 4px;
+      text-shadow: 1 1px 0 #FFFFFF;
+    }
+    
+    .lprecomendations {
+      width: 100%;
+      padding-top: 0.6em;
+      display: inline-block;
+      font-size: 12px;
+    }
+    
+    .searchBox {
+      \-webkit-border-image: url('images/searchboxPill.png') 4 3 5 4;
+      -moz-border-image: url('images/searchboxPill.png') 4 3 5 4;
+      -x-system-font: none;
+      border-width: 4px 2px 5px 4px;
+      color: #6F7071;
+      float: left;
+      font-family: Arial;
+      font-size: 13px;
+      font-size-adjust: none;
+      font-stretch: normal;
+      font-style: normal;
+      font-variant: normal;
+      font-weight: bold;
+      margin-left: 10px;
+      min-height: 33px;
+      min-width: 210px;
+      padding-bottom: 2px;
+      position: relative;
+      text-align: left;
+      text-shadow: 0 1px 0 #FFFFFF;
+      z-index: 0;
+    }
+    
+    .overLap {
+      float: right;
+      margin-top: 0px;
+    }
+    
+    .btnRight {
+      border-left-width: -1px;
+      margin-left: 0;
+      -moz-border-image: url('images/pillRight.png') 4 4 5 3;
+      \-webkit-border-image: url('images/pillRight.png') 4 4 5 3;
+    }
+    
+    .btn {
+      -x-system-font: none;
+      border-width: 4px 4px 5px;
+      color: #2E4987;
+      font-family: Arial;
+      font-size: 13px;
+      font-size-adjust: none;
+      font-stretch: normal;
+      font-style: normal;
+      font-variant: normal;
+      font-weight: bold;
+      line-height: 22px;
+      min-height: 20px;
+      min-width: 20px;
+      padding-bottom: 3px;
+      padding-left: 2px;
+      padding-right: 2px;
+      padding-top: 2px;
+      vertical-align: middle;
+      position: relative;
+      text-shadow: 1 1px 0 #FFFFFF;
+      z-index: 0;
+    }
+    
+    .baseCss {
+      background-color: #F2F5FB;
+      padding-right: 1em;
+    }
+    
+    .or {
+      font-weight: bold;
+      text-align: center;
+      font-size: 12px;
+      padding-top: 37px;
+    }
+    
+    .base {
+      color: #3F3F3F;
+      text-align: center;
+      font-size: 12px;
+      font-weight: bold;
+      padding-left: 8px;
+      padding-top: 4px;
+    }
+    
+    .basePopup {
+    background: #F2F5FB none repeat scroll 0 0;
+    border-color:#09539E;
+    border-style:solid;
+    padding:0 0px 0 0;
+    z-index: 10;
+  }
+    
+    .lpCss {
+      border-color: #D9E2F9;
+      border-style: solid hidden hidden;
+      border-width: thin thin 0;
+      margin-bottom: 4px;
+      margin-right: -0.8em;
+      padding: .5em 0 2px 10px;
+      text-align: left;
+    }
+    
+    .displayCss {
+      cursor: pointer;
+      display: inline;
+      padding: 0px 0px 0px 10px;
+    }
+    
+    .titleBase {
+      color: white;
+      font-size: 80%;
+      vertical-align: top;
+    }
+
+    .lpBaseCss {
+      padding: 0 2px 0;
+    }
+
+    .space {
+      padding-top: 12px;
+    }
+
+    .header {
+      \-moz-border-image: url('images/buttonPressed.png') 4 4 5 4;
+      \-webkit-border-image: url('images/buttonPressed.png') 4 4 5 4;
+      color: white;
+      font-family: Arial;
+      font-size: 17px;
+      font-weight: bold;
+      line-height:32px;
+      padding: 3px 3px 0;
+      margin: -1px;
+      text-align: center;
+    }
+
+    .headerPanel {
+      \-moz-border-image: url('images/buttonPressed.png') 4 4 5 4;
+      \-webkit-border-image: url('images/buttonPressed.png') 4 4 5 4;
+      height: 24px;
+      padding: 1px 1px 2px;
+      position: absolute;
+      right: 4px;
+      top: 4px;
+      width: 30px;
+    }
+
+    .img {
+      position: relative;
+      top: 3px;
+    }
+  </ui:style>
+
+
+  <!-- Content of search popup -->
+  <g:FlowPanel ui:field="searchPopupContent">
+     <g:FlowPanel styleName="{style.header}"> 
+          <g:Label>Search Places</g:Label>
+            <g:FocusPanel ui:field="cancelBar" styleName="{style.headerPanel}">
+              <g:FlowPanel styleName="{style.img}">
+                <g:Image ui:field="cancelImg" resource='{res.iconStopWhite}'></g:Image>
+              </g:FlowPanel>
+            </g:FocusPanel>
+          </g:FlowPanel>
+    <g:HTMLPanel addStyleNames="{style.baseCss}">
+      <!-- Search text box and the search button -->
+      <g:FlowPanel styleName="{style.space}">
+        <g:SuggestBox ui:field="searchBox" styleName="{style.searchBox}"/>
+        <g:FlowPanel styleName="{style.overLap}">
+          <g:FlowPanel  styleName="{style.btn} {style.btnRight}">
+          <g:Image ui:field="searchButton" resource="{res.iconSearch}" />
+        </g:FlowPanel>
+        </g:FlowPanel>
+      </g:FlowPanel>
+      <g:Label addStyleNames="{style.or}"/>
+      <!-- Lonely planet recommendations -->
+      <g:Label addStyleNames="{style.base}">or view Lonely Planet suggestions</g:Label>
+      <g:FlowPanel addStyleNames="{style.lprecomendations} {res.commonStyle.baseFont} {res.commonStyle.colorFont}">
+        <g:FlowPanel styleName="{style.lpCss}">
+          <g:Image resource="{res.iconSights}" ></g:Image>
+          <g:Label ui:field="lpSight" addStyleNames="{style.displayCss}">Sights</g:Label>
+        </g:FlowPanel>
+        <g:FlowPanel styleName="{style.lpCss}">
+          <g:Image resource="{res.iconShopping}" ></g:Image>
+          <g:Label ui:field="lpShopping" addStyleNames="{style.displayCss}">
+            <ui:msg>Shopping</ui:msg>
+          </g:Label>
+        </g:FlowPanel>
+        <g:FlowPanel styleName="{style.lpCss}">
+          <g:Image resource="{res.iconHotel}" ></g:Image>
+          <g:Label ui:field="lpHotel" addStyleNames="{style.displayCss}">
+            <ui:msg>Hotels</ui:msg>
+          </g:Label>
+        </g:FlowPanel>
+        <g:FlowPanel styleName="{style.lpCss}">
+          <g:Image resource="{res.iconEntertainment}"></g:Image>
+          <g:Label ui:field="lpEntertainment" addStyleNames="{style.displayCss}">
+            <ui:msg>Entertainment</ui:msg>
+          </g:Label>
+        </g:FlowPanel>
+        <g:FlowPanel styleName="{style.lpCss}">
+          <g:Image resource="{res.iconRestaurant}" ></g:Image>
+          <g:Label ui:field="lpRestaurant" addStyleNames="{style.displayCss}">
+            <ui:msg>Restaurants</ui:msg>
+          </g:Label>
+        </g:FlowPanel>
+        <g:FlowPanel styleName="{style.lpCss}">
+          <g:Image resource="{res.iconActivities}"></g:Image>
+          <g:Label ui:field="lpActivities" addStyleNames="{style.displayCss}">
+            <ui:msg>Activities</ui:msg>
+          </g:Label>
+        </g:FlowPanel>
+        <g:FlowPanel styleName="{style.lpCss}">
+          <g:Image resource="{res.iconGeneral}" ></g:Image>
+          <g:Label ui:field="lpGeneral" addStyleNames="{style.displayCss}">
+            <ui:msg>General</ui:msg>
+          </g:Label>
+        </g:FlowPanel>
+      </g:FlowPanel>
+    </g:HTMLPanel>
+  </g:FlowPanel>
+
+</ui:UiBinder>

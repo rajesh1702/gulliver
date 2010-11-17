@@ -1,0 +1,224 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+  xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <ui:with field='res' type='com.google.mobile.trippy.web.client.TrippyBundle' />
+   <ui:style type="com.google.mobile.trippy.web.client.view.CreateNewTripView.Style">
+    .base {
+      padding-left: 0.2em;
+      width: 95%;
+    }
+
+   .locationBox {
+     border: 2px solid grayText;
+     height: 2.8em;
+     width: 100%;
+   }
+
+   .topDestinationBase {
+     padding: 0.6em 0.6em 0.6em 0.2em;
+   }
+
+   .topDestinationStyle {
+     padding: 0.5em 0.5em 0.5em 0.4em;
+   }
+
+   .createButton {
+     margin-top: 2px;
+   }
+
+   .tripNameList {
+     display: block;
+     max-width: 30em;
+   }
+
+   .caption {
+     height: 2em;
+     line-height: 2em;
+     background-color: #0A4F9C;
+     color: #FFF;
+     padding-left: 1em;
+   }
+
+   .cancelImage {
+     float: right;
+   }
+
+   .tripName {
+     background-color: #F2F5FB;
+     border-top:1px solid #CCCCCC;
+     line-height:2em;
+     min-width:12em;
+     padding-left:1em;
+     padding-right: 0.4em;
+   }
+
+   .tableSize{
+     width: 100%;
+   }
+
+   .tdSize {
+     width: 95%;
+   }
+
+  .errorMsg {
+    color: red;
+    padding-left: 0.3em;
+  }
+
+  .buttonBase {
+    width: 90px;
+  }
+
+  .headerBase {
+    color:#182647;
+    -moz-border-image: url('images/buttonPressed.png') 4 4 5 3;
+    \-webkit-border-image: url('images/buttonPressed.png') 4 4 5 3;
+    width: 98.8%;
+    height: 27px;
+    line-height: 0px;
+    font-size: 17px;
+    font-weight: bold;
+    text-align: center;
+    margin: 0px;
+    padding-bottom: 4px;
+    margin-bottom: -3px;
+    text-shadow: 1 1px 0 #FFFFFF;
+  }
+
+  .button {
+    color:#FFFFFF;
+    float:right;
+    font-family:Arial;
+    font-size:13px;
+    font-size-adjust:none;
+    font-stretch:normal;
+    font-style:normal;
+    font-variant:normal;
+    font-weight:bold;
+    line-height:22px;
+    margin: -25px 2px;
+    min-height:20px;
+    min-width:15px;
+    padding: 1 3px 0 7;
+    position:relative;
+    text-shadow:1 1px 0 #2E4987;
+    width:7px;
+    z-index:1;
+   -moz-border-image: url('images/buttonPressed.png') 4 4 5 4;
+   \-webkit-border-image: url('images/buttonPressed.png') 4 4 5 4;
+   }
+
+   .titleBase {
+     color: white;
+     margin-left: -14px;
+     font-size: 80%;
+     vertical-align: top;
+     font-weight: normal;
+   }
+
+   .popUpBase {
+     background: white none repeat scroll 0 0;
+     border-color:#0E5CAD;
+     border-style:solid;
+   }
+
+   .overlapBase {
+     margin: -30px 2px;
+   }
+
+   .overLapBaseHeader {
+     margin: 0px -2px -3px;
+   }
+
+   .imgClose {
+     float: right;
+     margin-top: 0.1em;
+   }
+
+   .topSuggestionBase {
+     border-bottom:1px solid #CCCCCC;
+     cursor:pointer;
+     display:block;
+     height:44px;
+     line-height:44px;
+     padding: 0px 10px 0px 5px;
+     outline: none;
+   }
+
+   .boderBase {
+     border-bottom: 1px solid #CCCCCC;
+   }
+
+   .arrowIcon {
+     float: right;
+     padding: 11px;
+   }
+   .hideOverflow {
+     overflow: hidden;
+   }
+   .headerBaseCss {
+      -moz-border-image: url('images/buttonPressed.png') 4 3 4 4;
+      \-webkit-border-image: url('images/buttonPressed.png') 4 3 4 4;
+      border: 1px solid black;
+      color: white;
+      font-family: Arial;
+      font-size: 17px;
+      font-weight: bold;
+      line-height: 32px;
+      padding: 3px 3px 0;
+      text-align: center;
+      margin: -1px;
+      min-width: 14em;
+    }
+    .buttonCss {
+      -moz-border-image: url('images/buttonPressed.png') 4 4 5 4;
+      \-webkit-border-image: url('images/buttonPressed.png') 4 4 5 4;
+      border: 1px solid black;
+      height: 24px;
+      padding: 1px 1px 2px;
+      position: absolute;
+      right: 4px;
+      top: 4px;
+      width: 24px;
+    }
+
+    .closeCss {
+      position: relative;
+      top: 3px;
+    }
+ </ui:style>
+<g:FlowPanel>
+  <g:HTMLPanel>
+    <p class='{style.base} {res.commonStyle.titleFont}'>What city do you want to visit?</p>
+    <!-- TODO: Change table to good approach after discuss with the team. -->
+    <table class="{style.tableSize}">
+      <tr>
+        <td class="{style.tdSize}">
+            <g:TextBox ui:field="txtBoxLocation" styleName="{style.locationBox}"/>
+        </td>
+        <td>
+        <div>
+           <g:Label ui:field="btnCreateTrip" addStyleNames="{style.buttonBase} {style.createButton} {res.commonStyle.button}">Create Trip</g:Label>
+         </div>
+        </td>
+       </tr>
+     </table>
+     <g:Label ui:field="lblErrorMsg" addStyleNames="{style.errorMsg}"/>
+     <g:Label addStyleNames="{style.topDestinationBase} {res.commonStyle.titleFont} {style.boderBase}"> Or choose a Lonely Planet itinerary below:</g:Label>
+     <g:FlowPanel ui:field="flwTopDestinations" styleName="{style.hideOverflow}">
+     </g:FlowPanel>
+
+     <g:DecoratedPopupPanel ui:field="popupPanel" styleName="{style.popUpBase}">
+       <g:FlowPanel>
+        <g:FlowPanel styleName="{style.headerBaseCss}">
+           <g:Label>Select the location</g:Label>
+         <g:FocusPanel addStyleNames="{style.buttonCss}">
+            <g:Image ui:field="imgCancel" resource="{res.iconStopWhite}" styleName="{style.closeCss}"/>
+          </g:FocusPanel>
+        </g:FlowPanel>
+        <g:FlowPanel addStyleNames="{style.tripNameList}" ui:field="tripNameList"/>
+      </g:FlowPanel>
+    </g:DecoratedPopupPanel>
+  </g:HTMLPanel>
+
+</g:FlowPanel>
+</ui:UiBinder>

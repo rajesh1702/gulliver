@@ -1,0 +1,32 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+    <ui:with field='res' type='com.google.mobile.trippy.web.client.TrippyBundle' />
+  
+  <ui:style>
+    .footerBase {
+      text-align: center;
+    }
+ 
+    .footerComponents {
+      display: inline;
+      padding-left:3px;
+      padding-right:3px;
+    }
+
+    .footerLines {
+      padding-bottom:10px;
+    }
+
+  </ui:style>
+
+  <g:FlowPanel styleName="{style.footerBase}">
+    <g:FlowPanel addStyleNames="{style.footerLines}">      
+      <g:Label ui:field="userMessage" addStyleNames="{style.footerComponents}">Signed in as </g:Label>
+      <g:Label ui:field="userName" addStyleNames="{style.footerComponents}"/>
+      <g:Anchor ui:field="logoutLink" addStyleNames="{style.footerComponents}">Sign out</g:Anchor>
+    </g:FlowPanel>
+    <g:FlowPanel>
+      <g:Anchor href="http://www.lonelyplanet.com/mobile/google/">Getting started guide</g:Anchor>
+    </g:FlowPanel>
+  </g:FlowPanel>
+</ui:UiBinder>

@@ -1,0 +1,227 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+  xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <ui:with field='res' type='com.google.mobile.trippy.web.client.TrippyBundle' />
+  <ui:style type="com.google.mobile.trippy.web.client.view.TripItemDetailsView.Style">
+    .name {
+      padding-top: 0.5em;
+      padding-left: .9em;
+    }
+    
+    .link, .link:hover, .link:visited, .map, .moreInfo {
+      padding-left:0.9em;
+    }
+
+   a, a:visited, a:hover {
+    color:#0A4D9A;
+   }
+ 
+   .directionInfo {
+     padding-left: 0.45em;
+   }
+
+  .address {
+    border-bottom: 1px solid #CCCCCC;
+    margin-top: 6px;
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+   }
+
+  .phoneNumbers {
+    border-bottom: 1px solid #CCCCCC;
+    margin-top: 14px;
+    padding-left: .9em;
+   }
+
+    .panelPadding, .infoBase {
+      padding-left: 0.9em;
+    }
+
+    .panelAddRemove, .moreInfoPanel {
+      border-bottom: 1px solid #CCCCCC;
+      margin-top: 14px;
+      margin-bottom: 14px;
+      padding-bottom: 14px;
+      text-decoration: none;
+    }
+
+    .iconPhn {
+      padding-right: 0.3em;
+      float: left;
+    }
+   
+    .reviewPanel {
+      border-bottom: 1px solid #CCCCCC;
+      margin-top: 14px;
+      margin-bottom: 14px;
+      padding-bottom: 14px;
+      padding-left: 3.1em;
+    }
+
+    .thumbLabel {
+      width: 5em;
+    }
+
+    .thumbBase {
+      display: inline-block;
+      padding-left: 1em;
+    }
+
+    .review h4 {
+     margin-bottom: 0;
+    }
+
+   .phoneAnchor { 
+     line-height: 1.5;
+     padding-left: 0.5em;
+     text-decoration: none;
+   }
+
+   .iconBase, .infoBase {
+     float: left;
+     margin-top: -2px;
+     border: hidden;
+   }
+
+   .infoBase {
+     text-decoration: none;
+     width: 18px;
+   }
+
+
+   .reviewBase {
+     margin-top: -7px;
+     padding-left: 1em;
+   }
+
+   .reviewTextPara {
+      margin-top: 6px;
+   }
+    
+   .txtDecorationNone {
+     text-decoration: none;
+   }
+
+    .itineraryPanel {
+      background-color: #E0ECFF;
+      border-bottom: 1px solid #CCCCCC;
+    }
+   
+   .itenary {      
+      padding: 1px 3px 1px 4px;
+      border: 1px solid #666666;
+    }
+    
+    .imgPhone {
+      float: left;
+    }
+    
+    .floatRight {
+      float: right;
+    }
+   
+   .dayLabelPanel {
+      background-color: white;
+      border-bottom: #CCC 1px solid;
+      overflow: hidden;
+      background-repeat: no-repeat;
+      background-position: right center;
+      outline: none;
+      padding-top: 6px;
+      padding-bottom: 6px;
+    }
+    
+    .day {
+      float: left;
+    }
+    
+    .schedule {   
+      float: right;
+      margin-right: 10px;
+      text-align: left;
+    }
+   
+    .moreInfoMap {
+      padding-left: 0.65em;
+    }
+
+    .thumbDown {
+      padding-left: 6em;
+      width: 5em;
+    }
+
+    .txtDecorationNone {
+      text-decoration: none;
+    }
+    .cursor {
+      cursor: pointer;
+    }
+
+    .iconBase {
+      border: 0px;
+    }
+    .cssBase {
+     padding-left: 0.9em;
+    }
+  </ui:style>
+ <g:FlowPanel styleName='{res.commonStyle.baseFont}'> 
+  <g:HTMLPanel>
+    <g:HTMLPanel styleName='{style.dayLabelPanel} {res.commonStyle.baseFont}'>
+        <g:FlowPanel styleName='{style.panelPadding}'>
+          <g:Label ui:field="lblDay" styleName='{style.day}'/>
+          <g:Label ui:field='lblSchedule' styleName='{style.schedule}'/>
+        </g:FlowPanel>
+      </g:HTMLPanel>
+      <g:Label ui:field="lblName" styleName='{style.name} {res.commonStyle.titleFont} {res.commonStyle.baseFont}'/>
+      <g:FlowPanel ui:field="lblAddress" styleName='{style.address} {style.panelPadding} {res.commonStyle.baseFont}'/>
+      <g:FlowPanel ui:field="htmPhones" styleName='{style.phoneNumbers} {res.commonStyle.colorFont}'></g:FlowPanel>
+  </g:HTMLPanel>
+  <g:HTMLPanel styleName='{style.moreInfoPanel} {style.panelPadding}'>
+      <g:Image ui:field='showOnMapIcon' resource="{res.mapItemIcon}" styleName="{style.iconBase} {style.cursor}"/>
+      <span class="{style.moreInfo}">
+        <g:Anchor ui:field="showOnMap" styleName='{style.cursor} {res.commonStyle.baseFont} {res.commonStyle.colorFont} '>Show on map</g:Anchor>
+      </span>
+    </g:HTMLPanel>
+   <g:HTMLPanel styleName='{style.moreInfoPanel} {style.panelPadding}'>
+     <g:Anchor ui:field="showOnGoogleMapIcon">
+      <!-- known issue -->
+       <img src="/images/showOnMap.png" class="{style.iconBase}"/>
+     </g:Anchor>
+     <span class="{style.directionInfo}">
+       <g:Anchor ui:field='showOnGoogleMap' styleName='{res.commonStyle.baseFont} {res.commonStyle.colorFont} '>Show on Google maps</g:Anchor>
+     </span>
+  </g:HTMLPanel>
+  <g:HTMLPanel styleName='{style.moreInfoPanel} {style.panelPadding} '>
+    <g:Image ui:field='imgThumbUpIcon' resource="{res.thumbsupIcon}" styleName="{style.iconBase} {style.cursor}"/>
+    <span class="{style.thumbBase}">
+      <g:Label ui:field="lblThumbUpCount" styleName='{style.thumbLabel} {res.commonStyle.colorFont}'/>
+    </span>
+    <g:FlowPanel styleName= "{style.thumbDown}" visible="false">
+      <g:Label ui:field="lblThumbDownCount" styleName=' {res.commonStyle.colorFont}'/>
+     </g:FlowPanel>
+  </g:HTMLPanel>
+  <g:HTMLPanel styleName='{style.moreInfoPanel} {style.panelPadding}'>
+    <g:Image ui:field="rescheduleIcon" resource="{res.calendar}" styleName="{style.cursor} {style.iconBase}"/>
+    <span class="{style.moreInfo}">
+      <g:Anchor ui:field='reschedule' styleName='{style.cursor} {res.commonStyle.baseFont} {res.commonStyle.colorFont} '>Reschedule</g:Anchor>
+    </span>
+  </g:HTMLPanel>
+  <g:HTMLPanel styleName='{style.moreInfoPanel} {style.panelPadding}'>
+    <g:Image ui:field="commentIcon" resource="{res.commentIcon}" styleName="{style.cursor} {style.iconBase}"/>
+    <span class="{style.moreInfo}">
+      <g:Anchor ui:field='anchorCommentsLink' styleName='{style.cursor} {res.commonStyle.baseFont} {res.commonStyle.colorFont} '/>
+    </span>
+  </g:HTMLPanel>
+  <g:HTMLPanel styleName='{style.moreInfoPanel}'>
+      <g:Anchor ui:field="anchorMoreInfoIcon">
+         <img src="/images/infoIcon.png" class="{style.infoBase}"/>
+      </g:Anchor>
+      <span class="{style.cssBase}">
+        <g:Anchor ui:field="anchorMoreInfo" styleName='{res.commonStyle.baseFont} {res.commonStyle.colorFont} '/>
+      </span>
+    </g:HTMLPanel>
+  <g:HTMLPanel ui:field="reviewPanel" styleName='{style.reviewBase} {style.reviewPanel} {res.commonStyle.baseFont} '>
+      <g:HTML ui:field="review" />
+      <g:VerticalPanel ui:field="reviewList" />
+    </g:HTMLPanel>
+  </g:FlowPanel>
+</ui:UiBinder>

@@ -1,0 +1,164 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+  xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <ui:with field='res' type='com.google.mobile.trippy.web.client.TrippyBundle' />
+  <ui:style type="com.google.mobile.trippy.web.client.view.SearchResultItemDetailsView.Style">
+
+    .name {
+      padding-top: 0.5em;
+    }
+
+    .link, .link:hover, .link:visited, .map, .moreInfo {
+      cursor: pointer;
+      margin-left: 6px;
+    }
+
+    .name, .phoneNumbers {
+      padding-left: .9em;
+    }
+
+    a, a:visited, a:hover {
+      color:#0A4D9A;
+    }
+
+    .address {
+      border-bottom: 1px solid #CCCCCC;
+      margin-top: 6px;
+      margin-bottom: 14px;
+      padding-left: .6em;
+      padding-bottom: 14px;
+     }
+
+     .phoneNumbers {
+      border-bottom: 1px solid #CCCCCC;
+      margin-top: 14px;
+     }
+
+    .panelPadding {
+      padding-left: 1.1em;
+    }
+
+    .panelAddRemove, .moreInfoPanel {
+      border-bottom: 1px solid #CCCCCC;
+      margin-top: 14px;
+      margin-bottom: 14px;
+      padding-bottom: 14px;
+      text-decoration: none;
+    }
+
+    .iconPhn {
+      padding-right: 0.3em;
+      float: left;
+    }
+   
+    .reviewPanel {
+      border-bottom: 1px solid #CCCCCC;
+      margin-top: 14px;
+      margin-bottom: 14px;
+      padding-bottom: 14px;
+    }
+
+    .reviewTextPara {
+      margin-top: 6px;
+    }
+    
+    .review h4 {
+     margin-bottom: 0;
+    }
+
+   .phoneAnchor, .addressName {
+     line-height: 1.5;
+     padding-left: 0.3em;
+     text-decoration: none;
+   }
+
+   .phoneAnchor {
+     padding-left: 0.7em;
+   }
+
+   .iconBase, .infoBase {
+     float: left;
+     margin-top: -2px;
+   }
+
+   .infoBase {
+     padding-left: 2px;
+     margin-left: 1.1em;
+     text-decoration: none;
+   }
+
+   .addToTripPanel {
+     padding-left: 1.1em;
+   }
+
+   .reviewBase {
+     margin-top: -7px;
+     padding-left: 1.3em;
+   }
+
+   .txtDecorationNone {
+     text-decoration: none;
+   }
+
+   .cursor {
+     cursor: pointer;
+   }
+
+    .itemOnMapIcon {
+      vertical-align:middle;
+      border: hidden;
+    }
+
+   .imgBorderHide {
+     border: hidden;
+   }
+
+   .moreInfoCss {
+     padding-left: 0.5em;
+   }
+
+   .itemOnMap {
+     padding-left: 0.2em;
+   }
+  </ui:style>
+  <g:FlowPanel styleName='{res.commonStyle.baseFont}'>
+    <g:HTMLPanel>
+      <g:Label ui:field="lblName" styleName='{style.name} {res.commonStyle.titleFont} {res.commonStyle.baseFont}'/>
+      <g:FlowPanel ui:field="lblAddress" styleName='{style.address} {res.commonStyle.baseFont}'/>
+      <g:FlowPanel ui:field="htmPhones" styleName='{style.phoneNumbers} {res.commonStyle.colorFont}'></g:FlowPanel>
+    </g:HTMLPanel>
+    <g:HTMLPanel ui:field="panelAddRemove" styleName='{style.panelAddRemove} {style.panelPadding}'>
+      <g:Image ui:field="imgAdd" resource="{res.plusIcon}" styleName="{style.iconBase}  {style.cursor}"/>
+      <span class="{style.addToTripPanel}">
+        <g:Anchor ui:field="btnAddRemove" styleName='{res.commonStyle.baseFont} {style.cursor} {res.commonStyle.colorFont}'>Add to trip</g:Anchor>
+      </span>
+    </g:HTMLPanel>
+    <g:HTMLPanel ui:field="showOnTrippyMapPanel" styleName='{style.moreInfoPanel} {style.panelPadding}'>
+      <g:Anchor ui:field="imgShowOnTrippyMap" styleName="{style.itemOnMapIcon}">
+        <img src="/images/mapItemIcon.png" class="{style.iconBase} {style.itemOnMapIcon} {style.imgBorderHide}"/>
+      </g:Anchor>
+      <span class="{style.moreInfoCss}">
+        <g:Anchor ui:field="showOnTrippyMap" styleName='{style.moreInfoCss} {res.commonStyle.baseFont} {res.commonStyle.colorFont} '>Show on map</g:Anchor>
+      </span>
+    </g:HTMLPanel>
+     <g:HTMLPanel ui:field="showOnMapPanel" styleName='{style.moreInfoPanel} {style.panelPadding}'>
+      <g:Anchor ui:field="imgShowOnMap" styleName="{style.itemOnMapIcon}">
+        <img src="/images/showOnMap.png" class="{style.iconBase} {style.itemOnMapIcon} {style.imgBorderHide}"/>
+      </g:Anchor>
+      <span class="{style.itemOnMap}">
+        <g:Anchor ui:field="showOnMap" styleName='{style.moreInfoCss} {res.commonStyle.baseFont} {res.commonStyle.colorFont} '>Show on Google maps</g:Anchor>
+      </span>
+    </g:HTMLPanel>
+    <g:HTMLPanel styleName='{style.moreInfoPanel}'>
+      <g:Anchor ui:field="anrMoreInfoIcon">
+        <img src="/images/infoIcon.png" class="{style.infoBase} {style.itemOnMapIcon}"/>
+      </g:Anchor>
+      <span class="{style.moreInfoCss}">
+        <g:Anchor ui:field="anrMoreInfo" styleName='{style.moreInfo} {res.commonStyle.baseFont} {res.commonStyle.colorFont} '/>
+      </span>
+    </g:HTMLPanel>
+        <g:HTMLPanel ui:field="reviewPanel" styleName='{style.reviewBase} {style.reviewPanel} {res.commonStyle.baseFont} '>
+      <g:HTML ui:field="review" />
+      <g:VerticalPanel ui:field="reviewList" />      
+    </g:HTMLPanel>
+  </g:FlowPanel>
+</ui:UiBinder>

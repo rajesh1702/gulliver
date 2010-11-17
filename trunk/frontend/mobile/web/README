@@ -1,0 +1,36 @@
+
+ GettingStarted with Gulliver  
+ 
+    Steps to build project:
+ 
+ 1. Check out code using Steps mentioned at:
+    https://code.google.com/p/gulliver/source/checkout
+
+ 2. To be able to get LP Suggestions or to make LP request, You need to obtain an LP key, To do so visit:
+    http://lplabs.com/groups/index.php?title=Lonely_Planet_Content_API_Reference
+
+ 3. Once you get LP Key, Use it in place of dummy LP Key in following file:
+    frontend/mobile/web/src/com/google/mobile/trippy/web/server/service/LPSearchServiceImpl.java (private static final String LP_KEY = "dummy LP Key").
+
+ 4. To Make your own trips suggestion, you can create trips and used there data store ids in following file:
+     frontend/mobile/web/src/com/google/mobile/trippy/web/shared/SharedConstants.java
+
+     e.g.
+      public static final String TOP_DESTINATIONS[] = {"Delhi, India"};
+      public static final String TOP_DESTINATIONS_IDS[] = {"Uxdr23DseZdedGeaNMyU7Tr"};
+     
+     Clicking on Your trip will create a copy of the existing trip with id = Uxdr23DseZdedGeaNMyU7Tr.
+
+ 5. Add following jars in frontend/mobile/web/lib:
+    1. ApacheJMeter_oauth-v2.jar
+    2. aopalliance.jar
+    3. gson-1.4.jar
+    4. guice-2.0.jar
+    5. guice-servlet-2.0.jar
+    6. gwt-dnd-3.0.1.jar
+    7. gwt-html5-geolocation.jar
+    8. gwt-html5-storage.jar
+    9. gwt-search.jar
+
+ 6. Create a new GWT Project from the existing code as described in the Google Plugin for Eclipse user's guide at:
+     http://code.google.com/eclipse/docs/creating_new_webapp.html

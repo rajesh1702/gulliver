@@ -1,0 +1,12 @@
+<module>
+  <!-- Storage-sensitive code should use the 'local.storage' property -->
+  <define-property name="local.storage" values="false,true"/>
+
+  <property-provider name="local.storage"><![CDATA[
+      if (typeof(window.localStorage) === "undefined") {
+        return "false";
+      }
+      return "true";
+  ]]></property-provider>
+  <inherits name="com.google.gwt.core.Core"/>
+</module>

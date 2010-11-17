@@ -1,0 +1,68 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+  xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <ui:with field='res' type='com.google.mobile.trippy.web.client.TrippyBundle' />
+  <ui:style type='com.google.mobile.trippy.web.client.view.TripListItemView.TripListItemCss'>
+    .tripPanel {
+      border-bottom: 1px solid #CCCCCC;
+      cursor: pointer;
+
+    }
+
+   .updateTrip {
+      clear: left;
+      float: left;
+      width: 5px;
+      margin-right: 4px;
+      display: block;
+      background-color: #FFAE02;
+    }
+
+    .tripPanelName {
+      font-weight: bold;
+      color: #0A4D9A;
+      text-decoration: underline;
+    }
+
+    .updateTripComment {
+      background-color: #B1D12C;
+    }
+
+    .duration, .address, .comment {
+      color: black;
+    }
+
+    .comment {
+      margin-left: 2px;
+      padding-right: 8px;
+    }
+
+    .optionsIcon {
+      float: right;
+      margin-top: -3.5em;
+      margin-right: 4px;
+    }
+
+   .ellipsis {
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
+     width: 10em;
+   }
+
+   .basePanel {
+     padding: 0.6em 4px;
+   }
+  </ui:style>
+    <g:FlowPanel styleName='{style.tripPanel}'>
+      <g:HTML ui:field='htmUpdated' styleName="{style.updateTrip}" />
+      <g:FocusPanel ui:field='container'> 
+         <g:HTMLPanel styleName='{res.commonStyle.baseFont} {style.basePanel}'>
+              <g:Label ui:field='lblName' styleName='{style.tripPanelName} {style.ellipsis} {res.commonStyle.colorFont}'/>
+              <g:Label ui:field='lblAddress' styleName='{style.address}'/>
+              <g:Label ui:field='lblDuration'  styleName='{style.duration}'/>
+              <g:Label ui:field='lblCommentCount' styleName='{style.comment}' visible="false"/>
+          </g:HTMLPanel>
+      </g:FocusPanel>
+      <g:Image ui:field='imgOptions' resource='{res.downArrow}' styleName='{style.optionsIcon}'/>
+    </g:FlowPanel>
+</ui:UiBinder>

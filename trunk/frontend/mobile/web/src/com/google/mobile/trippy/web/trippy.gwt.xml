@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 1.7.1//EN" "http://google-web-toolkit.googlecode.com/svn/tags/1.7.1/distro-source/core/src/gwt-module.dtd">
+<module rename-to="trippy">
+  <!-- Inherit gwt-dnd support                   -->
+  <inherits name='com.allen_sauer.gwt.dnd.gwt-dnd'/>
+  <!-- Inherit the core Web Toolkit stuff.                        -->
+  <inherits name='com.google.gwt.user.User'/>
+  <inherits name="com.google.gwt.user.UserAgent" />
+  <inherits name='com.google.gwt.search.Search'/>
+  <inherits name="com.google.gwt.json.JSON" />
+  <inherits name='com.google.code.gwt.storage.Html5Storage'/>
+  <!-- 
+    <inherits name='com.google.mobile.trippy.web.client.db.LocalStorage'/>
+    <inherits name='com.google.code.gwt.appcache.Html5ApplicationCache'/>
+   -->
+  <inherits name='com.google.GoogleCollections'/>
+  <inherits name='com.google.gwt.maps.Maps'/>
+  <!-- <inherits name="com.google.code.gwt.geolocation.Html5Geolocation"/>
+  <inherits name='com.google.gwt.corp.selection.Selection'/>
+  <inherits name='com.google.gwt.corp.html5.Html5'/> -->
+  
+  <!-- <script src="/json.js" /> -->
+  <script src="http://maps.google.com/maps/api/js?sensor=false"/>
+  <script src="http://www.google.com/uds/api?file=uds.js&amp;v=1.0&amp;gwt=1&amp;key=ABQIAAAA26-YdoJ74QtCNdR56rh-eBQn_q9j4ig0ZyvtXLzo5KgkOUJcbxQ9iPyv4DTCz8fJf3prqcALflZzeg"/>
+  
+  <inherits name='com.google.gwt.user.theme.standard.Standard'/>
+
+  <!-- <entry-point class='com.google.trippy.client.experimental.Trippy'/> --> 
+  <entry-point class='com.google.mobile.trippy.web.client.Trippy'/> 
+  
+  <source path="client"></source>
+  <source path="shared"></source>
+  
+  <!-- 
+  <replace-with class="com.google.mtrippy.client.db.StorageImplDummy">
+    <when-type-is class="com.google.code.gwt.storage.client.StorageImpl" />
+    <any>
+      <when-property-is name="local.storage" value="false" />
+    </any>
+  </replace-with>
+  <replace-with class="com.google.trippy.client.TrippyUnsupported">
+    <when-type-is class="com.google.trippy.client.Trippy" />
+    <any>
+      <when-property-is name="local.storage" value="false" />
+    </any>
+  </replace-with>
+   -->
+  
+  <!-- 
+  <add-linker name="ss" />
+  <add-linker name="appcachemanifest" />
+  <set-configuration-property name="appcachemanifest.private.output" value="false" />
+  <set-configuration-property name="appcachemanifest.cache.urls.file"
+      value="/com/google/mobile/trippy/web/client/manifest.cache.txt" />
+  
+  <extend-configuration-property name="appcachemanifest.clientbundle.types" value="com.google.mobile.trippy.web.client.TrippyBundle"/>
+  <generate-with class="com.google.gwt.corp.html5.rebind.TrackingClientBundleGenerator">
+    <when-type-assignable class="com.google.gwt.resources.client.ClientBundle" />
+  </generate-with>
+   -->
+</module>

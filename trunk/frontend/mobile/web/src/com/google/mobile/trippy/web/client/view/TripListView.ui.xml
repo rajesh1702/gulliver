@@ -1,0 +1,66 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+  xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <ui:with field='res' type='com.google.mobile.trippy.web.client.TrippyBundle' />
+  <ui:style type='com.google.mobile.trippy.web.client.view.TripListView.TripListViewCss'>
+    .panel {
+      border-top: 1px solid #666666;
+      overflow: hidden;
+      width: 100%;
+    }
+    a.tripListPast {
+      color: gray;
+      font-weight: lighter;
+      width: 100%;
+    }
+    .pastList {
+      color: #BCBCBC;
+      width: 100%;
+    }
+    .activeList {
+      color: DodgerBlue;
+      width: 100%;
+    }
+    
+    .noTripLabel {
+      padding: 4px;
+      text-align: center;
+    }
+    
+    .centerPanel {
+      width:50%;
+    }
+    
+    .floatLeft {
+      float: left;
+    }
+    
+    .floatRight {
+      float: right;
+    }
+    
+    .createTrip {
+      width: 116px;
+      float: right;
+      margin: 2px;
+     }
+     
+     .refresh {
+       width: 116px;
+       float: left;
+       margin: 2px;
+     }
+  </ui:style>
+  <g:FlowPanel styleName="{style.panel}">
+    <g:Label ui:field='noTrips' styleName= '{res.commonStyle.baseFont} {style.noTripLabel}'>No trips. Time to get trippy!</g:Label>
+    <g:FlowPanel styleName="{style.centerPanel} {style.floatLeft}">
+      <g:Label styleName="{style.createTrip} {res.commonStyle.button}" ui:field="btnCreateTrip">New Trip</g:Label>
+    </g:FlowPanel>
+    <g:FlowPanel styleName="{style.centerPanel} {style.floatRight}">  
+      <g:Label styleName="{style.refresh} {res.commonStyle.button}" ui:field="btnRefresh">Refresh</g:Label>
+    </g:FlowPanel>
+    <g:FlowPanel ui:field='activeTripsList' styleName= '{style.activeList}'>
+    </g:FlowPanel>
+    <g:FlowPanel ui:field='pastTripsList' styleName='{style.tripListPast}'>
+    </g:FlowPanel>
+  </g:FlowPanel>
+</ui:UiBinder>

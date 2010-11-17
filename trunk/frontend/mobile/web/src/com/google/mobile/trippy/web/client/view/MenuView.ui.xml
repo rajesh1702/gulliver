@@ -1,0 +1,145 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+  xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <ui:with field='res' type='com.google.mobile.trippy.web.client.TrippyBundle' />
+  <ui:style type="com.google.mobile.trippy.web.client.view.MenuView.MenuCss">
+
+   .baseOld {
+    background:white none repeat scroll 0 0;
+    border-color:#09539E;
+    border-style:solid;
+    padding:0 6px 0 0;
+  }
+
+   .labelText {
+     line-height: 16px;
+   }
+
+    .base {
+      background-color: rgba(0, 0, 0, 0.5);
+      bottom: 0;
+      font-family: Helvetica,Arial,sans-serif;
+      font-size: 16px;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      z-index :6;
+    }
+
+    .headerBase {
+      max-width: 50em;
+      position: absolute;
+      width: 80%;
+      z-index: 2;
+    }
+
+    .header {
+      \-moz-border-image: url('images/buttonPressed.png') 4 5 12 2 ;
+      \-webkit-border-image: url('images/buttonPressed.png') 4 5 12 2;
+      color: white;
+      font-family: Arial;
+      font-size: 17px;
+      font-weight: bold;
+      line-height: 32px;
+      padding: 3px 3px 0;
+      text-align: center;
+    }
+
+    .closeImg {
+      background-color: #5380D4;
+      border: 1px solid black;
+      height: 20px;
+      padding: 1px 1px 2px;
+      position: absolute;
+      right: 4px;
+      top: 4px;
+      width: 24px; 
+    }
+
+    .buttonClose {
+      color: #FFFFFF;
+      float: right;
+      font-family: Arial;
+      line-height: 22px;
+      margin: -32px 0;
+      min-height: 20px;
+      min-width: 15px;
+      padding: 0 2px 2px;
+      position: relative;
+      z-index: 1;
+      -moz-border-image: url('images/buttonPressed.png') 2 4 5 4;
+      \-webkit-border-image: url('images/buttonPressed.png') 2 4 5 4;
+    }
+    .img {
+      position: relative;
+      top: 3px; 
+    }
+
+    .tableBase {
+      background-color: #F2F5FB;
+      border: 2px solid #0A54A0;
+    }
+
+    .table {
+      border-collapse: separate;
+      border-spacing: 0;
+      table-layout: fixed;
+      vertical-align: middle;
+      width: 100%;
+      border-color: gray;
+    }
+
+    .tableTd {
+      border-bottom: 1px solid #D9E2F9;
+      border-right: 1px solid #D9E2F9;
+      height: 80px;
+      color: #2E4987;
+      font-weight: bold;
+      padding: 10px;
+      text-align: center;
+    }
+    .buttonBase {
+      -x-system-font:none;
+      border-width: 4px 4px 5px;
+      color: #2E4987;
+      font-family: Arial;
+      font-size: 13px;
+      font-size-adjust: none;
+      font-stretch: normal;
+      font-style: normal;
+      font-variant: normal;
+      font-weight: bold;
+      line-height: 18px;
+      min-width: 20px;
+      margin: 0 3px;
+      position: relative;
+      text-shadow: 0 1px 0 #FFFFFF;
+      z-index: 0;
+      -moz-border-image: url('images/buttonNormal.png') 4 4 5 4;
+      \-webkit-border-image: url('images/buttonNormal.png') 4 4 5 4;
+  }
+  .floatCss {
+    float: left;
+  }
+  </ui:style>
+  
+    <g:FlowPanel>
+     <g:FlowPanel >
+        <g:Label ui:field="label" styleName="{style.buttonBase} {style.floatCss} {style.labelText}">Menu</g:Label>
+      </g:FlowPanel>
+      <g:PopupPanel ui:field="menuPopUp" styleName="{style.headerBase}">
+       <g:FlowPanel>
+         <g:FlowPanel styleName="{style.header}">
+           <g:Label ui:field="menuPopUpTitle">Menu</g:Label>
+            <g:FocusPanel ui:field="imgClose" styleName="{style.buttonClose}">
+              <g:Image resource='{res.iconStopWhite}' addStyleNames="{style.img}"></g:Image>
+         </g:FocusPanel>
+         </g:FlowPanel>
+         <g:FlowPanel ui:field="content" styleName="{style.tableBase}">
+           <g:FlexTable styleName="{style.table}" ui:field="flexTable">
+           </g:FlexTable>
+         </g:FlowPanel>
+       </g:FlowPanel>
+    </g:PopupPanel>
+    </g:FlowPanel>
+</ui:UiBinder>

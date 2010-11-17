@@ -1,0 +1,61 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <ui:with field='res' type='com.google.mobile.trippy.web.client.TrippyBundle' />
+  <ui:style>
+    .center {
+      margin-left: auto;
+      margin-right: auto;
+      width: 17em;
+    }
+
+    .basePanel {
+      color: #AEC554;
+      font-size: 21px;
+      margin-left: 26px;
+      margin-top: 9px;
+    }
+
+    .buttonBase {
+      margin-left: 3px;
+      margin-top: 11px;
+      width: 102px;
+      background: #DEE6F7
+    }
+
+    .tripTitle {
+      height: 30px;
+      line-height: 30px;
+      border-bottom: 1px solid #CCCCCC;
+      padding-left: 5px;
+      background-color: #F2F5FB;
+    }
+
+  .buttonCss {
+    width: 116px;
+  }
+
+  </ui:style>
+  <g:HTMLPanel styleName="{res.commonStyle.baseFont}">
+  <table class="{style.center}">
+    <tr> 
+      <td class="{style.basePanel}" align="center" colspan="2">
+        Welcome to Trippy
+      </td>
+    </tr>
+    <tr>
+      <td align="right" width="50%">
+        <g:Label styleName="{style.buttonCss} {res.commonStyle.button}" ui:field="btnViewTrips">All Trips</g:Label>
+      </td>
+      <td align="left" width="50%">
+        <g:Label styleName="{style.buttonCss} {res.commonStyle.button}" ui:field="btnCreateTrip">New Trip</g:Label>
+      </td>
+    </tr>
+   </table>
+   <g:Label ui:field="unscheduleTripTitle" styleName="{style.tripTitle} {res.commonStyle.titleFont}" visible="false">Unscheduled Trips</g:Label>
+   <g:FlowPanel ui:field="flwUnscheduleTripList">
+   </g:FlowPanel>
+   <g:Label ui:field="upcomingTripTitle" styleName="{style.tripTitle} {res.commonStyle.titleFont}" visible="false">Upcoming Trips</g:Label>
+   <g:FlowPanel ui:field="flwTripList">
+   </g:FlowPanel>
+  </g:HTMLPanel>
+</ui:UiBinder>

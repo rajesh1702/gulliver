@@ -1,0 +1,16 @@
+# The static URLs that need to be included in the HTML5 manifest.
+#
+# Entries starting with "http" are absolute
+# Entries starting with / are relative to the root of the domain
+# Other entries are relative to the GWT resources directory
+# Blank lines or lines beginning with # are ignored
+
+# TODO: These shouldn't be necessary and should be sourced from sprites or from the
+#     GWT module directory
+/images/buttonNormal.png
+/images/buttonPressed.png
+/images/iconBack.png
+/images/lpButtonPressed.png
+/images/pillRight.png
+/images/popUpBase.png
+/images/searchboxPill.png
