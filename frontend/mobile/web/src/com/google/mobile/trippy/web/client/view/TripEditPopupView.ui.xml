@@ -1,0 +1,144 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+    <ui:with field='res' type='com.google.mobile.trippy.web.client.TrippyBundle' />
+  <ui:style>
+    .tripNamePanel {
+     width: 100%;
+    }
+
+    .h1, .listTitle, .tripName, .radioBtn {
+      color:#0A4D9A;
+      font-size: 93%;
+      font-weight: bold;
+    }
+
+    .h1 {
+      padding: 4px;
+    }
+
+    .errorLabel {
+      color: red;
+      padding-left: 9px;
+    }
+
+    .buttonBase {
+      margin-bottom: 7px;
+      margin-top: 4px;
+      width: 72px;
+    }
+
+    .base {
+      position: absolute;
+      border-color: #09539E;
+      border-style: solid;
+      z-index: 2;
+    }
+
+    .listStyleBase {
+      float: left;
+      padding: 0.7em 0.4em 1.3em 0.6em;
+    }
+
+    .flwBase {
+      padding: 0.4em;
+    }
+
+    .headerBaseCss {
+      -moz-border-image: url('images/buttonPressed.png') 4 3 4 4;
+      \-webkit-border-image: url('images/buttonPressed.png') 4 3 4 4;
+      border: 1px solid black;
+      color: white;
+      font-family: Arial;
+      font-size: 17px;
+      font-weight: bold;
+      line-height: 32px;
+      padding: 3px 3px 0;
+      text-align: center;
+      margin: -1px;
+    }
+ 
+    .buttonCss {
+      -moz-border-image: url('images/buttonPressed.png') 4 4 5 4;
+      \-webkit-border-image: url('images/buttonPressed.png') 4 4 5 4;
+      border: 1px solid black;
+      height: 24px;
+      padding: 1px 1px 2px;
+      position: absolute;
+      right: 4px;
+      top: 4px;
+      width: 24px;
+    }
+ 
+    .closeCss {
+      position: relative;
+      top: 3px;
+    }
+
+    .basePanel {
+      background-color: #F2F5FB;
+      border-style: none solid solid;
+      border-width: medium 0px 1px;
+      min-width: 17em;
+      width: 100%;
+    }
+ 
+    .txtDuration {
+      width: 52px;
+    }
+
+    .center {
+      padding-left: 60px;
+    }
+    .durationField {
+      padding: 0.5em;
+    }
+    .durationTxt {
+      width: 100%;
+    }
+  </ui:style>
+  <g:FlowPanel>
+    <g:DecoratedPopupPanel ui:field="tripEditPopup" styleName="{style.base}">
+      <g:FlowPanel>
+        <g:FlowPanel styleName="{style.headerBaseCss}">
+           <g:Label>Edit Trip</g:Label>
+         <g:FocusPanel addStyleNames="{style.buttonCss}">
+            <g:Image ui:field="cancelImg" resource="{res.iconStopWhite}" styleName="{style.closeCss}"/>
+          </g:FocusPanel>
+        </g:FlowPanel>
+        <g:FlowPanel ui:field="content"/>
+      <g:FlowPanel ui:field="flowpanel" styleName="{style.basePanel}">
+           <g:FlowPanel styleName="{style.flwBase}">
+             <g:Label styleName="{style.tripName}">Trip Name</g:Label>
+             <g:TextBox ui:field="displayTripName" addStyleNames="{style.tripNamePanel}"></g:TextBox>
+            </g:FlowPanel>
+            <g:FlowPanel styleName="{style.flwBase}">
+              <g:RadioButton ui:field="btnTripUnschedule" name="tripInfo" styleName="{style.radioBtn}">Unscheduled</g:RadioButton>
+              <g:RadioButton ui:field="btnTripSchedule" name="tripInfo" styleName="{style.radioBtn}">Schedule</g:RadioButton>
+            </g:FlowPanel>
+          <g:FlowPanel >
+            <g:FlowPanel styleName="{style.listStyleBase}">
+              <g:Label styleName="{style.listTitle}">MM</g:Label>
+              <g:ListBox ui:field="monthList"></g:ListBox>
+            </g:FlowPanel>
+            <g:FlowPanel styleName="{style.listStyleBase}">
+              <g:Label styleName="{style.listTitle}">DD</g:Label>
+              <g:ListBox ui:field="dayList"></g:ListBox>
+            </g:FlowPanel>
+            <g:FlowPanel styleName="{style.listStyleBase}">
+              <g:Label styleName="{style.listTitle}">YYYY</g:Label>
+              <g:ListBox ui:field="yearList"></g:ListBox>
+            </g:FlowPanel>
+            <g:FlowPanel styleName="{style.durationField}">
+              <g:Label styleName="{style.listTitle}">Duration</g:Label>
+              <g:TextBox ui:field="durationField"/>
+            </g:FlowPanel>
+          </g:FlowPanel>
+          <g:Label styleName="{style.errorLabel}" ui:field="lblLocationEmpty"></g:Label>
+          <g:HorizontalPanel styleName="{style.center}">
+            <g:Label ui:field="btnSave" addStyleNames="{res.commonStyle.button} {style.buttonBase}">Save</g:Label>
+         </g:HorizontalPanel>
+      </g:FlowPanel>
+      </g:FlowPanel>
+    </g:DecoratedPopupPanel>
+  </g:FlowPanel>
+</ui:UiBinder>

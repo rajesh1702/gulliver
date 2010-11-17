@@ -1,0 +1,45 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+  xmlns:g="urn:import:com.google.gwt.user.client.ui">
+  <ui:with field='res' type='com.google.mobile.trippy.web.client.TrippyBundle' />
+  <ui:style>
+    .tripPanel {
+      border-bottom: 1px solid #CCCCCC;
+      display: block;
+      padding: 5 10 5 5;
+      height: 44px;
+      line-height: 44px;
+      cursor: pointer;
+      outline: none;
+    }
+    
+    .tripPanelName {
+      float: left;
+    }
+    
+    .duration {
+      float: right;
+    }
+    
+    .arrowIcon {
+      float: right;
+      padding: 10px;
+    }
+
+   .ellipsis {
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
+     width: 10em;
+   }
+  </ui:style>
+  <g:FocusPanel ui:field='container' styleName='{style.tripPanel}'> 
+     <g:HTMLPanel styleName='{res.commonStyle.baseFont}'>
+          <g:Label ui:field='lblName' styleName='{style.tripPanelName} {style.ellipsis} {res.commonStyle.titleFont} {res.commonStyle.colorFont}'/>
+          <div class='{style.arrowIcon}'>
+            <g:Image ui:field='imgActive' resource='{res.arrowIcon}'/>
+          </div>
+          <g:Label ui:field='lblDuration'  styleName='{style.duration}'/>
+      </g:HTMLPanel>
+  </g:FocusPanel>
+</ui:UiBinder> 

@@ -1,0 +1,64 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+  xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <ui:style type="com.google.mobile.trippy.web.client.view.DayPopUpStyle.Style">
+    .base {
+      background:white none repeat scroll 0 0;
+      border-color:#09549F;
+      border-style:solid;
+      padding:1px 5px 0 0;
+    }    
+    
+    .dayLabel, .dayPanel {
+      background-color:#F2F5FB;
+      border-color:#D9E2F9;
+      border-style:hidden hidden solid;
+      border-width:medium medium 1px;
+      color:#2E4987;
+      cursor:pointer;
+      padding:0.7em 1em;
+    }
+
+   .selectAnchor {
+      background-color:#F2F5FB;
+      border-color:#D9E2F9;
+      border-style:hidden hidden solid;
+      border-width:medium medium 1px;
+      color:#2E4987;
+      cursor:pointer;
+      margin:1em;
+   }
+
+    .titleBaseModified {
+      margin-left:30px;
+    }
+
+    .titleBaseOriginal {
+      margin-left:13px;
+    }
+
+   .dayPanel {
+     display: block;
+   }
+
+  .daysMenu {
+    margin-top:5px;
+  }
+  
+   .headerBase {
+     color: white;
+    -moz-border-image: url('images/buttonPressed.png') 4 4 5 3;
+    \-webkit-border-image: url('images/buttonPressed.png') 4 4 5 3;
+     font-size: 12px;
+     font-weight: bold;
+     height: 17px;
+     line-height: 1.5;
+     margin: -1px 0px 1px -1px;
+     padding-bottom: 4px;
+     padding-left: -99.6px;
+    text-align: center;
+    width: 97%;
+  }
+  </ui:style>
+  <g:FlowPanel>
+  </g:FlowPanel>
+</ui:UiBinder>

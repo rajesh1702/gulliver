@@ -1,0 +1,21 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <ui:style>
+    .header { 
+      width: 100%; 
+      top: 0; 
+    }
+    .body {
+      margin-bottom: 2em;
+    }
+    .footer {
+      width: 100%;
+      margin-bottom: 2em;
+    }
+  </ui:style>
+  <g:FlowPanel ui:field="container">
+    <g:FlowPanel ui:field="header"/>
+    <g:FlowPanel ui:field="body" addStyleNames="{style.body}"/>
+    <g:FlowPanel ui:field="footer" addStyleNames="{style.footer}"/>
+  </g:FlowPanel>
+</ui:UiBinder>

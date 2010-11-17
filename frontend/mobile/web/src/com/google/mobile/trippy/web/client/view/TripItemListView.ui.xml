@@ -1,0 +1,51 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+  xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <ui:with field='res' type='com.google.mobile.trippy.web.client.TrippyBundle' />
+  <ui:style>
+    .tripItemPanel {
+      border-bottom: #CCC 1px solid;
+      padding-bottom: 10px;
+      padding-top: 10px;
+      padding-left: 2.6em;
+    }
+
+    .address {
+      width: 80%;
+    }
+
+    .optionsIcon {
+      float: right;
+      margin-top: -3em;
+      margin-right: 4px;
+    }
+
+    .basePanel {
+      padding: 0.6em 4px;
+    }
+    
+    .detailsPanel {
+      padding-top: 10px;
+    }
+    
+    .details {
+      display: inline;
+      padding-right: 5px;
+    }
+    
+
+</ui:style>
+  <g:FlowPanel styleName='{style.tripItemPanel}'> 
+    <g:FocusPanel ui:field="showDetails">
+      <g:HTMLPanel addStyleNames="{style.basePanel}">
+        <g:Label addStyleNames="{res.commonStyle.titleFont} {res.commonStyle.colorFont}" ui:field="lblName"/>
+        <g:Label addStyleNames="{style.address} {res.commonStyle.baseFont} {res.commonStyle.colorFont}" ui:field="lblAddress"/>
+        <g:FlowPanel styleName='{style.detailsPanel}'>
+          <g:Label addStyleNames="{style.details} {res.commonStyle.baseFont} {res.commonStyle.colorFont}" ui:field="lblComments"/>
+          <g:Label addStyleNames="{style.details} {res.commonStyle.baseFont} {res.commonStyle.colorFont}" ui:field="lblLikes"/>
+          <g:Label addStyleNames="{style.details} {res.commonStyle.baseFont} {res.commonStyle.colorFont}" ui:field="lblDislikes"/>
+        </g:FlowPanel>
+      </g:HTMLPanel>
+    </g:FocusPanel>
+    <g:Image ui:field='imgOptions' resource='{res.downArrow}' styleName='{style.optionsIcon}'/>
+  </g:FlowPanel>
+</ui:UiBinder>

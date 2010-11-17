@@ -1,0 +1,82 @@
+/*
+ * Copyright 2010 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * CSS Style for common components.
+ *
+ */
+.button {
+  \-x-system-font: none;
+  border-width: 4px 4px 5px;
+  color: #2E4987;
+  cursor: pointer;
+  font-family: Arial;
+  font-size: 13px;
+  font-size-adjust: none;
+  font-stretch: normal;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: bold;
+  height: 24px;
+  line-height: 22px;
+  min-height: 20px;
+  min-width: 20px;
+  padding: 3px;
+  position: relative;
+  text-shadow: 0 1px 0 #FFFFFF;
+  text-align: center;
+  z-index: 0;
+  \-webkit-border-image: url(images/buttonNormal.png) 4 4 5 4;
+  \-moz-border-image: url(images/buttonNormal.png) 4 4 5 4;
+}
+
+.backNavigatorButton {
+  border-width:4px 4px 5px 12px;
+  color:#2E4987;
+  font-family:Arial;
+  font-size:13px;
+  font-size-adjust:none;
+  font-stretch:normal;
+  font-style:normal1;
+  font-variant:normal;
+  font-weight:bold;
+  line-height:18px;
+  min-width:20px;
+  margin: 0 3px;
+  position:relative;
+  text-shadow:0 1px 0 #FFFFFF;
+  z-index:0;
+  \-moz-border-image: url('images/iconBack.png') 4 4 5 12;
+  \-webkit-border-image: url('images/iconBack.png') 4 4 5 12;
+}
+
+.baseFont, .titleFont  {
+  font-family: Arial;
+  font-style:normal;
+  color: black;
+}
+
+.baseFont {
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.titleFont {
+  font-size:14px;
+  font-weight: bold;
+}
+
+.colorFont {
+ color: #0A4D9A;
+}

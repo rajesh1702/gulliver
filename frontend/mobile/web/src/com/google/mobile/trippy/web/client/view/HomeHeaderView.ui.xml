@@ -1,0 +1,55 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+    xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+    <ui:with field='res' type='com.google.mobile.trippy.web.client.TrippyBundle' />
+  <ui:style>
+
+  .headerBase {
+    color:#182647;
+    \-moz-border-image: url('images/buttonPressed.png') 4 4 5 4;
+    \-webkit-border-image: url('images/buttonPressed.png') 4 4 5 4;
+    border-left: 0px;
+    border-right: 0px;
+    width: 100%;
+    line-height: 0px;
+    font-size: 17px;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: 1 1px 0 #FFFFFF;
+    display: inline-block;
+    height: 36px;
+  }
+
+  .imgBase {
+    margin-left: 0px;
+  }
+
+  .floatLeft {
+    float: left;
+    padding-top: 4px;
+  }
+
+  .floatRight {
+    float: right;
+    padding-top: 1px;
+  }
+
+   .titleTxt {
+     color: white;
+     float: left;
+     font-size: 14px;
+     line-height: 2em;
+     padding-left: 4px;
+     display: inline;
+     font-weight: normal;
+   }
+
+   .optionCss {
+      margin-top: 4px;
+    }
+  </ui:style>
+  <g:HTMLPanel styleName="{style.headerBase}">
+    <g:Label ui:field="txtTitle" addStyleNames="{style.titleTxt} {style.floatLeft}">Home</g:Label>
+    <g:Image  ui:field="iconLonelyPlanet" resource='{res.iconLonelyPlanet}' addStyleNames="{style.imgBase}"/>
+    <g:FlowPanel ui:field="optionsPanel" styleName="{style.floatRight} {style.optionCss}"/>
+  </g:HTMLPanel>
+</ui:UiBinder>

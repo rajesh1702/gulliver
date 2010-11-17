@@ -1,0 +1,35 @@
+.gwt-SuggestBox {
+  border: 1px solid #666;
+  text-align: left;
+  width: 4em;
+}
+
+.gwt-SuggestBoxPopup {
+  text-align: left;
+  cursor: pointer;
+  cursor: hand;
+  border: 1px solid #666;
+  border-top: 0;
+  background-color: #fff;
+  z-index: 120;
+}
+
+.gwt-SuggestBoxPopup .item {
+  border: 1px dotted #aaa;
+  width: 12em;
+  z-index: 300;
+  display: block;
+  height: 2.5em;
+}
+
+.gwt-SuggestBoxPopup .item-selected {
+  background-color: #ffc;
+}
+
+.gwt-SuggestBoxPopup .suggestPopupBottomCenter {
+  background: none;
+}
+
+.gwt-SuggestBoxPopup .suggestPopupBottomCenter {
+  background: #ffc;
+}

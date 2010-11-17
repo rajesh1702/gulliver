@@ -1,0 +1,40 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder' xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <ui:with field='res' type='com.google.mobile.trippy.web.client.TrippyBundle' />
+  <ui:style type="com.google.mobile.trippy.web.client.widget.InfoWindowView.ContentStyle">
+    .base {
+    }
+
+    .contentPanel {
+      text-align: center;
+    }
+    .noWhiteSpce {
+      border-width:4px 4px 5px;
+      color:#2E4987;
+      cursor:pointer;
+      font-family:Arial;
+      font-size:13px;
+      font-size-adjust:none;
+      font-stretch:normal;
+      font-style:normal;
+      font-variant:normal;
+      font-weight:bold;
+      line-height:20px;
+      min-height:20px;
+      min-width:20px;
+      overflow:hidden;
+      padding:3px;
+      position:relative;
+      text-align:center;
+      text-shadow:0 1px 0 #FFFFFF;
+      white-space:nowrap;
+      z-index:0;
+      \-webkit-border-image: url(images/buttonNormal.png) 4 4 5 4;
+      -moz-border-image: url(images/buttonNormal.png) 4 4 5 4;
+    }
+  </ui:style>
+  <g:FlowPanel>
+    <g:DecoratedPopupPanel ui:field="infoWindowPopup"
+      styleName="{style.base}">
+    </g:DecoratedPopupPanel>
+  </g:FlowPanel>
+</ui:UiBinder>

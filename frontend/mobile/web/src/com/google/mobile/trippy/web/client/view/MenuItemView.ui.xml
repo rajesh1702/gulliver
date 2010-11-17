@@ -1,0 +1,32 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder' xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <ui:with field='res' type='com.google.mobile.trippy.web.client.TrippyBundle' />
+  <ui:style>
+  
+    .tableTd {
+      border-bottom: 1px solid #D9E2F9;
+      border-right: 1px solid #D9E2F9;
+      height: 40px;
+      color: #2E4987;
+      font-weight: bold;
+      padding: 10px;
+      text-align: center;
+    }
+    
+    .disabled {
+      color: grey;
+    }
+    
+    .enabled {
+      color: #2E4987;
+    }
+  </ui:style>
+  <g:FlowPanel>
+  <g:FocusPanel ui:field="clickPanel" addStyleNames="{style.tableTd}">
+    <g:FlowPanel>
+      <g:Image ui:field="icon"/>
+      <g:Label ui:field="label" addStyleNames="{style.enabled}"/>
+      <g:Label ui:field="greyedlabel" addStyleNames="{style.disabled}" visible="false"/>
+    </g:FlowPanel>
+  </g:FocusPanel>
+</g:FlowPanel>
+</ui:UiBinder>

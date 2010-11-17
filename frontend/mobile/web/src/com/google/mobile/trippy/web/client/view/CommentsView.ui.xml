@@ -1,0 +1,14 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder' 
+  xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <ui:style>
+    .commentList {
+      display: table;
+      width: 100%;
+      padding-left: 4px;
+      padding-right: 4px;
+    }
+  </ui:style>
+  <g:FlowPanel>
+    <g:VerticalPanel ui:field='listPanel' styleName='{style.commentList}' />
+  </g:FlowPanel>
+</ui:UiBinder>

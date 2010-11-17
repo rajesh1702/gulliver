@@ -1,0 +1,141 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder' xmlns:g='urn:import:com.google.gwt.user.client.ui'
+  xmlns:t='urn:import:com.google.mobile.trippy.web.client.view'>
+  <ui:with field='res' type='com.google.mobile.trippy.web.client.TrippyBundle' />
+  <ui:style>
+    .btn {
+      font: normal normal 13px Arial;
+      text-shadow: #fff 0 1px 0;
+      font-weight: bold;
+      color: #2e4987;
+      margin: 0px;
+      padding: 0px;
+      border-width: 4px 4px 5px 4px;
+      line-height: 19px;
+      position: relative;
+      z-index: 0;
+      min-height: 19px;
+      min-width: 19px;
+    }
+    
+    .btn.btn-pressed {
+      color: #fff;
+      text-shadow: #2e4987 0 1px 0;
+      z-index: 1;
+    }
+    
+    .btn-normal {
+      -webkit-border-image: url(images/buttonNormal.png) 4 4 5 4;
+      -moz-border-image: url(images/buttonNormal.png) 4 4 5 4;
+    }
+    
+    .btn-normal.btn-pressed {
+      -webkit-border-image: url(images/buttonPressed.png) 4 4 5 4;
+      -moz-border-image: url(images/buttonPressed.png) 4 4 5 4;
+    }
+    
+    .table {
+      width: 100%;
+      background-color: #E0ECFF;
+    }
+    
+    .leftNav,.addBut,.rightNav {
+      width: 3.5em;
+    }
+    
+    .leftNav,.addBut,.rightNav,.infoBut {
+      text-align: center;
+    }
+    
+    .rootContainer {
+      border-top: 1px solid #666666;
+      overflow: auto;
+    }
+    
+    .mapPanel {
+      width: 100%;
+    }
+    
+    .bottomPanel {
+      width: 100%;
+    }
+    
+    .dayDropDown {
+      position: absolute;
+      z-index: 1;
+      float: right;
+    }
+    
+    .position {
+      height: 100%;
+    }
+    
+    .buttonBase {
+      -x-system-font: none;
+      border-width: 4px 4px 5px;
+      color: #2E4987;
+      font-family: Arial;
+      font-size: 13px;
+      font-size-adjust: none;
+      font-stretch: normal;
+      font-style: normal;
+      font-variant: normal;
+      font-weight: bold;
+      margin: 3px;
+      line-height: 12px;
+      min-width: 20px;
+      min-height: 12px;
+      padding: 4px;
+      position: relative;
+      text-align: center;
+      text-shadow: 0 1px 0 #FFFFFF;
+      width: 87px;
+      z-index: 0;
+      -moz-border-image: url('images/buttonNormal.png') 4 4 5 4;
+      \-webkit-border-image: url('images/buttonNormal.png') 4 4 5 4;
+    }
+    
+    .right {
+      float: right;
+    }
+    
+    .left {
+      float: left;
+    }
+  </ui:style>
+
+
+  <g:FlowPanel>
+    <t:BaseHeaderView ui:field='headerDisplay' />
+
+    <g:HTMLPanel>
+      <g:HTMLPanel ui:field="panelNoItems">
+      <table class="{style.table}">
+        <tr>
+          <td class="{style.infoBut}">
+            <g:Label styleName="{style.btn}">No Items</g:Label>
+          </td>
+        </tr>
+      </table>
+      </g:HTMLPanel>
+      <table class="{style.table}" border="0" cellspacing="1">
+        <tr>
+          <td class="{style.leftNav}">
+            <g:FocusPanel ui:field="prevItem" styleName="{style.btn} {style.btn-normal}">
+              <g:Image resource="{res.prevItem}" />
+            </g:FocusPanel>
+          </td>
+          <td class="infoBut">
+            <t:TripItemMapView ui:field='itemInfoWindow' />
+          </td>
+          <td class="{style.rightNav}">
+            <g:FocusPanel ui:field="nextItem" styleName="{style.btn} {style.btn-normal}">
+              <g:Image resource="{res.nextItem}" />
+            </g:FocusPanel>
+          </td>
+        </tr>
+      </table>
+      <g:ListBox ui:field='pageDropDown' addStyleNames='{style.dayDropDown}' />
+      <t:MapView ui:field='mapView' />
+    </g:HTMLPanel>
+  </g:FlowPanel>
+</ui:UiBinder>

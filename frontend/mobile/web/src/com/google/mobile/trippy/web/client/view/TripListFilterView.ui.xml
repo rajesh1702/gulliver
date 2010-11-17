@@ -1,0 +1,151 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder" xmlns:g="urn:import:com.google.gwt.user.client.ui">
+  <ui:with field='res' type='com.google.mobile.trippy.web.client.TrippyBundle' />
+  <ui:style >
+    .btnRight {
+      border-left-width: -1px;
+      margin-left: 0;
+      -moz-border-image: url('images/pillRight.png') 4 4 5 3;
+      \-webkit-border-image: url('images/pillRight.png') 4 4 5 3;
+    }
+
+    .btn {
+      -x-system-font: none;
+      border-width: 4px 4px 5px;
+      color: #2E4987;
+      font-family: Arial;
+      font-size: 13px;
+      font-size-adjust: none;
+      font-stretch: normal;
+      font-style: normal;
+      font-variant: normal;
+      font-weight: bold;
+      line-height: 22px;
+      margin-top:0px;
+      min-height: 20px;
+      min-width: 20px;
+      padding-bottom: 3px;
+      padding-left: 2px;
+      padding-right: 2px;
+      padding-top: 2px;
+      vertical-align: middle;
+      position: relative;
+      text-shadow: 0 1px 0 #FFFFFF;
+      z-index: 0;
+    }
+
+    .searchTextBox {
+      -x-system-font: none;
+      border-width: 4px 2px 5px 4px;
+      color: #6F7071;
+      float: left;
+      font-family: Arial;
+      font-size: 13px;
+      font-size-adjust: none;
+      font-stretch: normal;
+      font-style: normal;
+      font-variant: normal;
+      font-weight: bold;
+      line-height: 22px;
+      margin-left: 13px;
+      margin-top: 0;
+      min-height: 32px;
+      min-width: 100px;
+      padding-bottom: 2px;
+      position: relative;
+      text-align: left;
+      text-shadow: 0 1px 0 #FFFFFF;
+      z-index: 0;
+      width: 72%;
+      \-webkit-border-image: url('images/searchboxPill.png') 4 3 5 4;
+      -moz-border-image: url('images/searchboxPill.png') 4 3 5 4;
+    }
+
+    .basePanel {
+      max-width: 30em;
+      position: absolute;
+      width: 72%;
+      z-index: 2;
+      border: 2px solid #0A54A0
+    }
+
+    .header {
+      \-moz-border-image: url('images/buttonPressed.png') 4 4 5 4;
+      \-webkit-border-image: url('images/buttonPressed.png') 4 4 5 4;
+      color: white;
+      font-family: Arial;
+      font-size: 17px;
+      font-weight: bold;
+      line-height:32px;
+      padding: 3px 3px 0;
+      text-align: center;
+    }
+
+    .headerPanel {
+      \-moz-border-image: url('images/buttonPressed.png') 4 4 5 4;
+      \-webkit-border-image: url('images/buttonPressed.png') 4 4 5 4;
+      height: 24px;
+      padding: 1px 1px 2px;
+      position: absolute;
+      right: 4px;
+      top: 4px;
+      width: 30px;
+    }
+
+    .img {
+      position: relative;
+      top: 3px;
+    }
+
+    .content {
+      border-collapse: separate;
+      border-spacing: 0;
+      table-layout: fixed;
+      vertical-align: middle;
+      width: 100%;
+    }
+
+    .contentPanel {
+      color: #2E4987;
+      font-weight: bold;
+      padding: 10px;
+      text-align: center;
+      height: 32px;
+      background-color: #F2F5FB;
+    }
+
+   .searchButton {
+     float: left;
+    }
+
+   .widthCss {
+     width: 100%;
+   }
+ </ui:style>
+
+  <!-- Content of search popup -->
+  <g:FlowPanel ui:field="content">
+    <g:PopupPanel ui:field="searchPopUp" styleName="{style.basePanel}">
+      <g:FlowPanel>
+        <g:FlowPanel styleName="{style.header}"> 
+          <g:Label>Search Trips</g:Label>
+          <g:FocusPanel ui:field="cancelBar" styleName="{style.headerPanel}">
+            <g:FlowPanel styleName="{style.img}">
+              <g:Image ui:field="cancelImg" resource='{res.iconStopWhite}'></g:Image>
+            </g:FlowPanel>
+          </g:FocusPanel>
+        </g:FlowPanel>
+      <g:FlowPanel styleName="{style.content}">
+        <g:FlowPanel styleName="{style.contentPanel}">
+          <g:FlowPanel styleName="{style.widthCss}">
+          <g:TextBox ui:field="searchBox" styleName="{style.searchTextBox}"></g:TextBox>
+          <g:FlowPanel styleName="{style.searchButton} {style.btn} {style.btnRight}">
+            <g:Image ui:field="searchButton" resource="{res.iconSearch}" />
+           </g:FlowPanel>
+           </g:FlowPanel>
+           </g:FlowPanel>
+        </g:FlowPanel>
+     </g:FlowPanel>
+   </g:PopupPanel>
+  </g:FlowPanel>
+</ui:UiBinder>

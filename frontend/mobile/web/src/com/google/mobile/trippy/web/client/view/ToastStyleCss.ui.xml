@@ -1,0 +1,19 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+  xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+  <ui:style type="com.google.mobile.trippy.web.client.view.ToastStyleCss.Style">
+    .base {
+      background:#434542 none repeat scroll 0 0;
+      color: White;
+      font-size: 100%;
+      font-weight: bold;
+      padding: 3px 2px;
+      text-align: center;
+    }
+    .popUpBase {
+      border: 1px;
+    }
+   
+  </ui:style>
+  <g:FlowPanel>
+  </g:FlowPanel>
+</ui:UiBinder>  
