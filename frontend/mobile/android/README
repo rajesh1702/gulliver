@@ -1,0 +1,15 @@
+ Getting Started with Gulliver - Android
+
+    Steps to build project:
+
+ 1. Check out code using Steps mentioned at:
+    https://code.google.com/p/gulliver/source/checkout
+
+ 2. Startup the AppEngine backend in frontend/mobile/web.
+
+ 3. Update the URL loaded to your AppEngine backend:
+frontend/mobile/android/src/com/lonelyplanet/trippy/android/TrippyActivity.java
+
+ 4. Setup an Android project from the existing code with min SDK
+    version = 7 as described in the Google Android Developer's guide at:
+    http://developer.android.com/guide/index.html

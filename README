@@ -1,0 +1,19 @@
+Gulliver is an open source platform from Google that helps users plan
+trips in real time with their friends.  Using Gulliver, you can create
+applications for mobile, iGoogle, and mobile web platforms that make
+it easy to build and share itineraries using Google Maps resources and
+Lonely Planet recommended itinerary items.
+
+Gulliver is available under the Apache License, Version 2.0:
+   http://www.apache.org/licenses/LICENSE-2.0
+
+frontend/mobile/web     // App Engine trip backend and (mobile) web frontend.
+frontend/mobile/android // Android frontend.  Loads web frontend.
+frontend/iGoogle        // iGoogle gadget.  Uses App engine trip backend.
+frontend/wave           // DEPRECATED: Standalone Wave gadget.
+
+See individual README's for additional information.
+
+
+A fully functional consumer app has been built on the Gulliver code
+base: Lonely Planet's Trippy: http://www.lonelyplanet.com/mobile/google/

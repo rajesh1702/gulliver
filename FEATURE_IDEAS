@@ -1,0 +1,26 @@
+See Also: https://code.google.com/p/gulliver/issues/list
+
+Desired browser / operating systems support
+- Internet Explorer (Browser), Blackberry, Android 1.6
+
+Top feature requests
+- iGoogle: ability to add items especially hotels to multiple days at
+  once
+- All: Improved formatting and content for printed & shared itinerary
+  items (include map, full details, etc)
+- All: Better integration of photos onto the map/itinerary (including
+  real-time with collaborators)
+- Browser/Android: Ability to create points on the map during a trip
+  with a single geo & time-stamped click
+- All: Import/export of public trips (with stripping of personal
+  information and ability manually include/exclude items)
+- All: better more visual browse experience for search results
+- All: priority ordering for Lonely Planet results
+- All: improved UI for view-only trips
+- iGoogle: list of trips: add a column for date last modified
+- All: for shared trips, indicate which items have been updated recently
+- All: add support for flights
+- Browser/Android: schedule items within a day.
+- Mobile: offline mode: download itinerary to phone memory for
+  locations where there is no service (eg, europe when crossing
+  countries)
