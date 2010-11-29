@@ -8,7 +8,7 @@
              author_email="trippy.gadget.ig+20101111@gmail.com"
              author_affiliation="Google"
              category="tools">
-  <Locale messages="http://www.gstatic.com/ig/modules/trippy/en_ALL.xml"/>
+  <Locale messages="http://gulliver.googlecode.com/svn/trunk/frontend/iGoogle/content/en_ALL.xml"/>
   <Require feature="drag" />
   <Require feature="setprefs"/>
   <Require feature="views"/>
@@ -156,13 +156,9 @@
   <div id="license-text" style="display:none;">
     <div style="font-weight:bold;line-height:2;text-decoration:underline;font-size:13px;">__MSG_terms_service__</div>
     __MSG_apache_license__
-    <p>
-      __MSG_lp_copyright_head__<br>
-      __MSG_lp_copyright__
-    </p>
-    <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">
-      http://www.apache.org/licenses/LICENSE-2.0
-    </a>
+    <p style="font-weight:bold;text-decoration:underline;font-size:13px;">__MSG_lp_copyright_head__</p>
+    <p>__MSG_lp_copyright__</p>
+    <p style="font-weight:bold;text-decoration:underline;font-size:13px;">__MSG_should_rely__</p>
     <p>__MSG_license_aggreed__</p>
   </div>
 
@@ -243,16 +239,12 @@
       <div id="license-text" style="display:none;margin:5px;">
         <div style="font-weight:bold;line-height:2;text-decoration:underline;font-size:13px;">__MSG_terms_service__</div>
         __MSG_apache_license__
-        <p>
-          __MSG_lp_copyright_head__<br>
-          __MSG_lp_copyright__
-        </p>
-        <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">
-          http://www.apache.org/licenses/LICENSE-2.0
-        </a>
+        <p style="font-weight:bold;line-height:2;text-decoration:underline;font-size:13px;">__MSG_lp_copyright_head__</p>
+        <p>__MSG_lp_copyright__</p>
+        <p style="font-weight:bold;line-height:2;text-decoration:underline;font-size:13px;">__MSG_should_rely__</p>
         <p>__MSG_license_aggreed__</p>
       </div>
-
+      
       <input type="checkbox" id="check_terms_services" onclick="enableContinueBtn(true)">
       <span id="terms_services_text" style="color:#000;"></span>
       <div style="line-height:3;">
