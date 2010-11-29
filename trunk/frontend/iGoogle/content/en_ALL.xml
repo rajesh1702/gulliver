@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <messagebundle>
-<msg name="title" desc="Title of the gadget.">Trippy</msg>
-<msg name="description" desc="Description about the gadget.">Trippy gadget helps you plan a trip with your friends using Lonely Planet's award winning content</msg>
-<msg name="feedback_link" desc="Link to provide feedback and suggestions about application.">http://code.google.com/p/gulliver/issues/entry</msg>
-<msg name="author_email" desc="Email address of the developer.">mailto:trippy.gadget.ig@gmail.com</msg>
-<msg name="search_trips" desc="Label for search text box in map area.">Search Trip</msg>
+<msg name="title" desc="Title of the gadget.">Lonely Planet&#39;s Trippy</msg>
+<msg name="description" desc="Description about the gadget.">Trippy gadget helps you plan a trip with your friends using Lonely Planet&#39;s award winning content</msg>
+<msg name="feedback_link" desc="Link to provide feedback and suggestions about application.">https://code.google.com/p/gulliver/issues/list</msg>
+<msg name="author_email" desc="Email address of the developer.">trippy.gadget.ig@gmail.com</msg>
+<msg name="search_trips" desc="Label for search text box in map area.">Search trips</msg>
 <msg name="show_all_trips" desc="Label for show all trips link in canvas view.">Show all trips</msg>
 <msg name="try_again" desc="Label for resending request.">Try again.</msg>
 <msg name="loading" desc="Label for showing waiting state while fetching data.">Loading...</msg>
-<msg name="where_visit" desc="Label for prompting user about destination.">Where do you want to visit?</msg>
-<msg name="egLocation" desc="Label for suggesting trip destinations to user.">e.g. New York, Mountain View...</msg>
+<msg name="where_visit" desc="Label for prompting user about destination.">Where do you want to go?</msg>
+<msg name="egLocation" desc="Label for suggesting trip destinations to user.">for example New York, Mountain View...</msg>
 <msg name="create_trip" desc="Label for creating a trip.">Create a trip</msg>
 <msg name="edit_trip" desc="Label for editing trip name to be used on the edit button.">Edit trip name</msg>
-<msg name="edit_location" desc="Label for editing trip location to be used on the edit button.">Edit Location</msg>
-<msg name="view_other_trips" desc="Label used for tooltip for other trips link in canvas view.">Other trips</msg>
-<msg name="edit" desc="Label for editing any item in trip.">Edit Name</msg>
+<msg name="all_trips" desc="Label used for tooltip for all trips link in canvas view.">All trips</msg>
+<msg name="edit" desc="Label for editing any item in trip.">Edit</msg>
 <msg name="change_dates" desc="Label for changing trip dates link in canvas view.">Change dates</msg>
 <msg name="print_schedule" desc="Label for printing trip schedule.">Print schedule</msg>
 <msg name="export_trips" desc="Label for exporting trip items on Google maps to be used for export button in canvas view.">Export</msg>
 <msg name="on" desc="Label for text on used to show scheduled date for an item.">on</msg>
 <msg name="to" desc="Label for text To used for referring the sender in email dialog box.">To</msg>
-<msg name="create_item" desc="Label for 'Create custom item' button in canvas view.">Create your own item</msg>
 <msg name="search" desc="Label for search button in canvas view.">Search</msg>
+<msg name="others" desc="Label for others category in canvas view.">Others</msg>
 <msg name="hotels" desc="Label for hotels category in canvas view.">Hotels</msg>
 <msg name="sights" desc="Label for sights category in canvas view.">Sights</msg>
 <msg name="shopping" desc="Label for shopping category in canvas view.">Shopping</msg>
@@ -35,9 +34,13 @@
 <msg name="scheduled_items" desc="Label for scheduled items section in canvas view.">Scheduled Items</msg>
 <msg name="delete" desc="Label for delete button in delete dialog box in canvas view.">Delete</msg>
 <msg name="delete_trip" desc="Label for delete trip dialog box in canvas view.">Delete Trip</msg>
+<msg name="delete_comment" desc="Tool tip for delete comment icon.">Delete comment</msg>
+<msg name="share_trip" desc="Label for share trip dialog box in canvas view.">Share</msg>
+<msg name="share_trip_friends" desc="Label for share trip dialog box in canvas view to share with friends.">Share with your friends</msg>
 <msg name="tip" desc="Label for tip in canvas view.">Tip:</msg>
 <msg name="day" desc="Label for day in dialog boxes for adding and editing items.">Day</msg>
 <msg name="days" desc="Label for days in trip duration section in canvas view.">days</msg>
+<msg name="unscheduled_trip" desc="Label for unscheduled trip section in canvas view.">day unscheduled trip</msg>
 <msg name="add_days" desc="label for button in Days dialog in canvas view.">Add</msg>
 <msg name="add_item" desc="Label for adding an item to trip add item dialog box in canvas view.">Add Item</msg>
 <msg name="drag_tip" desc="Label for showing tip for dragging item.">Drag any result directly over to your trip</msg>
@@ -49,12 +52,15 @@
 <msg name="duration_limit_exceeds" desc="Error message to be displayed when entered trip duration is greater than 60.">Duration limit is 60 days</msg>
 <msg name="edit_item" desc="Label for editing items.">Edit item</msg>
 <msg name="save" desc="Label for showing save text on button.">Save</msg>
-<msg name="as_unscheduled" desc="Label added while adding unscheduled item.">as an unscheduled item</msg>
-<msg name="as_scheduled" desc="Label added while adding scheduled item.">as scheduled item</msg>
-<msg name="set_trip_dates" desc="Label for setting trip dates.">Set trip duration</msg>
+<msg name="as_unscheduled" desc="Label added while adding unscheduled item.">Unscheduled item</msg>
+<msg name="as_scheduled" desc="Label added while adding scheduled item.">Scheduled item</msg>
+<msg name="set_trip_dates" desc="Label for setting trip dates.">Change trip dates</msg>
 <msg name="trip_name" desc="Label shown before trip name.">Trip name</msg>
+<msg name="trip_desc" desc="Label shown before trip description.">Trip Description</msg>
 <msg name="date" desc="Label for showing date header.">Date</msg>
 <msg name="location" desc="Label for showing location header.">Location</msg>
+<msg name="trip_dates" desc="Label for showing trip dates header.">Trip dates</msg>
+<msg name="home_trip_dates" desc="Label for showing dates header in home view.">Dates</msg>
 <msg name="view_all_trips" desc="Label for view all trips link in home view.">View all trips</msg>
 <msg name="server_error" desc="Label to show when server error occurs.">Server error occurred:</msg>
 <msg name="feedback" desc="Label for showing feedback and ideas link on the Home view.">Feedback &amp; Ideas</msg>
@@ -63,54 +69,57 @@
 <msg name="invalid_loc" desc="Error message to be displayed when the trip location is invalid .">Invalid location</msg>
 <msg name="numeric_err" desc="Error message to be displayed if numeric character found in trip name.">Numbers not allowed.</msg>
 <msg name="no_data_found" desc="Error message to be displayed when no results are retrieved from lonely planet.">No data found</msg>
-<msg name="no_results" desc="Error message to be displayed when no results are retrieved from lonely planet for a category.">No results found for </msg>
+<msg name="no_results" desc="Error message to be displayed when no results are retrieved from lonely planet for a category.">Trippy couldn't find any "%CATEGORY%". Try using the %SEARCH_LINK% option</msg>
 <msg name="not_authenticate" desc="Error message to be displayed when user is not authenticated to use the service.">Not able to authenticate</msg>
 <msg name="delete_this_item" desc="label for button using to delete the item.">Delete this item</msg>
 <msg name="delete_item_confirm" desc="Label on the prompt Message to be displayed while deleting item.">Are you sure that you want to delete the item?</msg>
 <msg name="delete_trip_confirm" desc="Label on the prompt Message to be displayed while deleting trip.">Are you sure that you want to delete the trip?</msg>
 <msg name="delete_trip" desc="Label for deleting a trip.">Delete trip</msg>
-<msg name="item_deleted" desc="Message to be displayed when an item is deleted successfully.">Item ({name}) deleted successfully.</msg>
-<msg name="trip_deleted" desc="Message to be displayed when a trip is deleted successfully.">Trip ({name}) deleted successfully.</msg>
-<msg name="trip_created" desc="Message to be displayed when a trip is created successfully.">Trip ({name}) created successfully.</msg>
-<msg name="item_delete_err" desc="Message to be displayed when there is a server problem while deleting an item.">Server Problem: Item ({name}) is not deleted.</msg>
-<msg name="trip_delete_err" desc="Message to be displayed when there is a server problem while deleting a trip.">Server Problem: Trip ({name}) is not deleted.</msg>
-<msg name="trip_create_err" desc="Message to be displayed when there is a server problem while creating a trip.">Server Problem: Trip ({name}) is not created.</msg>
-<msg name="item_add_err" desc="Message to be displayed when there is a server problem while adding an item.">Item ({name}) is not added.</msg>
-<msg name="item_added" desc="Message to be displayed when an item is added successfully.">Item ({name}) added successfully.</msg>
-<msg name="updated_name" desc="Message to show when trip name is updated successfully.">Trip name updated successfully to:</msg>
+<msg name="item_deleted" desc="Message to be displayed when an item is deleted successfully.">{name} deleted successfully.</msg>
+<msg name="trip_deleted" desc="Message to be displayed when a trip is deleted successfully.">{name} trip deleted successfully.</msg>
+<msg name="trip_created" desc="Message to be displayed when a trip is created successfully.">{name} trip created successfully.</msg>
+<msg name="item_delete_err" desc="Message to be displayed when there is a server problem while deleting an item.">Server Problem: {name} is not deleted.</msg>
+<msg name="trip_delete_err" desc="Message to be displayed when there is a server problem while deleting a trip.">Server Problem: {name} trip is not deleted.</msg>
+<msg name="trip_create_err" desc="Message to be displayed when there is a server problem while creating a trip.">Server Problem: {name} trip is not created.</msg>
+<msg name="item_add_err" desc="Message to be displayed when there is a server problem while adding an item.">{name} is not added.</msg>
+<msg name="item_added" desc="Message to be displayed when an item is added successfully.">{name} added successfully.</msg>
+<msg name="updated_name" desc="Message to show when trip details are updated successfully.">Trip details updated successfully.</msg>
 <msg name="tripname_update_err" desc="Message to be displayed when there is a server problem while updating trip name.">Server Problem: Trip name is not updated.</msg>
-<msg name="itemdates_update_err" desc="Message to be displayed when there is a server problem while updating item schedule.">Server Problem: Item ({name}) is not scheduled.</msg>
-<msg name="itemdates_updated" desc="Message to be displayed when item schedule is updated successfully.">Item ({name}) is updated successfully.</msg>
+<msg name="itemdates_update_err" desc="Message to be displayed when there is a server problem while updating item schedule.">Server Problem: {name} is not scheduled.</msg>
+<msg name="itemdates_updated" desc="Message to be displayed when item schedule is updated successfully.">{name} is updated successfully.</msg>
 <msg name="triploc_update_err" desc="Message to be displayed when there is a server problem while updating trip location.">Server Problem: Trip location is not updated.</msg>
 <msg name="triploc_updated" desc="Message to be displayed when trip location is updated successfully.">Trip location is updated successfully.</msg>
 <msg name="allitems_updated" desc="Message to be displayed when all trip items are successfully updated.">All items are updated successfully.</msg>
 <msg name="create_new_item" desc="Label for create new item in dialog box.">Create new item</msg>
-<msg name="item_name" desc="Label for item name header in 'Create new Item' dialog box.">Item name</msg>
-<msg name="item_desc" desc="Label for item description header in 'Create new Item' dialog box.">Description</msg>
-<msg name="unsch" desc="Label for unscheduled section header in 'Create new Item' dialog box.">Unscheduled</msg>
-<msg name="start_date" desc="Label for start date.">Start date:</msg>
-<msg name="end_date" desc="Label for end date.">End date:</msg>
+<msg name="item_name" desc="Label for item name header in Create new Item dialog box.">Item name</msg>
+<msg name="item_desc" desc="Label for item description header in Create new Item dialog box.">Description</msg>
+<msg name="unsch" desc="Label for unscheduled section header in Create new Item dialog box.">Unscheduled</msg>
+<msg name="start_date" desc="Label for start date.">Start date</msg>
+<msg name="end_date" desc="Label for end date.">End date</msg>
 <msg name="delete_item" desc="Label for delete item header in dialog box.">Delete Item</msg>
 <msg name="no" desc="Label for no in dialog box in delete item dialog box.">No</msg>
 <msg name="name" desc="Label for trip name header in delete item dialog box.">Name</msg>
 <msg name="yes" desc="Label for yes in dialog box in delete item dialog box.">Yes</msg>
 <msg name="mail_not" desc="Message when server is not able to send email successfully.">Mail not sent.</msg>
-<msg name="send_mail" desc="Label for send mail button.">Send Mail</msg>
+<msg name="send_mail" desc="Label for send mail dialog header.">Send Mail</msg>
+<msg name="send_mail_btn" desc="Label for send mail button.">Send mail</msg>
 <msg name="mail_success" desc="Message to be displayed when mail is sent successfully.">Mail sent successfully.</msg>
 <msg name="wrong_email" desc="Error message to shown for wrong email id.">Wrong email address.</msg>
+<msg name="valid_email" desc="Error message to shown for wrong email id.">Please enter valid email address(s)</msg>
+<msg name="add_email" desc="Label to prompt user to add email address">Add email...</msg>
 <msg name="not_more" desc="Message to shown when sending mail to more than specified limit.">Not more than</msg>
 <msg name="email_allow" desc="Label for how many email messages are allowed.">email addresses are allowed.</msg>
 <msg name="no_result" desc="Label when no results are found for the given keyword or Lonenly planet search item.">No result found.</msg>
 <msg name="no_items_added" desc="Message to be displayed when no item is added in the trip.">No item found for the current trip</msg>
 <msg name="no_scheduled_items" desc="Message to be displayed when no scheduled item is added in the trip.">No scheduled item found for the current trip</msg>
 <msg name="no_unscheduled_items" desc="Message to be displayed when no unscheduled item is added in the trip.">No unscheduled item found for the current trip</msg>
-<msg name="create_trip" desc="Label of create trip button in home view.">Create Trip</msg>
+<msg name="create_trip" desc="Label of create trip button in home view.">Create trip</msg>
 <msg name="overview" desc="Label to be used for overview link for trip item on the map.">Overview</msg>
 <msg name="detail" desc="Label to be used for details link for trip item on the map.">Details</msg>
 <msg name="review" desc="Label to be used for review link for trip item on the map.">Reviews</msg>
 <msg name="photo_video" desc="Label to be used for photo and video link of trip item on the map.">Photos &amp; Videos</msg>
-<msg name="no_of_days" desc="Label to be used for 'Number of days for trip'.">Number of days for this trip:</msg>
-<msg name="clear_start_end_dates" desc="Text to be used for 'Clear start and end date button' button in Change date dialog box.">Clear the start and end dates</msg>
+<msg name="no_of_days" desc="Label to be used for Number of days for trip.">Number of days for this trip</msg>
+<msg name="clear_start_end_dates" desc="Text to be used for Clear start and end date button button in Change date dialog box.">Clear</msg>
 <msg name="field_empty" desc="Error message if field is empty.">Either name or description field is empty.</msg>
 <msg name="date_empty" desc="Error message if date is empty.">Please specify a date to schedule the item.</msg>
 <msg name="previous" desc="Previous link.">Previous</msg>
@@ -122,25 +131,25 @@
 <msg name="print_title" desc="Label to be used for Print dialog title.">Print Itinerary</msg>
 <msg name="edit_trip_name" desc="Edit trip name dialog title.">Edit Trip Name</msg>
 <msg name="date_expired" desc="Error message if dates are chosen before the current date.">Trip dates cannot be less than the current date.</msg>
-<msg name="dragme" desc="Label for Add me to your trip link in canvas view for manually adding an item to the trip.">Add me to your trip</msg>
+<msg name="dragme" desc="Label for Add to trip link in canvas view for manually adding an item to the trip.">Add to trip</msg>
 <msg name="your_vote" desc="Heading for add your vote section for voting an item.">Add your vote</msg>
 <msg name="comments" desc="Comments for add your vote section for voting an item.">Comments</msg>
+<msg name="comment" desc="Label for comment link for each trip item.">Comment</msg>
 <msg name="vote" desc="Label for vote button.">Vote</msg>
-<msg name="thumbs_up" desc="Text for thumbs up.">Thumbs up</msg>
-<msg name="thumbs_down" desc="Text for thumbs down.">Thumbs down</msg>
+<msg name="thumbs_up" desc="Text for vote up.">Likes</msg>
+<msg name="thumbs_down" desc="Text for vote down.">Dislikes</msg>
 <msg name="activity" desc="Message for activity.">Activity posted successfully.</msg>
 <msg name="activity_error" desc="Error message for activity.">Error in posting activity.</msg>
 <msg name="owner" desc="Label of owner.">Owner</msg>
 <msg name="no_empty_dates" desc="Error message for empty date fields.">Trip dates cant be empty. Please enter valid date.</msg>
 <msg name="desc_error_message" desc="Error message to show to user if description exceeds 200 characters.">Description field length can be max of 200 chars.</msg>
 <msg name="item_addr" desc="Label for item address.">Address</msg>
-<msg name="no_sensitive" desc="To display to user message that on enabling opensocial feature no sensitive information will be shared.">Trippy uses a new feature provided by Google called Open Social which allows you to make and share travel plans online with friends. To start, you need to adjust this gadget&#39;s settings to enable it to access some of your profile information (your name, etc). No sensitive information will be shared.</msg>
-<msg name="user_not_signed_in" desc="Message if user is not signed in.">iGoogle Trippy uses a new feature provided by Google called Open Social which allows you to plan your travel, online with friends. To start planning, please sign in to enable access.</msg>
+<msg name="phn_no" desc="Label for item phone number.">Phone no</msg>
+<msg name="category" desc="Label for item category.">Category</msg>
+<msg name="valid_phone" desc="Error message to show if an invalid number is entered.">Enter a valid phone number. e.g 399-34-48 (Atleast 7 digit)</msg>
+<msg name="use_trippy_mobile" desc="To display user message regarding trippy in mobile.">Use Trippy on Android and mobile phones to collaborate on your next big adventure!</msg>
+<msg name="user_not_signed_in" desc="Message if user is not signed in.">iGoogle Trippy uses a new feature provided by Google which allows you to plan your travel, online with friends. To start planning, please sign in to enable access.</msg>
 <msg name="already_signin" desc="Message to show to user to refresh browser.">If you are already signed in, please refresh the page in your browser to restore your access.</msg>
-<msg name="os_is_new" desc="Message that opensocial is new and may have some bugs.">Open Social is new, and there may still be some bugs in it. If it&#39;s not working for you after you followed these directions, please </msg>
-<msg name="os_not_avail" desc="Message when opensocial is unavailable.">iGoogle Trippy makes use of a new technology called Open Social which allows you to plan your travel online with your friends. Open Social features are being released to the public as the technology comes online — but right now, it looks like this feature is not available in your locale at this time. Please check back at a later date.</msg>
-<msg name="enable_os" desc="Message to enable opensocial preference.">Click it, and in the form that appears just check the boxes and save. You should be ready to go!</msg>
-<msg name="up_button" desc="message to enable opensocial preference from top.">Up top, you should see a button like this:</msg>
 <msg name="name_addr_empty" desc="Error message if field is empty.">Either name or address field is empty.</msg>
 <msg name="map_not_loaded" desc="Error message to show incase map is not loaded properly.">Map is not load properly. Kindly refresh the browser.</msg>
 <msg name="let_us_know" desc="Label to let developers know about issues faced.">let us know</msg>
@@ -153,9 +162,50 @@
 <msg name="vote_down" desc="Label for vote down.">Vote down</msg>
 <msg name="no reviews" desc="Label for no reviews.">No reviews available.</msg>
 <msg name="no_item_added" desc="Label when no item is added.">No item added.</msg>
-<msg name="os_pref" desc="Label for opensocial preference settings.">Open Social preferences</msg>
 <msg name="started_by" desc="Label for trip started by header.">Started by: </msg>
-<msg name="item_by" desc="Label for item added by header.">Item added by</msg>
+<msg name="item_by" desc="Label for item added by header.">Added by</msg>
 <msg name="more_link" desc="label for more link.">More</msg>
+<msg name="more_on_lp" desc="label for more on Lonely Planet.">More on Lonely Planet</msg>
+<msg name="search_nearby" desc="label for Search nearby link.">Search nearby</msg>
+<msg name="more_on_google_maps" desc="label for Gooogle Maps link.">Google Maps</msg>
 <msg name="vote_now" desc="Label for vote now.">Vote now</msg>
+<msg name="update_dates" desc="Label for update.">Update</msg>
+<msg name="add_item_to_trip" desc="Label for add to trip button.">Add to trip</msg>
+<msg name="learn_more" desc="Label for learn more link.">Learn more</msg>
+<msg name="delete_item_btn" desc="Label for delete item button.">Delete item</msg>
+<msg name="likes" desc="Label to be used when an item/trip is voted up multiple times.">{count} likes</msg>
+<msg name="like" desc="Label to be used when an item/trip is voted up for only one time.">{count} like</msg>
+<msg name="like_tooltip" desc="Text to be used as tooltip on the Vote up image.">Like</msg>
+<msg name="dislikes" desc="Label to be used when an item/trip is voted down multiple times.">{count} dislikes</msg>
+<msg name="dislike" desc="Label to be used when an item/trip is voted down for only one time.">{count} dislike</msg>
+<msg name="dislike_tooltip" desc="Text to be used as tooltip on the Vote down image.">Dislike</msg>
+<msg name="no_results_found" desc="Message for no results fourd for google search.">No results found for "%CATEGORY%".</msg>
+<msg name="no_connection_search_google_data" desc="Error message will be displayed when trippy lost its connection with lonely planet.">Trippy couldn't find any results on Lonely Planet. Showing results from Google.</msg>
+<msg name="google_search" desc="Label name for google search link.">Google search</msg>
+<msg name="done_btn" desc="Button name on share trip dialog">Done</msg>
+<msg name="unshare_only" desc="Message to show if a non-owner of a trip tries to share a trip.">You can not add/remove any friends from this trip since you are added as collaborator. Please click on this {link} if you want to unshare yourself from this trip.</msg>
+<msg name="unshare_link" desc="Label for unshare link.">link</msg>
+<msg name="share_success" desc="Message to show once trip is successfully shared.">Trip shared successfully with friends</msg>
+<msg name="share_failure" desc="Message to show while getting error in sharing a trip.">Error in sharing trip with friends</msg>
+<msg name="grant_access" desc="Message to show if user is not signed in iGoogle.">Sign in to iGoogle Trippy</msg>
+<msg name="please_click" desc="Label for clicking link approval link.">Please click</msg>
+<msg name="see_trips" desc="Label to click to see trips.">See your trips</msg>
+<msg name="signin_description" desc="Description about the gadget."><![CDATA[Trippy helps you plan a trip with your<br/>friends using Lonely Planet's award winning content.]]></msg>
+<msg name="description_length" desc="Error message to show in case description length exceeds 500 characters.">Description should be of maximum 500 characters</msg>
+<msg name="terms_service" desc="Label for terms of service dialog.">Terms of service</msg>
+<msg name="terms_service_text" desc="Text for trippy terms and services.">I accept the Trippy %TERMS_SERVICES_LINK%</msg>
+<msg name="continue" desc="Label for continue button.">Continue</msg>
+<msg name="apache_license" desc="Text for apache license.">Welcome. Before you launch into using Lonely Planet’s Trippy Application you need to read these terms as they govern your use of Lonely Planet’s Trippy Application.</msg>
+<msg name="lp_copyright_head" desc="Text for lonely planet copyright heading.">How can I use my Trippy Application?</msg>
+<msg name="lp_copyright" desc="Text for lonely planet copyright.">You can only use your Lonely Planet Trippy Application for personal, non-commercial purposes.
+
+Lonely Planet owns the intellectual property rights to the Lonely Planet Trippy Application, its contents and Lonely Planet’s trade marks. Except as permitted by this Agreement, Lonely Planet’s intellectual property may not be used in any way or for any purpose without Lonely Planet’s permission.
+
+Of course, Lonely Planet would love you to tell your friends about how great your Lonely Planet’s Trippy Application is, but you can’t share it by forwarding or sending it to any person.</msg>
+<msg name="should_rely" desc="Should I rely on LP text">Should I rely on Lonely Planet Content?</msg>
+<msg name="license_aggreed" desc="Text for agreed license.">We use reasonable care and skill to ensure the accuracy of the information we provide in the Lonely Planet content featured in Lonely Planet’s Trippy Application. However, we can’t always guarantee that the application will be error free or continuous.
+
+We are responsible for loss suffered by you as a result of our breach of this contract if the loss was reasonably foreseeable by both you and us when this contract was entered into. We are not responsible for: (i) loss that was not reasonably foreseeable; (ii) loss that was not caused by our breach of contract or by our negligence; (iii) indirect or secondary loss that arises from the breach; (iv) losses that relate to a business (such as lost data, lost profits or business interruptions) that you or a third person is engaged in; (v) loss suffered by non-consumers; and (vi) any increase in loss that was caused by your breach of contract or your negligence.
+
+Any legal issues arising from your use of the Trippy Application will be dealt with under the laws of Victoria, Australia.</msg>
 </messagebundle>
