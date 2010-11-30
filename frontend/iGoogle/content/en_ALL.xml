@@ -86,7 +86,7 @@
 <msg name="updated_name" desc="Message to show when trip details are updated successfully.">Trip details updated successfully.</msg>
 <msg name="tripname_update_err" desc="Message to be displayed when there is a server problem while updating trip name.">Server Problem: Trip name is not updated.</msg>
 <msg name="itemdates_update_err" desc="Message to be displayed when there is a server problem while updating item schedule.">Server Problem: {name} is not scheduled.</msg>
-<msg name="itemdates_updated" desc="Message to be displayed when item schedule is updated successfully.">{name} is updated successfully.</msg>
+<msg name="itemdates_updated" desc="Message to be displayed when item schedule is updated successfully.">{name} updated successfully.</msg>
 <msg name="triploc_update_err" desc="Message to be displayed when there is a server problem while updating trip location.">Server Problem: Trip location is not updated.</msg>
 <msg name="triploc_updated" desc="Message to be displayed when trip location is updated successfully.">Trip location is updated successfully.</msg>
 <msg name="allitems_updated" desc="Message to be displayed when all trip items are successfully updated.">All items are updated successfully.</msg>
@@ -165,6 +165,7 @@
 <msg name="started_by" desc="Label for trip started by header.">Started by: </msg>
 <msg name="item_by" desc="Label for item added by header.">Added by</msg>
 <msg name="more_link" desc="label for more link.">More</msg>
+<msg name="more_info_google_maps" desc="label for more info on google maps link.">More info on Google Maps</msg>
 <msg name="more_on_lp" desc="label for more on Lonely Planet.">More on Lonely Planet</msg>
 <msg name="search_nearby" desc="label for Search nearby link.">Search nearby</msg>
 <msg name="more_on_google_maps" desc="label for Gooogle Maps link.">Google Maps</msg>
@@ -183,8 +184,8 @@
 <msg name="no_connection_search_google_data" desc="Error message will be displayed when trippy lost its connection with lonely planet.">Trippy couldn't find any results on Lonely Planet. Showing results from Google.</msg>
 <msg name="google_search" desc="Label name for google search link.">Google search</msg>
 <msg name="done_btn" desc="Button name on share trip dialog">Done</msg>
-<msg name="unshare_only" desc="Message to show if a non-owner of a trip tries to share a trip.">You can not add/remove any friends from this trip since you are added as collaborator. Please click on this {link} if you want to unshare yourself from this trip.</msg>
-<msg name="unshare_link" desc="Label for unshare link.">link</msg>
+<msg name="unshare_only" desc="Message to show if a non-owner of a trip tries to share a trip.">You are a collaborator on this trip, not the owner. You can remove yourself from the trip, but not other friends, and you cannot delete the trip. To remove yourself, {link}.</msg>
+<msg name="unshare_link" desc="Label for unshare link.">click here</msg>
 <msg name="share_success" desc="Message to show once trip is successfully shared.">Trip shared successfully with friends</msg>
 <msg name="share_failure" desc="Message to show while getting error in sharing a trip.">Error in sharing trip with friends</msg>
 <msg name="grant_access" desc="Message to show if user is not signed in iGoogle.">Sign in to iGoogle Trippy</msg>
@@ -195,17 +196,18 @@
 <msg name="terms_service" desc="Label for terms of service dialog.">Terms of service</msg>
 <msg name="terms_service_text" desc="Text for trippy terms and services.">I accept the Trippy %TERMS_SERVICES_LINK%</msg>
 <msg name="continue" desc="Label for continue button.">Continue</msg>
-<msg name="apache_license" desc="Text for apache license.">Welcome. Before you launch into using Lonely Planet’s Trippy Application you need to read these terms as they govern your use of Lonely Planet’s Trippy Application.</msg>
-<msg name="lp_copyright_head" desc="Text for lonely planet copyright heading.">How can I use my Trippy Application?</msg>
-<msg name="lp_copyright" desc="Text for lonely planet copyright.">You can only use your Lonely Planet Trippy Application for personal, non-commercial purposes.
-
-Lonely Planet owns the intellectual property rights to the Lonely Planet Trippy Application, its contents and Lonely Planet’s trade marks. Except as permitted by this Agreement, Lonely Planet’s intellectual property may not be used in any way or for any purpose without Lonely Planet’s permission.
-
-Of course, Lonely Planet would love you to tell your friends about how great your Lonely Planet’s Trippy Application is, but you can’t share it by forwarding or sending it to any person.</msg>
-<msg name="should_rely" desc="Should I rely on LP text">Should I rely on Lonely Planet Content?</msg>
-<msg name="license_aggreed" desc="Text for agreed license.">We use reasonable care and skill to ensure the accuracy of the information we provide in the Lonely Planet content featured in Lonely Planet’s Trippy Application. However, we can’t always guarantee that the application will be error free or continuous.
-
-We are responsible for loss suffered by you as a result of our breach of this contract if the loss was reasonably foreseeable by both you and us when this contract was entered into. We are not responsible for: (i) loss that was not reasonably foreseeable; (ii) loss that was not caused by our breach of contract or by our negligence; (iii) indirect or secondary loss that arises from the breach; (iv) losses that relate to a business (such as lost data, lost profits or business interruptions) that you or a third person is engaged in; (v) loss suffered by non-consumers; and (vi) any increase in loss that was caused by your breach of contract or your negligence.
-
-Any legal issues arising from your use of the Trippy Application will be dealt with under the laws of Victoria, Australia.</msg>
+<msg name="apache_license" desc="Text for apache license.">The Trippy application was developed under the Apache License, Version 2.0:</msg>
+<msg name="lp_copyright_head" desc="Text for lonely planet copyright heading.">Copyright 2010 Lonely Planet Publications Pty Ltd</msg>
+<msg name="lp_copyright" desc="Text for lonely planet copyright.">Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at</msg>
+<msg name="license_aggreed" desc="Text for agreed license.">Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</msg>
+<msg name="lonely_planet" desc="Owner name for lonely planet trips.">Lonely Planet</msg>
+<msg name="go_back" desc="Label for go back to my trip link.">Go back to all trips</msg>
+<msg name="save_this_trip" desc="Label for save this trip button.">Save this trip</msg>
+<msg name="comment_added" desc="Info message on update of comment.">Comment added successfully.</msg>
+<msg name="comment_deleted" desc="Info message on deletion of comment.">Comment deleted successfully.</msg>
+<msg name="comment_update_err" desc="Message to be displayed when there is a server problem while updating comment for trip item.">Server Problem: Comment is not updated.</msg>
+<msg name="comment_delete_err" desc="Message to be displayed when there is a server problem while deleting comment for trip item.">Server Problem: Comment is not deleted.</msg>
+<msg name="by_owner" desc="To show the owner name in comment section.">by {OWNER}</msg>
+<msg name="page_no" desc="Message to show current comment no with total number of comments in info window.">{currentIndex} of {totalComments}</msg>
+<msg name="zoom_here" desc="Label for zoom here links in info window.">Zoom here</msg>
 </messagebundle>

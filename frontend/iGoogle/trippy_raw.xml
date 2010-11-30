@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Module>
 <ModulePrefs title="__MSG_title__"
-             screenshot="http://www.gstatic.com/ig/modules/trippy/trippy.cache.png"
-             thumbnail="http://www.gstatic.com/ig/modules/trippy/lp_logo.cache.png"
+             screenshot="http://www.gstatic.com/ig/modules/third_party/trippy/trippy.cache.png"
+             thumbnail="http://www.gstatic.com/ig/modules/third_party/trippy/lp_logo.cache.png"
              description="__MSG_description__"
              author="Lonely Planet"
-             author_email="trippy.gadget.ig+20101111@gmail.com"
+             author_email="trippy.gadget.ig+201030111@gmail.com"
              author_affiliation="Google"
              category="tools">
   <Locale messages="http://gulliver.googlecode.com/svn/trunk/frontend/iGoogle/content/en_ALL.xml"/>
@@ -133,7 +133,7 @@
   <div id="signin-logo" class="module-header" style="width:100%;">
     <span style="float:right;">
       <a href="http://lonelyplanet.com" target="_blank" style="text-decoration: none;">
-        <img src="http://www.gstatic.com/ig/modules/trippy/lp_logo.cache.png" style="border:0;height: 49px;">
+        <img src="http://www.gstatic.com/ig/modules/third_party/trippy/lp_logo.cache.png" style="border:0;height: 49px;">
       </a>
     </span>
   </div>
@@ -148,7 +148,7 @@
   <div id="signin-logo" class="module-header" style="width:100%;margin-bottom:5px;">
     <span style="float:right;">
       <a href="http://lonelyplanet.com" target="_blank" style="text-decoration: none;">
-      <img src="http://www.gstatic.com/ig/modules/trippy/lp_logo.cache.png" style="border:0;height: 49px;">
+      <img src="http://www.gstatic.com/ig/modules/third_party/trippy/lp_logo.cache.png" style="border:0;height: 49px;">
       </a>
     </span>
   </div>
@@ -156,9 +156,13 @@
   <div id="license-text" style="display:none;">
     <div style="font-weight:bold;line-height:2;text-decoration:underline;font-size:13px;">__MSG_terms_service__</div>
     __MSG_apache_license__
-    <p style="font-weight:bold;text-decoration:underline;font-size:13px;">__MSG_lp_copyright_head__</p>
-    <p>__MSG_lp_copyright__</p>
-    <p style="font-weight:bold;text-decoration:underline;font-size:13px;">__MSG_should_rely__</p>
+    <p>
+      __MSG_lp_copyright_head__<br>
+      __MSG_lp_copyright__
+    </p>
+    <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">
+      http://www.apache.org/licenses/LICENSE-2.0
+    </a>
     <p>__MSG_license_aggreed__</p>
   </div>
 
@@ -178,7 +182,7 @@
   <div id="signin-logo" class="module-header" style="width:100%;">
     <span style="float:right;">
       <a href="http://lonelyplanet.com" target="_blank" style="text-decoration: none;">
-        <img src="http://www.gstatic.com/ig/modules/trippy/lp_logo.cache.png" style="border:0;">
+        <img src="http://www.gstatic.com/ig/modules/third_party/trippy/lp_logo.cache.png" style="border:0;">
       </a>
     </span>
   </div>
@@ -218,7 +222,7 @@
     <div id="signin-logo" class="logo-header" style="width:100%;">
       <span style="float:right;">
         <a href="http://lonelyplanet.com" target="_blank" style="text-decoration: none;">
-        <img src="http://www.gstatic.com/ig/modules/trippy/lp_logo.cache.png" style="border:0;height: 49px;">
+        <img src="http://www.gstatic.com/ig/modules/third_party/trippy/lp_logo.cache.png" style="border:0;height: 49px;">
         </a>
       </span>
     </div>
@@ -231,7 +235,7 @@
       <div id="signin-logo" class="logo-header" style="width:100%;margin-bottom:5px;">
         <span style="float:right;">
           <a href="http://lonelyplanet.com" target="_blank" style="text-decoration: none;">
-          <img src="http://www.gstatic.com/ig/modules/trippy/lp_logo.cache.png" style="border:0;height:49px;">
+          <img src="http://www.gstatic.com/ig/modules/third_party/trippy/lp_logo.cache.png" style="border:0;height:49px;">
           </a>
         </span>
       </div>
@@ -239,12 +243,16 @@
       <div id="license-text" style="display:none;margin:5px;">
         <div style="font-weight:bold;line-height:2;text-decoration:underline;font-size:13px;">__MSG_terms_service__</div>
         __MSG_apache_license__
-        <p style="font-weight:bold;line-height:2;text-decoration:underline;font-size:13px;">__MSG_lp_copyright_head__</p>
-        <p>__MSG_lp_copyright__</p>
-        <p style="font-weight:bold;line-height:2;text-decoration:underline;font-size:13px;">__MSG_should_rely__</p>
+        <p>
+          __MSG_lp_copyright_head__<br>
+          __MSG_lp_copyright__
+        </p>
+        <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">
+          http://www.apache.org/licenses/LICENSE-2.0
+        </a>
         <p>__MSG_license_aggreed__</p>
       </div>
-      
+
       <input type="checkbox" id="check_terms_services" onclick="enableContinueBtn(true)">
       <span id="terms_services_text" style="color:#000;"></span>
       <div style="line-height:3;">
@@ -261,7 +269,7 @@
       <div id="signin-logo" class="logo-header" style="width:100%;">
         <span style="float:right;">
           <a href="http://lonelyplanet.com" target="_blank" style="text-decoration: none;">
-            <img src="http://www.gstatic.com/ig/modules/trippy/lp_logo.cache.png" style="border:0;height:49px;">
+            <img src="http://www.gstatic.com/ig/modules/third_party/trippy/lp_logo.cache.png" style="border:0;height:49px;">
           </a>
         </span>
       </div>
@@ -333,7 +341,7 @@
           </td>
           <td width="100px">
             <a href="http://lonelyplanet.com" target="_blank" style="text-decoration:none;">
-              <img src="http://www.gstatic.com/ig/modules/trippy/lp_logo.cache.png" style="border:0;height:49px;"/>
+              <img src="http://www.gstatic.com/ig/modules/third_party/trippy/lp_logo.cache.png" style="border:0;height:49px;"/>
             </a>
           </td>
         </tr>
@@ -481,7 +489,7 @@
            </td>
            <td style="padding-left:10px;">
              <a href="http://lonelyplanet.com" target="_blank" style="text-decoration: none;">
-               <img src="http://www.gstatic.com/ig/modules/trippy/lp_logo.cache.png">
+               <img src="http://www.gstatic.com/ig/modules/third_party/trippy/lp_logo.cache.png">
              </a>
           </td>
          </tr>
@@ -1528,7 +1536,7 @@
       <tr>
         <td width="5%"></td>
         <td width="25%">
-          <img src="http://www.gstatic.com/ig/modules/trippy/lp_logo.cache.png"/>
+          <img src="http://www.gstatic.com/ig/modules/third_party/trippy/lp_logo.cache.png"/>
         </td>
         <td width="40%" valign="center" style="color:#000">
           <div style="font-weight:bold;font-size:13px;">{tripName}</div>
